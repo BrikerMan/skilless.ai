@@ -1,0 +1,78 @@
+---
+import { Zap, ShieldCheck, HeartHandshake } from 'lucide-astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const highlights = [
+  { icon: Zap, title: t('highlights.zero.title'), desc: t('highlights.zero.desc') },
+  { icon: ShieldCheck, title: t('highlights.secure.title'), desc: t('highlights.secure.desc') },
+  { icon: HeartHandshake, title: t('highlights.free.title'), desc: t('highlights.free.desc') },
+];
+---
+
+<section class="highlights section section-border">
+  <div class="highlights__container">
+    <div class="highlights__grid">
+      {highlights.map(item => (
+        <div class="highlight-item">
+          <div class="highlight-item__icon">
+            <item.icon size={20} strokeWidth={1.5} />
+          </div>
+          <h3 class="highlight-item__title">{item.title}</h3>
+          <p class="highlight-item__desc">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .highlights__container {
+    max-width: 896px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .highlights__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+
+  @media (min-width: 640px) {
+    .highlights__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .highlight-item__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+  }
+
+  .highlight-item__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .highlight-item__desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+</style>

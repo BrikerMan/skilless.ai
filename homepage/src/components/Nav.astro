@@ -1,0 +1,123 @@
+---
+import { Github } from 'lucide-astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">skilless.ai</a>
+    <div class="nav__links">
+      <a href="https://github.com/brikerman/skilless.ai" target="_blank" class="nav__link nav__link--icon">
+        <Github size={16} strokeWidth={1.5} />
+        <span class="nav__link-text">{t('nav.github')}</span>
+      </a>
+      <a href={t('nav.langHref')} class="nav__link nav__link--lang">{t('nav.lang')}</a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(var(--bg-primary-rgb, 255, 255, 255), 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    background-color: var(--bg-primary);
+  }
+
+  @supports (backdrop-filter: blur(12px)) {
+    .nav {
+      background-color: transparent;
+      background: rgba(255, 255, 255, 0.85);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .nav {
+      background: rgba(10, 10, 10, 0.85);
+    }
+  }
+
+  .nav__inner {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav__logo {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: 0.025em;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav__link {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .nav__link:hover {
+    color: var(--text-primary);
+  }
+
+  .nav__link--icon {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .nav__link-text {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .nav__link-text {
+      display: inline;
+    }
+  }
+
+  .nav__link--lang {
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+
+  .nav__cta {
+    font-size: 0.875rem;
+    background: var(--accent-color);
+    color: var(--bg-primary);
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+  }
+
+  .nav__cta:hover {
+    background: var(--accent-hover);
+  }
+</style>

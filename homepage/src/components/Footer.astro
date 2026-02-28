@@ -1,0 +1,89 @@
+---
+import { Github } from 'lucide-astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <span class="footer__logo">skilless.ai</span>
+      <span class="footer__sep">·</span>
+      <span>{t('footer.license')}</span>
+    </div>
+    <div class="footer__links">
+      <a href="https://github.com/brikerman/skilless.ai" target="_blank" class="footer__link">
+        <Github size={14} strokeWidth={1.5} /> {t('nav.github')}
+      </a>
+      <a href="https://www.yodo1.com/careers" target="_blank" class="footer__link">{t('about.yodo1.cta')}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border-light);
+    padding: 32px 24px;
+  }
+
+  .footer__inner {
+    max-width: 896px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  @media (min-width: 640px) {
+    .footer__inner {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .footer__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+  }
+
+  .footer__logo {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .footer__sep {
+    color: var(--text-tertiary);
+  }
+
+  .footer__links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 0.875rem;
+  }
+
+  .footer__link {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.15s ease;
+  }
+
+  .footer__link:hover {
+    color: var(--text-primary);
+  }
+</style>

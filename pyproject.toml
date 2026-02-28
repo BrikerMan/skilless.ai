@@ -1,0 +1,36 @@
+[project]
+name = "skilless"
+version = "0.1.0"
+description = "AI-powered tools for brainstorming, research, and writing"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "fastmcp>=2.0.0",
+    "httpx>=0.27.0",
+    "feedparser>=6.0.0",
+    "yt-dlp>=2024.0.0",
+    "pyyaml>=6.0.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+"skilless.ai" = "skilless.scripts.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/skilless"]
+
+[tool.ruff]
+src = ["src"]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.4",
+]

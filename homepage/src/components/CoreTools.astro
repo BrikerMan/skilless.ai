@@ -1,0 +1,116 @@
+---
+import { Search, Globe, Video, Rss } from 'lucide-astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const tools = [
+  { icon: Search, name: t('tools.search.name'), desc: t('tools.search.desc'), cmd: t('tools.search.cmd'), bgColor: 'var(--blue-50)', color: 'var(--blue-600)' },
+  { icon: Globe, name: t('tools.web.name'), desc: t('tools.web.desc'), cmd: t('tools.web.cmd'), bgColor: 'var(--green-50)', color: 'var(--green-600)' },
+  { icon: Video, name: t('tools.ytd.name'), desc: t('tools.ytd.desc'), cmd: t('tools.ytd.cmd'), bgColor: 'var(--red-50)', color: 'var(--red-600)' },
+  { icon: Rss, name: t('tools.rss.name'), desc: t('tools.rss.desc'), cmd: t('tools.rss.cmd'), bgColor: 'var(--orange-50)', color: 'var(--orange-600)' },
+];
+---
+
+<section class="tools section section-border">
+  <div class="tools__container">
+    <div class="tools__header">
+      <h2 class="heading-lg">{t('tools.title')}</h2>
+      <p class="text-sm">{t('tools.subtitle')}</p>
+    </div>
+    <div class="tools__grid">
+      {tools.map(tool => (
+        <div class="tool-card hover-lift">
+          <div class="tool-card__icon" style={`background: ${tool.bgColor}; color: ${tool.color};`}>
+            <tool.icon size={20} strokeWidth={1.5} />
+          </div>
+          <div class="tool-card__content">
+            <h3 class="tool-card__name">{tool.name}</h3>
+            <p class="tool-card__desc">{tool.desc}</p>
+            <code class="tool-card__cmd">{tool.cmd}</code>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .tools__container {
+    max-width: 896px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .tools__header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .tools__header h2 {
+    margin-bottom: 12px;
+  }
+
+  .tools__header p {
+    max-width: 448px;
+    margin: 0 auto;
+  }
+
+  .tools__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 640px) {
+    .tools__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tool-card {
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+  }
+
+  .tool-card__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .tool-card__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .tool-card__desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .tool-card__cmd {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin-top: 8px;
+    display: block;
+    font-family: var(--font-mono);
+    background: transparent;
+    padding: 0;
+  }
+</style>

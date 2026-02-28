@@ -1,0 +1,140 @@
+---
+import { ChevronDown } from 'lucide-astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const faqs = [
+  { q: t('faq.q1'), a: t('faq.a1') },
+  { q: t('faq.q2'), a: t('faq.a2') },
+  { q: t('faq.q3'), a: t('faq.a3') },
+  { q: t('faq.q4'), a: t('faq.a4') },
+];
+---
+
+<section class="faq section section-border">
+  <div class="faq__container">
+    <h2 class="heading-lg faq__title">{t('faq.title')}</h2>
+    <div class="faq__list">
+      {faqs.map(item => (
+        <div class="faq-item">
+          <button class="faq-btn">
+            <span>{item.q}</span>
+            <ChevronDown size={16} strokeWidth={1.5} />
+          </button>
+          <div class="faq-answer">
+            <p>{item.a}</p>
+          </div>
+        </div>
+      ))}
+      <!-- Special last FAQ with inline code/link -->
+      <div class="faq-item faq-item--last">
+        <button class="faq-btn">
+          <span>{t('faq.q5')}</span>
+          <ChevronDown size={16} strokeWidth={1.5} />
+        </button>
+        <div class="faq-answer">
+          <p>
+            {t('faq.a5.prefix')} <code>{t('faq.a5.cmd')}</code> {t('faq.a5.mid')}
+            <a href="https://github.com/brikerman/skilless.ai/blob/main/TROUBLESHOOT.md" target="_blank" class="faq-link">{t('faq.a5.link')}</a>{t('faq.a5.suffix')}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      if (!item) return;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+</script>
+
+<style>
+  .faq__container {
+    max-width: 672px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .faq__title {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .faq-item {
+    border-top: 1px solid var(--border-light);
+  }
+
+  .faq-item--last {
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .faq-btn {
+    width: 100%;
+    text-align: left;
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .faq-btn :global(svg) {
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .faq-item.open .faq-btn :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s ease;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 300px;
+    padding-bottom: 20px;
+  }
+
+  .faq-answer p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .faq-answer code {
+    font-size: 0.75rem;
+    background: var(--bg-secondary);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .faq-link {
+    color: var(--text-primary);
+    text-decoration: underline;
+  }
+
+  .faq-link:hover {
+    color: var(--text-secondary);
+  }
+</style>

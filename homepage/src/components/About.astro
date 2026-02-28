@@ -1,0 +1,327 @@
+---
+import { Github, ArrowRight, Award } from 'lucide-astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="about section section--alt section-border">
+  <div class="about__container">
+    <div class="about__grid">
+      <!-- Left Column: Author -->
+      <div class="about__col">
+        <p class="about__label">{t('about.label.author')}</p>
+        <article class="pcard pcard--author">
+          <div class="pcard__glow pcard__glow--purple"></div>
+          <div class="pcard__inner">
+            <div class="avatar-wrap">
+              <img
+                src="https://avatars.githubusercontent.com/u/9368907?v=4"
+                alt={t('about.name')}
+                class="avatar-img"
+                loading="lazy"
+              />
+              <span class="status-dot"></span>
+            </div>
+            <h3 class="pcard__title">{t('about.name')}</h3>
+            <p class="pcard__subtitle">{t('about.role')}</p>
+            <div class="pcard__tags">
+              <span class="pcard__tag">Google Developers Expert</span>
+              <span class="pcard__tag">AI Builder</span>
+              <span class="pcard__tag">Engineer</span>
+            </div>
+            <a href="https://github.com/BrikerMan" target="_blank" class="pcard__btn-gh">
+              <Github size={15} strokeWidth={1.5} />
+              @BrikerMan
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Right Column: Company -->
+      <div class="about__col">
+        <p class="about__label">{t('about.label.company')}</p>
+        <article class="pcard pcard--company">
+          <div class="pcard__header">
+            <div class="company-logo-wrap">
+              <img
+                src="https://cdn.prod.website-files.com/6887bf4736a1af9bcda0d776/6888c8081469b2c2066f198b_yodo1_logo_web.png.webp"
+                alt="Yodo1"
+                class="company-logo-img"
+                loading="lazy"
+              />
+            </div>
+            <span class="forbes-badge">
+              <Award size={12} strokeWidth={2} />
+              {t('about.yodo1.badge')}
+            </span>
+          </div>
+          <div class="pcard__body">
+            <p class="company-desc">{t('about.yodo1.desc')}</p>
+            <p class="company-pitch">{t('about.yodo1.pitch')}</p>
+          </div>
+          <div class="pcard__footer">
+            <a href="https://www.yodo1.com/careers" target="_blank" class="pcard__btn-accent">
+              {t('about.yodo1.cta')}
+              <ArrowRight size={14} strokeWidth={2} />
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  @media (min-width: 768px) {
+    .about__grid {
+      grid-template-columns: 5fr 7fr;
+      gap: 32px;
+    }
+  }
+
+  .about__col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .about__label {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    margin: 0 0 0 4px;
+  }
+
+  /* ═══════════════════════════════
+     Premium Cards
+     ═══════════════════════════════ */
+  .pcard {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid var(--border-light) !important;
+    background: var(--bg-primary);
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.05),
+      0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  /* ── Author Card Specifics ── */
+  .pcard--author {
+    align-items: center;
+    text-align: center;
+  }
+
+  .pcard__glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .pcard__glow--purple {
+    background:
+      radial-gradient(circle 200px at 20% 0%, rgba(99, 102, 241, 0.05), transparent 70%),
+      radial-gradient(circle 150px at 80% 100%, rgba(168, 85, 247, 0.04), transparent 60%);
+  }
+
+  .pcard__inner {
+    position: relative;
+    z-index: 1;
+    padding: 40px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .avatar-wrap {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+  }
+
+  .avatar-img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 9999px !important;
+    object-fit: cover;
+    border: 3px solid var(--bg-primary) !important;
+    box-shadow: 0 0 0 1px var(--border-light), 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  .status-dot {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    background-color: #22c55e;
+    border-radius: 9999px !important;
+    border: 3px solid var(--bg-primary);
+    box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.2);
+  }
+
+  .pcard__title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 4px 0;
+    color: var(--text-primary);
+  }
+
+  .pcard__subtitle {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    margin: 0 0 16px 0;
+  }
+
+  .pcard__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .pcard__tag {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    padding: 4px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--border-light);
+  }
+
+  .pcard__btn-gh {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 100px;
+    border: 1px solid var(--border-light);
+    background: var(--bg-primary);
+    transition: all 0.2s ease;
+  }
+
+  .pcard__btn-gh:hover {
+    color: var(--text-primary);
+    border-color: var(--text-tertiary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+
+  /* ── Company Card Specifics ── */
+  .pcard__header {
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border-light);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(99, 102, 241, 0.015) 100%);
+  }
+
+  .company-logo-wrap {
+    height: 28px;
+    max-width: 100px; /* Constrain the massive Yodo1 logo strictly */
+    display: flex;
+    align-items: center;
+  }
+
+  .company-logo-img {
+    height: 100% !important;
+    width: auto !important;
+    object-fit: contain;
+  }
+
+  .forbes-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    background: color-mix(in srgb, var(--accent-color) 6%, transparent);
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid color-mix(in srgb, var(--accent-color) 12%, transparent);
+    white-space: nowrap;
+  }
+
+  .pcard__body {
+    padding: 28px 28px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .company-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin: 0 0 20px 0;
+  }
+
+  .company-pitch {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .pcard__footer {
+    padding: 0 28px 28px;
+  }
+
+  .pcard__btn-accent {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent-color);
+    padding: 10px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    width: fit-content;
+    box-shadow: 0 2px 4px color-mix(in srgb, var(--accent-color) 20%, transparent);
+  }
+
+  .pcard__btn-accent:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent-color) 30%, transparent);
+  }
+</style>

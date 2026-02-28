@@ -1,0 +1,178 @@
+---
+import { Copy, Bot } from 'lucide-astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const macCmd = lang === 'zh'
+  ? 'curl -LsSf https://skilless.ai/install | bash -s -- --china'
+  : 'curl -LsSf https://skilless.ai/install | bash';
+const winCmd = lang === 'zh'
+  ? '& ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -China'
+  : 'irm https://skilless.ai/install.ps1 | iex';
+
+const llmGuide = `# Install skilless.ai
+
+Run this command in the user's terminal to install skilless.ai:
+
+\`\`\`bash
+${macCmd}
+\`\`\`
+
+For Windows (PowerShell):
+\`\`\`powershell
+${winCmd}
+\`\`\`
+
+This will:
+1. Download the latest release from GitHub (github.com/brikerman/skilless.ai)
+2. Install uv (ultra-fast Python package manager) if not present
+3. Create an isolated virtual environment at ~/.agents/skills/skilless.ai/
+4. Install all dependencies (yt-dlp, fastmcp, jina reader, feedparser)
+5. Generate the skilless.ai CLI executable
+
+After installation, you can use these commands:
+- \`skilless.ai search <query>\` — semantic search via Exa
+- \`skilless.ai web <url>\` — extract webpage as Markdown via Jina Reader
+- \`skilless.ai ytd <url>\` — download video/subtitles via yt-dlp
+- \`skilless.ai rss <url>\` — parse RSS/Atom feeds
+- \`skilless.ai doctor\` — check system status
+
+To upgrade, re-run the install command. No sudo required.`;
+---
+
+<section class="llm-guide section section-border">
+  <div class="llm-guide__container">
+    <div class="llm-guide__header">
+      <Bot size={20} strokeWidth={1.5} />
+      <h2 class="llm-guide__title">{t('llm.title')}</h2>
+    </div>
+    <p class="llm-guide__subtitle">{t('llm.subtitle')}</p>
+    <div class="llm-guide__box">
+      <div class="llm-guide__toolbar">
+        <span class="llm-guide__label">{t('llm.label')}</span>
+        <button class="llm-guide__copy" id="llm-copy-btn" data-copy={llmGuide} title={t('hero.copy')}>
+          <Copy size={14} strokeWidth={1.5} />
+          <span class="llm-guide__copy-text">{t('hero.copy')}</span>
+        </button>
+      </div>
+      <pre class="llm-guide__content"><code set:text={llmGuide} /></pre>
+    </div>
+  </div>
+</section>
+
+<script>
+  const btn = document.getElementById('llm-copy-btn');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-copy') || '';
+      navigator.clipboard.writeText(text);
+      btn.classList.add('copied');
+      const textEl = btn.querySelector('.llm-guide__copy-text');
+      if (textEl) {
+        const original = textEl.textContent;
+        textEl.textContent = '✓';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          textEl.textContent = original;
+        }, 1500);
+      }
+    });
+  }
+</script>
+
+<style>
+  .llm-guide__container {
+    max-width: 672px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .llm-guide__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+
+  .llm-guide__title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .llm-guide__subtitle {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+  }
+
+  .llm-guide__box {
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--bg-secondary);
+  }
+
+  .llm-guide__toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border-light);
+    background: var(--bg-primary);
+  }
+
+  .llm-guide__label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+  }
+
+  .llm-guide__copy {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1px solid var(--border-light);
+    background: var(--bg-primary);
+  }
+
+  .llm-guide__copy:hover {
+    color: var(--text-primary);
+    border-color: var(--text-tertiary);
+  }
+
+  .llm-guide__copy.copied {
+    color: #16a34a;
+    border-color: #16a34a;
+  }
+
+  .llm-guide__content {
+    padding: 16px 20px;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 320px;
+    overflow-y: auto;
+    margin: 0;
+  }
+</style>

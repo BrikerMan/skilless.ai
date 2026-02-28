@@ -1,0 +1,101 @@
+---
+import { Lightbulb, BookOpen, PenTool } from 'lucide-astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const skills = [
+  { icon: Lightbulb, name: t('skills.brainstorm.name'), desc: t('skills.brainstorm.desc'), bgColor: 'var(--amber-50)', color: 'var(--amber-600)' },
+  { icon: BookOpen, name: t('skills.research.name'), desc: t('skills.research.desc'), bgColor: 'var(--indigo-50)', color: 'var(--indigo-600)' },
+  { icon: PenTool, name: t('skills.writing.name'), desc: t('skills.writing.desc'), bgColor: 'var(--emerald-50)', color: 'var(--emerald-600)' },
+];
+---
+
+<section class="skills section section--alt section-border">
+  <div class="skills__container">
+    <div class="skills__header">
+      <h2 class="heading-lg">{t('skills.title')}</h2>
+      <p class="text-sm">{t('skills.subtitle')}</p>
+    </div>
+    <div class="skills__grid">
+      {skills.map(skill => (
+        <div class="skill-card hover-lift">
+          <div class="skill-card__icon" style={`background: ${skill.bgColor}; color: ${skill.color};`}>
+            <skill.icon size={20} strokeWidth={1.5} />
+          </div>
+          <h3 class="skill-card__name">{skill.name}</h3>
+          <p class="skill-card__desc">{skill.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills__container {
+    max-width: 896px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .skills__header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .skills__header h2 {
+    margin-bottom: 12px;
+  }
+
+  .skills__header p {
+    max-width: 448px;
+    margin: 0 auto;
+  }
+
+  .skills__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media (min-width: 640px) {
+    .skills__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .skill-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 24px;
+  }
+
+  .skill-card__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .skill-card__name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .skill-card__desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+</style>

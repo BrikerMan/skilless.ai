@@ -1,0 +1,178 @@
+#!/usr/bin/env bash
+# Skilless Installer
+# Downloads latest release from GitHub and sets up isolated environment
+# Usage: curl -LsSf https://skilless.ai/install | bash
+
+set -e
+
+REPO="brikerman/skilless.ai"
+INSTALL_DIR="$HOME/.agents/skills/skilless.ai"
+GITHUB_API="https://api.github.com/repos/$REPO/releases/latest"
+GITHUB_RELEASE="https://github.com/$REPO/releases/latest/download"
+
+# ---- Parse arguments ----
+DEV=false
+CHINA=false
+for arg in "$@"; do
+  case "$arg" in
+    --dev)   DEV=true ;;
+    --china) CHINA=true ;;
+  esac
+done
+
+echo ""
+echo "  ✨ skilless.ai installer"
+echo "  ─────────────────────────"
+echo ""
+
+# ---- Detect platform & arch ----
+OS="$(uname -s)"
+ARCH="$(uname -m)"
+
+case "$OS" in
+  Darwin) PLATFORM="macos" ;;
+  Linux)  PLATFORM="linux" ;;
+  *)      echo "✗ Unsupported OS: $OS"; exit 1 ;;
+esac
+
+case "$ARCH" in
+  x86_64|amd64)  ARCH="x86_64" ;;
+  arm64|aarch64) ARCH="aarch64" ;;
+  *)             echo "✗ Unsupported architecture: $ARCH"; exit 1 ;;
+esac
+
+if [ "$DEV" = "true" ]; then
+  ASSET_NAME="main.zip"
+  DOWNLOAD_URL="https://github.com/$REPO/archive/refs/heads/main.zip"
+  echo "  Platform: ${PLATFORM}/${ARCH} (dev)"
+else
+  ASSET_NAME="skilless-${PLATFORM}-${ARCH}.zip"
+  DOWNLOAD_URL="${GITHUB_RELEASE}/${ASSET_NAME}"
+  echo "  Platform: ${PLATFORM}/${ARCH}"
+fi
+
+# ---- Check for existing installation ----
+if [ -d "$INSTALL_DIR" ] && [ -f "$INSTALL_DIR/VERSION" ]; then
+  CURRENT_VERSION=$(cat "$INSTALL_DIR/VERSION" 2>/dev/null || echo "unknown")
+  echo "  Existing: v${CURRENT_VERSION}"
+  echo "  Upgrading to latest..."
+  echo ""
+else
+  echo "  Fresh install"
+  echo ""
+fi
+
+# ---- Download latest release ----
+echo "  ↓ Downloading from GitHub Releases..."
+
+TMPDIR_DL="$(mktemp -d)"
+trap 'rm -rf "$TMPDIR_DL"' EXIT
+
+if ! curl -fsSL -o "$TMPDIR_DL/$ASSET_NAME" "$DOWNLOAD_URL" 2>/dev/null; then
+  echo "  ✗ Failed to download: $DOWNLOAD_URL"
+  echo "  Check https://github.com/$REPO/releases for available releases."
+  exit 1
+fi
+
+echo "  ✓ Downloaded"
+
+# ---- Extract ----
+echo "  ↓ Extracting..."
+
+# Remove old installation
+rm -rf "$INSTALL_DIR"
+mkdir -p "$INSTALL_DIR"
+
+# Extract zip
+if [ "$DEV" = "true" ]; then
+  TMPDIR_EXTRACT="$(mktemp -d)"
+  unzip -qo "$TMPDIR_DL/$ASSET_NAME" -d "$TMPDIR_EXTRACT"
+  INNER_DIR=$(find "$TMPDIR_EXTRACT" -maxdepth 1 -mindepth 1 -type d | head -1)
+  cp -a "$INNER_DIR/." "$INSTALL_DIR/"
+  rm -rf "$TMPDIR_EXTRACT"
+else
+  unzip -qo "$TMPDIR_DL/$ASSET_NAME" -d "$INSTALL_DIR"
+fi
+
+echo "  ✓ Extracted to $INSTALL_DIR"
+
+# ---- Install uv if needed ----
+if ! command -v uv &>/dev/null; then
+  echo "  ↓ Installing uv (Python package manager)..."
+  curl -LsSf https://astral.sh/uv/install.sh | sh 2>/dev/null
+  export PATH="$HOME/.local/bin:$PATH"
+  echo "  ✓ uv installed"
+fi
+
+# ---- Network detection for mirrors ----
+UV_INDEX_URL="https://pypi.org/simple"
+if [ "$CHINA" = "true" ]; then
+  UV_INDEX_URL="https://pypi.tuna.tsinghua.edu.cn/simple"
+  echo "  → Using China mirror (Tsinghua)"
+elif ! curl -sI --connect-timeout 3 https://pypi.org &>/dev/null; then
+  echo "  → China network detected, using Tsinghua mirror"
+  UV_INDEX_URL="https://pypi.tuna.tsinghua.edu.cn/simple"
+fi
+
+# ---- Create virtual environment ----
+echo "  ↓ Setting up virtual environment..."
+uv venv "$INSTALL_DIR/.venv" --python ">=3.12" --quiet 2>/dev/null
+
+# ---- Install dependencies ----
+echo "  ↓ Installing dependencies..."
+
+# Install from the extracted package
+if [ -f "$INSTALL_DIR/pyproject.toml" ]; then
+  uv pip install --python "$INSTALL_DIR/.venv/bin/python" \
+    -e "$INSTALL_DIR" \
+    --index-url "$UV_INDEX_URL" \
+    --quiet 2>/dev/null
+else
+  # Fallback: install individual packages
+  uv pip install --python "$INSTALL_DIR/.venv/bin/python" \
+    "fastmcp>=2.0.0" "httpx>=0.27.0" "feedparser>=6.0.0" \
+    "yt-dlp>=2024.0.0" "pyyaml>=6.0.0" "rich>=13.0.0" \
+    --index-url "$UV_INDEX_URL" \
+    --quiet 2>/dev/null
+fi
+
+echo "  ✓ Dependencies installed"
+
+# ---- Create CLI wrapper ----
+if [ "$DEV" = "true" ]; then
+  CLI_SCRIPT="src/skilless/scripts/cli.py"
+else
+  CLI_SCRIPT="scripts/cli.py"
+fi
+cat > "$INSTALL_DIR/skilless.ai" << WRAPPER
+#!/bin/bash
+SCRIPT_DIR="\$(cd "\$(dirname "\$0")" && pwd)"
+export PYTHONPATH="\$SCRIPT_DIR/scripts:\$PYTHONPATH"
+exec "\$SCRIPT_DIR/.venv/bin/python" "\$SCRIPT_DIR/${CLI_SCRIPT}" "\$@"
+WRAPPER
+chmod +x "$INSTALL_DIR/skilless.ai"
+
+# ---- Install skill files ----
+SKILLS_DIR="$HOME/.agents/skills"
+for skill_dir in "$INSTALL_DIR"/skilless.ai-*/ "$INSTALL_DIR"/src/skilless.ai-*/; do
+  if [ -d "$skill_dir" ]; then
+    skill_name="$(basename "$skill_dir")"
+    mkdir -p "$SKILLS_DIR/$skill_name"
+    cp "$skill_dir/SKILL.md" "$SKILLS_DIR/$skill_name/SKILL.md" 2>/dev/null || true
+  fi
+done
+
+# ---- Done ----
+NEW_VERSION=$(cat "$INSTALL_DIR/VERSION" 2>/dev/null || echo "unknown")
+[ "$DEV" = "true" ] && NEW_VERSION="${NEW_VERSION}-dev"
+
+echo ""
+echo "  ✓ skilless.ai v${NEW_VERSION} installed successfully!"
+echo ""
+echo "  Usage:"
+echo "    $INSTALL_DIR/skilless.ai doctor"
+echo "    $INSTALL_DIR/skilless.ai search <query>"
+echo ""
+
+# Run diagnostics
+"$INSTALL_DIR/skilless.ai" doctor 2>/dev/null || true

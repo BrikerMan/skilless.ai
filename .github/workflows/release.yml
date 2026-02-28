@@ -1,0 +1,89 @@
+name: Release & Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Update VERSION file
+        run: echo "${{ steps.version.outputs.VERSION }}" > src/skilless/VERSION
+
+      - name: Create distribution directory
+        run: mkdir -p dist
+
+      - name: Build package (cross-platform)
+        run: |
+          # Create base package structure
+          mkdir -p package/src/skilless/scripts
+          mkdir -p package/src/skilless.ai-brainstorming
+          mkdir -p package/src/skilless.ai-research
+          mkdir -p package/src/skilless.ai-writing
+          
+          # Copy pyproject.toml and README
+          cp pyproject.toml package/
+          cp README.md package/
+          
+          # Copy VERSION
+          cp src/skilless/VERSION package/src/skilless/
+          
+          # Copy core package
+          cp src/skilless/__init__.py package/src/skilless/
+          cp src/skilless/SKILL.md package/src/skilless/
+          cp -r src/skilless/scripts/*.py package/src/skilless/scripts/
+          
+          # Copy skills
+          cp src/skilless.ai-brainstorming/SKILL.md package/src/skilless.ai-brainstorming/
+          cp src/skilless.ai-research/SKILL.md package/src/skilless.ai-research/
+          cp src/skilless.ai-writing/SKILL.md package/src/skilless.ai-writing/
+          
+          # Create zip
+          cd package
+          zip -r ../dist/skilless-${{ steps.version.outputs.VERSION }}.zip .
+          
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*.zip
+          generate_release_notes: true
+
+  deploy-homepage:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: homepage
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'homepage'
+
+      - name: Install dependencies
+        run: cd homepage && npm install
+
+      - name: Build homepage
+        run: cd homepage && npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./homepage/dist
