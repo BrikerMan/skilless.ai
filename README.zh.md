@@ -96,7 +96,7 @@ irm https://skilless.ai/install.ps1 | iex
 | [Jina Reader](https://github.com/jina-ai/reader) | 网页提取 |
 | [Exa](https://exa.ai) | AI 语义搜索，免费，无需 Key |
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp) | 视频与字幕提取，支持 1700+ 站点 |
-| [feedparser](https://github.com/kurtmckee/feedparser) | RSS/Atom 解析 |
+| [FFmpeg](https://ffmpeg.org) | 媒体转换与压缩 |
 | [uv](https://github.com/astral-sh/uv) | 极速 Python 包管理器，隔离部署 |
 
 ---

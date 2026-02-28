@@ -9,35 +9,37 @@ description: "Meta skill for Skilless toolkit — manage, diagnose, and update t
 
 ## Purpose
 
-Skilless provides AI-powered tools (search, web, ytd, rss) and AI skills (brainstorming, research, writing). This meta skill handles installation, diagnostics, and management.
+Skilless provides AI-powered tools (search, web, ytd, media) and AI skills (brainstorming, research, writing). This meta skill handles installation, diagnostics, and management.
 
 > 💡 For detailed skill usage (brainstorming, research, writing), see each skill's own SKILL.md
 
 ## Usage
 
 ```bash
+cd ~/.agents/skills/skilless.ai
+
 # Check installation status and all tools
-skilless.ai doctor
+uv run skilless.ai doctor
 
 # Check specific tool
-skilless.ai doctor web
-skilless.ai doctor search
-skilless.ai doctor ytd
-skilless.ai doctor rss
+uv run skilless.ai doctor web
+uv run skilless.ai doctor search
+uv run skilless.ai doctor ytd
+uv run skilless.ai doctor media
 
 # Update skilless to latest version
-skilless.ai update
+uv run skilless.ai update
 
 # View available skills
-skilless.ai explain skilless.ai-brainstorming
-skilless.ai explain skilless.ai-research
-skilless.ai explain skilless.ai-writing
+uv run skilless.ai explain skilless.ai-brainstorming
+uv run skilless.ai explain skilless.ai-research
+uv run skilless.ai explain skilless.ai-writing
 
 # Run CLI tools directly (see each skill for details)
-skilless.ai search "query"
-skilless.ai web <url>
-skilless.ai ytd <video_url>
-skilless.ai rss <feed_url>
+uv run scripts/search.py "query"
+uv run scripts/web.py <url>
+uv run scripts/youtube.py <video_url>
+uv run scripts/ffmpeg.py <input> <output>
 ```
 
 ## Tools
@@ -47,7 +49,7 @@ skilless.ai rss <feed_url>
 | `search` | Semantic web search (Exa) |
 | `web` | Extract webpage content (Jina Reader) |
 | `ytd` | Extract video subtitles (yt-dlp, 1700+ sites) |
-| `rss` | Parse RSS/Atom feeds |
+| `media` | Convert & compress media (FFmpeg) |
 
 ## Skills
 
@@ -59,8 +61,8 @@ skilless.ai rss <feed_url>
 
 ## Troubleshooting
 
-Run `skilless.ai doctor` to diagnose:
+Run `cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor` to diagnose:
 - ✓ web (Jina Reader)
 - ✓ search (Exa Search)
 - ✓ ytd (yt-dlp)
-- ✓ rss (feedparser)
+- ✓ media (FFmpeg)

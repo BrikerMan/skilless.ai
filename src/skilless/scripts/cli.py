@@ -14,13 +14,13 @@ from rich.text import Text
 
 try:
     from skilless.scripts.base import BaseTool
-    from skilless.scripts.rss import RssTool
+    from skilless.scripts.ffmpeg import FFmpegTool
     from skilless.scripts.search import SearchTool
     from skilless.scripts.web import WebTool
     from skilless.scripts.youtube import YouTubeTool
 except ImportError:
     from base import BaseTool
-    from rss import RssTool
+    from ffmpeg import FFmpegTool
     from search import SearchTool
     from web import WebTool
     from youtube import YouTubeTool
@@ -31,7 +31,7 @@ TOOLS: dict[str, BaseTool] = {
     "web": WebTool(),
     "search": SearchTool(),
     "ytd": YouTubeTool(),
-    "rss": RssTool(),
+    "media": FFmpegTool(),
 }
 
 
@@ -70,6 +70,9 @@ def load_skills() -> dict[str, dict]:
                     if "YouTube" in description or "youtube" in description or "video" in description.lower():  # noqa: E501
                         if "ytd" not in tools:
                             tools.append("ytd")
+                    if "FFmpeg" in description or "ffmpeg" in description or "media" in description.lower() or "convert" in description.lower() or "compress" in description.lower():  # noqa: E501
+                        if "media" not in tools:
+                            tools.append("media")
                     if "RSS" in description or "rss" in description:
                         if "rss" not in tools:
                             tools.append("rss")

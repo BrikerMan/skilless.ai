@@ -1,5 +1,33 @@
 # Troubleshooting Guide / 排障指南
 
+## Python External Environment Restriction (PEP 668)
+
+**Symptom**: macOS system prevents direct pip global installation.
+
+**Cause**: Python externally managed environment限制 - macOS系统不允许直接用pip全局安装包
+
+**Solution for Agent/AI Usage**:
+
+When using yt-dlp in an agent or AI context, you MUST use the skilless virtual environment:
+
+```bash
+# Switch to skilless directory and use uv run
+cd ~/.agents/skills/skilless.ai && uv run yt-dlp [args]
+
+# Or use skilless scripts (recommended)
+cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py <URL>
+```
+
+**Example - Download video:**
+
+```bash
+cd ~/.agents/skills/skilless.ai && uv run yt-dlp -f "best" -o "~/Downloads/video.mp4" "URL"
+```
+
+> ⚠️ **Agent Prompt Rule**: Always use `cd ~/.agents/skills/skilless.ai && uv run` before any yt-dlp command. Never call system pip or global yt-dlp directly.
+
+---
+
 ## uv Installation Failure / uv 安装失败
 
 **Symptom**: `curl` command hangs or fails during uv download.

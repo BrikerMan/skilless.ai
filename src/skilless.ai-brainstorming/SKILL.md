@@ -76,7 +76,7 @@ digraph brainstorming {
 ### Search (Exa AI)
 ```bash
 # Find examples, best practices, and references
-~/.agents/skills/skilless.ai/skilless.ai search "your query" [num_results]
+cd ~/.agents/skills/skilless.ai && uv run scripts/search.py "your query" [num_results]
 
 # Examples:
 skilless.ai search "microservices architecture patterns" 10
@@ -86,7 +86,7 @@ skilless.ai search "authentication best practices for APIs"
 ### Web Reader (Jina Reader)
 ```bash
 # Read documentation, articles, and references
-~/.agents/skills/skilless.ai/skilless.ai web <url>
+cd ~/.agents/skills/skilless.ai && uv run scripts/web.py <url>
 
 # Examples:
 skilless.ai web https://docs.python.org/3/library/asyncio.html
@@ -96,7 +96,7 @@ skilless.ai web https://blog.pragmaticengineer.com/
 ### Video Transcript Extractor
 ```bash
 # Extract video content for research (YouTube, Bilibili, TikTok, Vimeo, Twitch, 1700+ sites)
-~/.agents/skills/skilless.ai/skilless.ai ytd <video_url>
+cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py <video_url>
 
 # Examples:
 skilless.ai ytd https://www.youtube.com/watch?v=abc123
@@ -105,7 +105,7 @@ skilless.ai ytd https://www.youtube.com/watch?v=abc123
 ### RSS Feed Reader
 ```bash
 # Follow latest news and trends
-~/.agents/skills/skilless.ai/skilless.ai rss <feed_url>
+cd ~/.agents/skills/skilless.ai && uv run scripts/rss.py <feed_url>
 
 # Examples:
 skilless.ai rss https://hnrss.org/frontpage

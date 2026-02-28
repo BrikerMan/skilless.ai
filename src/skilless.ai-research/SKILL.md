@@ -1,6 +1,6 @@
 ---
 name: skilless.ai-research
-description: "Fetch internet content or conduct deep multi-source research. Quick access: search the web, read pages, extract video transcripts/subtitles from YouTube/TikTok/Twitter/Twitch/Vimeo/Bilibili/1700+ sites via yt-dlp, parse RSS feeds. Deep research: collect multi-source data, cross-check facts, produce structured reports. Triggers: 下载, 获取, 提取, 下载字幕, 下载视频, read web, fetch, search, research, investigate, YouTube, Bilibili, TikTok, Twitter, Twitch, Vimeo, Dailymotion, RSS, 抓取."
+description: "Fetch internet content or conduct deep multi-source research. Quick access: search the web, read pages, extract video transcripts/subtitles from YouTube/TikTok/Twitter/Twitch/Vimeo/Bilibili/1700+ sites via yt-dlp, convert and compress media via FFmpeg. Deep research: collect multi-source data, cross-check facts, produce structured reports. Triggers: 下载, 获取, 提取, 下载字幕, 下载视频, 转换, 压缩, read web, fetch, search, research, investigate, YouTube, Bilibili, TikTok, Twitter, Twitch, Vimeo, Dailymotion, media, convert, compress, 抓取."
 ---
 
 # Research Skill
@@ -17,6 +17,7 @@ Two operating modes:
 - "search", "find", "look up" → quick lookup with `search`
 - "read", "fetch", "get page" → extract content with `web`
 - "download", "extract", "get subtitles/transcript" → use `ytd`
+- "convert", "compress", "encode", "media", "ffmpeg" → use `media`
 - "research", "investigate", "analyze", "compare" → deep multi-source research
 - "latest news", "follow feed" → parse with `rss`
 
@@ -29,7 +30,7 @@ Two operating modes:
 ~/.agents/skills/skilless.ai/skilless.ai search "your query"
 
 # Specify number of results
-~/.agents/skills/skilless.ai/skilless.ai search "your query" 10
+cd ~/.agents/skills/skilless.ai && uv run scripts/search.py "your query" 10
 
 # Examples:
 skilless.ai search "best practices for RAG systems" 10
@@ -41,13 +42,20 @@ skilless.ai search "how to implement OAuth2 in Python"
 
 ```bash
 # Extract content from any webpage as text
-~/.agents/skills/skilless.ai/skilless.ai web <url>
+cd ~/.agents/skills/skilless.ai && uv run scripts/web.py <url>
 
 skilless.ai web https://docs.anthropic.com/claude/docs
 skilless.ai web https://github.com/modelcontextprotocol/servers
 ```
 
 ### Video Downloader / Transcript Extractor (yt-dlp)
+
+> ⚠️ **Important - PEP 668 Environment Restriction:**
+> macOS prevents direct pip installation. When using yt-dlp in an agent/AI context, you MUST use the skilless virtual environment:
+> ```bash
+> cd ~/.agents/skills/skilless.ai && uv run yt-dlp [args]
+> ```
+> Never call system pip or global yt-dlp directly.
 
 > **Transcript loading rules:**
 > - Download transcript/subtitle files to the current working directory by default — do NOT load the full content into context automatically
@@ -56,7 +64,7 @@ skilless.ai web https://github.com/modelcontextprotocol/servers
 
 ```bash
 # Extract subtitles/transcript/metadata from any video URL
-~/.agents/skills/skilless.ai/skilless.ai ytd "<url>"
+cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py "<url>"
 
 # Supported platforms include (1700+ total):
 # YouTube, Bilibili, TikTok, Twitter/X, Twitch, Vimeo,
@@ -86,22 +94,41 @@ skilless.ai ytd "https://twitter.com/i/status/123456789"
 
 ```bash
 # Parse RSS/Atom feeds
-~/.agents/skills/skilless.ai/skilless.ai rss <feed_url>
+cd ~/.agents/skills/skilless.ai && uv run scripts/rss.py <feed_url>
 
 skilless.ai rss https://hnrss.org/frontpage
 skilless.ai rss https://feeds.arstechnica.com/arstechnica/index
 skilless.ai rss https://www.reddit.com/r/python/.rss
 ```
 
+### FFmpeg (Media Converter & Compressor)
+
+```bash
+# Convert or compress video/audio files
+cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py <input> <output>
+
+# Examples:
+# Convert video format
+uv run scripts/ffmpeg.py video.mkv output.mp4
+
+# Convert audio
+uv run scripts/ffmpeg.py audio.wav output.mp3
+
+# Compress video (lower quality, smaller file)
+uv run scripts/ffmpeg.py input.mp4 output.mp4 -crf 28
+
+# Supported formats: mp4, mkv, avi, mov, webm, mp3, aac, wav, flac, ogg
+```
+
 ### Doctor (Check Tool Status)
 
 ```bash
-~/.agents/skills/skilless.ai/skilless.ai doctor
+cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor
 
-skilless.ai doctor web
-skilless.ai doctor search
-skilless.ai doctor ytd
-skilless.ai doctor rss
+cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor web
+cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor search
+cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor ytd
+cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor media
 ```
 
 ## Mode 1: Quick Content Access
@@ -157,4 +184,23 @@ User: Research the best LLM frameworks for building AI agents
 
 ## Summary
 For building AI agents, LangChain is the most established choice...
+```
+
+## Video Format Conversion
+
+If you need to convert video formats (e.g., mp4 to mp3, extract audio, merge subtitles), use `media` tool.
+
+### Usage
+```bash
+# Convert video format
+cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py -i input.webm output.mp4
+
+# Convert to specific format
+cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py -i input.mp4 output.avi
+
+# Extract audio
+cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py -i input.mp4 output.mp3
+
+# Compress video
+cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py -i input.mp4 output.mp4 -crf 28
 ```

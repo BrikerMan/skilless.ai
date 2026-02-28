@@ -35,7 +35,7 @@ Use when user needs to: write articles, emails, documentation, reports, or any c
 ### Search (Exa AI)
 ```bash
 # Find sources, data, and references
-~/.agents/skills/skilless.ai/skilless.ai search "your query" [num_results]
+cd ~/.agents/skills/skilless.ai && uv run scripts/search.py "your query" [num_results]
 
 # Examples:
 skilless.ai search "AI trends 2025" 10
@@ -45,7 +45,7 @@ skilless.ai search "remote work statistics"
 ### Web Reader (Jina Reader)
 ```bash
 # Read source materials
-~/.agents/skills/skilless.ai/skilless.ai web <url>
+cd ~/.agents/skills/skilless.ai && uv run scripts/web.py <url>
 
 # Examples:
 skilless.ai web https://example.com/article
@@ -55,7 +55,7 @@ skilless.ai web https://docs.example.com/guide
 ### RSS Feed Reader
 ```bash
 # Follow latest news on your topic
-~/.agents/skills/skilless.ai/skilless.ai rss <feed_url>
+cd ~/.agents/skills/skilless.ai && uv run scripts/rss.py <feed_url>
 
 # Examples:
 skilless.ai rss https://feeds.arstechnica.com/arstechnica/index
@@ -65,7 +65,7 @@ skilless.ai rss https://hnrss.org/frontpage
 ### Video Transcript Extractor
 ```bash
 # Get video content for research (YouTube, Bilibili, TikTok, Vimeo, Twitch, 1700+ sites)
-~/.agents/skills/skilless.ai/skilless.ai ytd <video_url>
+cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py <video_url>
 
 # Examples:
 skilless.ai ytd https://www.youtube.com/watch?v=abc123
