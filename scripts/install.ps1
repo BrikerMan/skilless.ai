@@ -85,48 +85,28 @@ try {
 }
 Write-Host "  ✓ Downloaded"
 
-# ---- Extract to temp ----
+# ---- Extract to skilless-repo ----
 Write-Host "  ↓ Extracting..."
-$ExtractDir = Join-Path $WorkDir "extracted"
-New-Item -ItemType Directory -Path $ExtractDir -Force | Out-Null
-Expand-Archive -Path $ZipPath -DestinationPath $ExtractDir -Force
+$RepoDir = Join-Path $WorkDir "skilless-repo"
+New-Item -ItemType Directory -Path $RepoDir -Force | Out-Null
+Expand-Archive -Path $ZipPath -DestinationPath $RepoDir -Force
 
 # GitHub archive ZIPs have an inner dir (e.g. skilless.ai-main/); release ZIPs do not
 if ($Dev) {
-    $SrcDir = (Get-ChildItem -Path $ExtractDir -Directory | Select-Object -First 1).FullName
+    $SrcDir = (Get-ChildItem -Path $RepoDir -Directory | Select-Object -First 1).FullName
 } else {
-    $SrcDir = $ExtractDir
+    $SrcDir = $RepoDir
 }
 Write-Host "  ✓ Extracted"
 
-# ---- Copy files to install locations ----
+# ---- Copy src/* -> ~/.agents/skills/ ----
 Write-Host "  ↓ Installing files..."
-
-New-Item -ItemType Directory -Path $InstallDir -Force | Out-Null
-
-# src/skilless/ contents -> skilless/
-$SrcSkilless = Join-Path $SrcDir "src\skilless"
-if (Test-Path "$InstallDir\scripts") { Remove-Item -Recurse -Force "$InstallDir\scripts" }
-if (Test-Path "$InstallDir\__pycache__") { Remove-Item -Recurse -Force "$InstallDir\__pycache__" }
-Copy-Item -Path "$SrcSkilless\*" -Destination $InstallDir -Recurse -Force
-
-# Root files -> skilless/
-Copy-Item -Path (Join-Path $SrcDir "pyproject.toml") -Destination $InstallDir -Force
-if (Test-Path (Join-Path $SrcDir "uv.lock")) {
-    Copy-Item -Path (Join-Path $SrcDir "uv.lock") -Destination $InstallDir -Force
-}
-if (Test-Path (Join-Path $SrcDir "TROUBLESHOOT.md")) {
-    Copy-Item -Path (Join-Path $SrcDir "TROUBLESHOOT.md") -Destination $InstallDir -Force
-}
-
-# src/skilless.ai-*/ -> skills/skilless.ai-*/
-$SrcSkillsBase = Join-Path $SrcDir "src"
-if (Test-Path $SrcSkillsBase) {
-    Get-ChildItem -Path $SrcSkillsBase -Directory -Filter "skilless.ai-*" | ForEach-Object {
-        $SkillDest = Join-Path $SkillsDir $_.Name
-        New-Item -ItemType Directory -Path $SkillDest -Force | Out-Null
-        Copy-Item -Path "$($_.FullName)\*" -Destination $SkillDest -Recurse -Force
-    }
+New-Item -ItemType Directory -Path $SkillsDir -Force | Out-Null
+$SrcPath = Join-Path $SrcDir "src"
+Get-ChildItem -Path $SrcPath | ForEach-Object {
+    $Dest = Join-Path $SkillsDir $_.Name
+    if (Test-Path $Dest) { Remove-Item -Recurse -Force $Dest }
+    Copy-Item -Path $_.FullName -Destination $Dest -Recurse -Force
 }
 
 # Cleanup work dir
@@ -168,15 +148,7 @@ Write-Host "  ✓ Virtual environment ready ($PyVer)"
 
 # ---- Install dependencies ----
 Write-Host "  ↓ Installing dependencies..."
-if (Test-Path "$InstallDir\pyproject.toml") {
-    uv pip install --python $PythonExe $InstallDir --index-url $UvIndexUrl --quiet 2>$null
-} else {
-    uv pip install --python $PythonExe `
-        "fastmcp>=2.0.0" "httpx>=0.27.0" "feedparser>=6.0.0" `
-        "yt-dlp>=2024.0.0" "pyyaml>=6.0.0" "rich>=13.0.0" `
-        --index-url $UvIndexUrl `
-        --quiet 2>$null
-}
+uv pip install --python $PythonExe $InstallDir --index-url $UvIndexUrl --quiet 2>$null
 Write-Host "  ✓ Dependencies installed"
 
 # ---- Done ----

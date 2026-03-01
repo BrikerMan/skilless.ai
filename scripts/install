@@ -99,41 +99,23 @@ fi
 
 echo "  ✓ Downloaded"
 
-# ---- Extract to temp ----
+# ---- Extract to skilless-repo ----
 echo "  ↓ Extracting..."
-unzip -qo "$TMPDIR_WORK/$ASSET_NAME" -d "$TMPDIR_WORK/extracted"
+unzip -qo "$TMPDIR_WORK/$ASSET_NAME" -d "$TMPDIR_WORK/skilless-repo"
 
 # GitHub archive ZIPs have an inner dir (e.g. skilless.ai-main/); release ZIPs do not
 if [ "$DEV" = "true" ]; then
-  SRC_DIR="$(find "$TMPDIR_WORK/extracted" -maxdepth 1 -mindepth 1 -type d | head -1)"
+  SRC_DIR="$(find "$TMPDIR_WORK/skilless-repo" -maxdepth 1 -mindepth 1 -type d | head -1)"
 else
-  SRC_DIR="$TMPDIR_WORK/extracted"
+  SRC_DIR="$TMPDIR_WORK/skilless-repo"
 fi
 
 echo "  ✓ Extracted"
 
-# ---- Copy files to install locations ----
+# ---- Copy src/* -> ~/.agents/skills/ ----
 echo "  ↓ Installing files..."
-
-mkdir -p "$INSTALL_DIR"
-
-# src/skilless/ contents -> skilless/
-rm -rf "$INSTALL_DIR/scripts" "$INSTALL_DIR/__pycache__"
-cp -a "$SRC_DIR/src/skilless/." "$INSTALL_DIR/"
-
-# Root files -> skilless/
-cp -f "$SRC_DIR/pyproject.toml" "$INSTALL_DIR/pyproject.toml"
-[ -f "$SRC_DIR/uv.lock" ]         && cp -f "$SRC_DIR/uv.lock" "$INSTALL_DIR/uv.lock"
-[ -f "$SRC_DIR/TROUBLESHOOT.md" ] && cp -f "$SRC_DIR/TROUBLESHOOT.md" "$INSTALL_DIR/TROUBLESHOOT.md"
-
-# src/skilless.ai-*/ -> skills/skilless.ai-*/
-for skill_dir in "$SRC_DIR"/src/skilless.ai-*/; do
-  [ -d "$skill_dir" ] || continue
-  skill_name="$(basename "$skill_dir")"
-  mkdir -p "$SKILLS_DIR/$skill_name"
-  cp -a "$skill_dir/." "$SKILLS_DIR/$skill_name/"
-done
-
+mkdir -p "$SKILLS_DIR"
+cp -a "$SRC_DIR/src/." "$SKILLS_DIR/"
 echo "  ✓ Files installed"
 
 # ---- Check / install uv ----
@@ -162,20 +144,12 @@ uv venv "$INSTALL_DIR/.venv" --python ">=3.12" --quiet 2>/dev/null
 PY_VER="$("$INSTALL_DIR/.venv/bin/python" --version 2>&1 | awk '{print $2}')"
 echo "  ✓ Virtual environment ready (Python ${PY_VER})"
 
-# ---- Install dependencies from source (before tmp is cleaned) ----
+# ---- Install dependencies ----
 echo "  ↓ Installing dependencies..."
-if [ -f "$SRC_DIR/pyproject.toml" ]; then
-  uv pip install --python "$INSTALL_DIR/.venv/bin/python" \
-    "$SRC_DIR" \
-    --index-url "$UV_INDEX_URL" \
-    --quiet 2>/dev/null
-else
-  uv pip install --python "$INSTALL_DIR/.venv/bin/python" \
-    "fastmcp>=2.0.0" "httpx>=0.27.0" "feedparser>=6.0.0" \
-    "yt-dlp>=2024.0.0" "pyyaml>=6.0.0" "rich>=13.0.0" \
-    --index-url "$UV_INDEX_URL" \
-    --quiet 2>/dev/null
-fi
+uv pip install --python "$INSTALL_DIR/.venv/bin/python" \
+  "$INSTALL_DIR" \
+  --index-url "$UV_INDEX_URL" \
+  --quiet 2>/dev/null
 echo "  ✓ Dependencies installed"
 
 # ---- CLI wrapper ----
