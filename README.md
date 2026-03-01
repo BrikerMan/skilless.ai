@@ -81,7 +81,7 @@ irm https://skilless.ai/install.ps1 | iex
 
 1. **Installs uv** — ultra-fast Python package manager, placed in `~/.local/bin`
 2. **Network detection** — auto-detects your environment and switches to local mirrors (Tsinghua TUNA in China) if needed
-3. **Isolated deployment** — creates a fully isolated virtual environment in `~/.agents/skills/skilless.ai/` with all dependencies: `yt-dlp` `fastmcp` `jina reader` `feedparser`
+3. **Isolated deployment** — creates a fully isolated virtual environment in `~/.agents/skills/skilless/` with all dependencies: `yt-dlp` `fastmcp` `jina reader` `feedparser`
 4. **Exposes CLI** — generates the `skilless.ai` executable, ready to use immediately
 
 *Zero system pollution · No sudo required · Easy to uninstall*
@@ -112,7 +112,7 @@ No. All tools use free tiers: Exa search is accessed for free via MCP, Jina Read
 <details>
 <summary><strong>Does this modify my system environment?</strong></summary>
 
-No. Everything is installed in an isolated virtual environment under `~/.agents/skills/skilless.ai/`. No sudo, no changes to global Python or Node.js.
+No. Everything is installed in an isolated virtual environment under `~/.agents/skills/skilless/`. No sudo, no changes to global Python or Node.js.
 </details>
 
 <details>
@@ -125,8 +125,8 @@ Any tool that reads SKILL.md files from `~/.agents/skills/` will work. We recomm
 <summary><strong>How do I uninstall?</strong></summary>
 
 ```bash
-rm -rf ~/.agents/skills/skilless.ai
-rm -rf ~/.agents/skills/skilless.ai-*
+rm -rf ~/.agents/skills/skilless
+rm -rf ~/.agents/skills/skilless-*
 ```
 </details>
 

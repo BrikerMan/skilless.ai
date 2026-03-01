@@ -36,40 +36,40 @@ Use when user needs to: write articles, emails, documentation, reports, or any c
 ### Search (Exa AI)
 ```bash
 # Find sources, data, and references
-cd ~/.agents/skills/skilless.ai && uv run scripts/search.py "your query" [num_results]
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "your query" [num_results]
 
 # Examples:
-skilless.ai search "AI trends 2025" 10
-skilless.ai search "remote work statistics"
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "AI trends 2025" 10
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "remote work statistics"
 ```
 
 ### Web Reader (Jina Reader)
 ```bash
 # Read source materials
-cd ~/.agents/skills/skilless.ai && uv run scripts/web.py <url>
+cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>
 
 # Examples:
-skilless.ai web https://example.com/article
-skilless.ai web https://docs.example.com/guide
+cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://example.com/article
+cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://docs.example.com/guide
 ```
 
 ### Media Converter
 ```bash
 # Convert and compress media files
-cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py <input> <output>
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py <input> <output>
 
 # Examples:
-skilless.ai media video.mkv output.mp4
-skilless.ai media input.mp4 output.mp3
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py video.mkv output.mp4
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py input.mp4 output.mp3
 ```
 
 ### Video Transcript Extractor
 ```bash
 # Get video content for research (YouTube, Bilibili, TikTok, Vimeo, Twitch, 1700+ sites)
-cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py <video_url>
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py <video_url>
 
 # Examples:
-skilless.ai ytd https://www.youtube.com/watch?v=abc123
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py https://www.youtube.com/watch?v=abc123
 ```
 
 ## Output Guidelines

@@ -26,25 +26,25 @@ Two operating modes:
 
 ```bash
 # Basic search (returns 5 results by default)
-~/.agents/skills/skilless.ai/skilless.ai search "your query"
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "your query"
 
 # Specify number of results
-cd ~/.agents/skills/skilless.ai && uv run scripts/search.py "your query" 10
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "your query" 10
 
 # Examples:
-skilless.ai search "best practices for RAG systems" 10
-skilless.ai search "React Server Components vs Next.js App Router"
-skilless.ai search "how to implement OAuth2 in Python"
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "best practices for RAG systems" 10
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "React Server Components vs Next.js App Router"
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "how to implement OAuth2 in Python"
 ```
 
 ### Web Reader (Jina Reader)
 
 ```bash
 # Extract content from any webpage as text
-cd ~/.agents/skills/skilless.ai && uv run scripts/web.py <url>
+cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>
 
-skilless.ai web https://docs.anthropic.com/claude/docs
-skilless.ai web https://github.com/modelcontextprotocol/servers
+cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://docs.anthropic.com/claude/docs
+cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://github.com/modelcontextprotocol/servers
 ```
 
 ### Video Downloader / Transcript Extractor (yt-dlp)
@@ -52,7 +52,7 @@ skilless.ai web https://github.com/modelcontextprotocol/servers
 > ⚠️ **Important - PEP 668 Environment Restriction:**
 > macOS prevents direct pip installation. When using yt-dlp in an agent/AI context, you MUST use the skilless virtual environment:
 > ```bash
-> cd ~/.agents/skills/skilless.ai && uv run yt-dlp [args]
+> cd ~/.agents/skills/skilless/ && uv run yt-dlp [args]
 > ```
 > Never call system pip or global yt-dlp directly.
 
@@ -63,7 +63,7 @@ skilless.ai web https://github.com/modelcontextprotocol/servers
 
 ```bash
 # Extract subtitles/transcript/metadata from any video URL
-cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py "<url>"
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "<url>"
 
 # Supported platforms include (1700+ total):
 # YouTube, Bilibili, TikTok, Twitter/X, Twitch, Vimeo,
@@ -71,12 +71,12 @@ cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py "<url>"
 # Reddit video, Instagram, Facebook Video, and many more
 
 # Examples:
-skilless.ai ytd "https://www.youtube.com/watch?v=abc123"
-skilless.ai ytd "https://www.bilibili.com/video/BV1xx411c7mD"
-skilless.ai ytd "https://www.tiktok.com/@user/video/123456"
-skilless.ai ytd "https://vimeo.com/123456789"
-skilless.ai ytd "https://www.twitch.tv/videos/123456"
-skilless.ai ytd "https://twitter.com/i/status/123456789"
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://www.youtube.com/watch?v=abc123"
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://www.bilibili.com/video/BV1xx411c7mD"
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://www.tiktok.com/@user/video/123456"
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://vimeo.com/123456789"
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://www.twitch.tv/videos/123456"
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://twitter.com/i/status/123456789"
 ```
 
 > ⚠️ **YouTube 故障排查：**
@@ -93,7 +93,7 @@ skilless.ai ytd "https://twitter.com/i/status/123456789"
 
 ```bash
 # Convert or compress video/audio files
-cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py <input> <output>
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py <input> <output>
 
 # Examples:
 # Convert video format
@@ -111,12 +111,12 @@ uv run scripts/ffmpeg.py input.mp4 output.mp4 -crf 28
 ### Doctor (Check Tool Status)
 
 ```bash
-cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor
+cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor
 
-cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor web
-cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor search
-cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor ytd
-cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor media
+cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor web
+cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor search
+cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor ytd
+cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor media
 ```
 
 ## Mode 1: Quick Content Access
@@ -181,14 +181,14 @@ If you need to convert video formats (e.g., mp4 to mp3, extract audio, merge sub
 ### Usage
 ```bash
 # Convert video format
-cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py -i input.webm output.mp4
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py -i input.webm output.mp4
 
 # Convert to specific format
-cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py -i input.mp4 output.avi
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py -i input.mp4 output.avi
 
 # Extract audio
-cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py -i input.mp4 output.mp3
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py -i input.mp4 output.mp3
 
 # Compress video
-cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py -i input.mp4 output.mp4 -crf 28
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py -i input.mp4 output.mp4 -crf 28
 ```

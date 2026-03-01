@@ -11,7 +11,8 @@ param(
 $ErrorActionPreference = "Stop"
 
 $Repo = "brikerman/skilless.ai"
-$InstallDir = "$env:USERPROFILE\.agents\skills\skilless"
+$SkillsDir = "$env:USERPROFILE\.agents\skills"
+$InstallDir = "$SkillsDir\skilless"
 $GithubApi = "https://api.github.com/repos/$Repo/releases/latest"
 $GithubRelease = "https://github.com/$Repo/releases/latest/download"
 
@@ -71,39 +72,50 @@ if ($Dev) {
 
 # ---- Download ----
 Write-Host "  ↓ Downloading..."
-$TempDir = New-TemporaryFile | ForEach-Object { Remove-Item $_; New-Item -ItemType Directory -Path $_ }
-$ZipPath = Join-Path $TempDir $AssetName
+$WorkDir = New-TemporaryFile | ForEach-Object { Remove-Item $_; New-Item -ItemType Directory -Path $_ }
+$ZipPath = Join-Path $WorkDir $AssetName
 
 try {
     Invoke-WebRequest -Uri $DownloadUrl -OutFile $ZipPath -UseBasicParsing
 } catch {
     Write-Host "  ✗ Failed to download: $DownloadUrl" -ForegroundColor Red
     Write-Host "  See https://github.com/$Repo/releases for available releases."
+    Remove-Item -Recurse -Force $WorkDir -ErrorAction SilentlyContinue
     exit 1
 }
 Write-Host "  ✓ Downloaded"
 
-# ---- Extract ----
+# ---- Extract to skilless-repo ----
 Write-Host "  ↓ Extracting..."
-if (Test-Path $InstallDir) {
-    Remove-Item -Recurse -Force $InstallDir
-}
-New-Item -ItemType Directory -Path $InstallDir -Force | Out-Null
+$RepoDir = Join-Path $WorkDir "skilless-repo"
+New-Item -ItemType Directory -Path $RepoDir -Force | Out-Null
+Expand-Archive -Path $ZipPath -DestinationPath $RepoDir -Force
 
-$ExtractTemp = New-TemporaryFile | ForEach-Object { Remove-Item $_; New-Item -ItemType Directory -Path $_ }
-Expand-Archive -Path $ZipPath -DestinationPath $ExtractTemp -Force
-
+# GitHub archive ZIPs have an inner dir (e.g. skilless.ai-main/); release ZIPs do not
 if ($Dev) {
-    $InnerDir = Get-ChildItem -Path $ExtractTemp -Directory | Select-Object -First 1
-    Copy-Item -Path "$($InnerDir.FullName)\*" -Destination $InstallDir -Recurse -Force
-    Copy-Item -Path "$($InnerDir.FullName)\.*" -Destination $InstallDir -Recurse -Force -ErrorAction SilentlyContinue
+    $SrcDir = (Get-ChildItem -Path $RepoDir -Directory | Select-Object -First 1).FullName
 } else {
-    Copy-Item -Path "$ExtractTemp\*" -Destination $InstallDir -Recurse -Force
+    $SrcDir = $RepoDir
 }
-Remove-Item -Recurse -Force $ExtractTemp -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force $TempDir -ErrorAction SilentlyContinue
+Write-Host "  ✓ Extracted"
 
-Write-Host "  ✓ Extracted to $InstallDir"
+# ---- Copy src/* -> ~/.agents/skills/ ----
+Write-Host "  ↓ Installing files..."
+New-Item -ItemType Directory -Path $SkillsDir -Force | Out-Null
+$SrcPath = Join-Path $SrcDir "src"
+Get-ChildItem -Path $SrcPath | ForEach-Object {
+    $Dest = Join-Path $SkillsDir $_.Name
+    if (Test-Path $Dest) { Remove-Item -Recurse -Force $Dest }
+    Copy-Item -Path $_.FullName -Destination $Dest -Recurse -Force
+}
+# Copy README files to skilless/
+Get-ChildItem -Path $SrcDir -Filter "README*.md" | ForEach-Object {
+    Copy-Item -Path $_.FullName -Destination $InstallDir -Force
+}
+
+# Cleanup work dir
+Remove-Item -Recurse -Force $WorkDir -ErrorAction SilentlyContinue
+Write-Host "  ✓ Files installed"
 
 # ---- Check / install uv ----
 if (Get-Command uv -ErrorAction SilentlyContinue) {
@@ -134,36 +146,14 @@ if ($China) {
 # ---- Virtual environment ----
 Write-Host "  ↓ Setting up virtual environment..."
 uv venv "$InstallDir\.venv" --python ">=3.12" --quiet 2>$null
-$PyVer = & "$InstallDir\.venv\Scripts\python.exe" --version 2>&1
+$PythonExe = "$InstallDir\.venv\Scripts\python.exe"
+$PyVer = & $PythonExe --version 2>&1
 Write-Host "  ✓ Virtual environment ready ($PyVer)"
 
 # ---- Install dependencies ----
 Write-Host "  ↓ Installing dependencies..."
-$PythonExe = "$InstallDir\.venv\Scripts\python.exe"
-
-if (Test-Path "$InstallDir\pyproject.toml") {
-    uv pip install --python $PythonExe -e $InstallDir --index-url $UvIndexUrl --quiet 2>$null
-} else {
-    uv pip install --python $PythonExe `
-        "fastmcp>=2.0.0" "httpx>=0.27.0" "feedparser>=6.0.0" `
-        "yt-dlp>=2024.0.0" "pyyaml>=6.0.0" "rich>=13.0.0" `
-        --index-url $UvIndexUrl `
-        --quiet 2>$null
-}
+uv pip install --python $PythonExe $InstallDir --index-url $UvIndexUrl --quiet 2>$null
 Write-Host "  ✓ Dependencies installed"
-
-# ---- Install skill files ----
-$SkillsDir = "$env:USERPROFILE\.agents\skills"
-$SkillSearchPaths = if ($Dev) { @((Join-Path $InstallDir "src")) } else { @($InstallDir) }
-foreach ($BasePath in $SkillSearchPaths) {
-    if (Test-Path $BasePath) {
-        Get-ChildItem -Path $BasePath -Directory -Filter "skilless.ai-*" | ForEach-Object {
-            $SkillDest = Join-Path $SkillsDir $_.Name
-            New-Item -ItemType Directory -Path $SkillDest -Force | Out-Null
-            Copy-Item "$($_.FullName)\SKILL.md" "$SkillDest\SKILL.md" -ErrorAction SilentlyContinue
-        }
-    }
-}
 
 # ---- Done ----
 $NewVersion = if (Test-Path "$InstallDir\VERSION") { (Get-Content "$InstallDir\VERSION") -replace '^\s+|\s+$', '' } else { "unknown" }

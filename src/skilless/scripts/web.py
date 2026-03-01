@@ -14,7 +14,7 @@ except ImportError:
 class WebTool(BaseTool):
     name = "web"
     description = "Fetch any webpage and return clean Markdown text"
-    usage = "skilless.ai web <url>"
+    usage = "cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>"
     how = "Sends URL to Jina Reader API (r.jina.ai) which returns clean Markdown"
 
     def doctor(self) -> DoctorResult:
@@ -30,7 +30,7 @@ class WebTool(BaseTool):
 
     def run(self, args: list[str]) -> str:
         if not args:
-            raise ValueError("Usage: skilless.ai web <url>")
+            raise ValueError("Usage: cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>")
 
         import httpx
 
@@ -46,7 +46,7 @@ class WebTool(BaseTool):
     @property
     def troubleshooting(self) -> list[tuple[str, str]]:
         from pathlib import Path
-        _venv = Path.home() / ".agents/skills/skilless.ai/.venv"
+        _venv = Path.home() / ".agents/skills/skilless/.venv"
         _pip = f"uv pip install --python {_venv}"
         return [
             ("Connection timeout", "Check network; set proxy: export HTTPS_PROXY=http://127.0.0.1:<port>"),

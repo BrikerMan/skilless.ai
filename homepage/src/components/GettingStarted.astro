@@ -1,0 +1,142 @@
+---
+import { Download, Terminal, Bot, Copy } from 'lucide-astro';
+import type { Lang } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const macCmd = lang === 'zh'
+  ? 'curl -LsSf https://skilless.ai/install | bash -s -- --china'
+  : 'curl -LsSf https://skilless.ai/install | bash';
+const winCmd = lang === 'zh'
+  ? '& ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -China'
+  : 'irm https://skilless.ai/install.ps1 | iex';
+
+const llmGuide = `# Install skilless.ai
+
+Run this command in the user's terminal to install skilless.ai:
+
+\`\`\`bash
+${macCmd}
+\`\`\`
+
+For Windows (PowerShell):
+\`\`\`powershell
+${winCmd}
+\`\`\`
+
+This will:
+1. Download the latest release from GitHub (github.com/brikerman/skilless.ai)
+2. Install uv (ultra-fast Python package manager) if not present
+3. Create an isolated virtual environment at ~/.agents/skills/skilless/
+4. Install all dependencies (yt-dlp, fastmcp, jina reader, feedparser)
+5. Generate the skilless CLI executable
+
+To upgrade, re-run the install command. No sudo required.`;
+
+---
+
+<section id="getting-started" class="py-20 border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">{t('getstarted.title')}</h2>
+      <p class="text-gray-500 dark:text-gray-400">{t('getstarted.subtitle')}</p>
+    </div>
+
+    <div class="space-y-10">
+
+      <!-- Step 1: Download OpenCode -->
+      <div class="flex gap-5">
+        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 flex items-center justify-center text-sm font-bold mt-0.5">1</div>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-1.5">{t('getstarted.step1.title')}</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">{t('getstarted.step1.desc')}</p>
+          <a
+            href="https://opencode.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+          >
+            <Download size={14} strokeWidth={1.5} />
+            {t('getstarted.step1.link')}
+          </a>
+        </div>
+      </div>
+
+      <!-- Step 2: Paste LLM guide into OpenCode -->
+      <div class="flex gap-5">
+        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 flex items-center justify-center text-sm font-bold mt-0.5">2</div>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-1.5">{t('getstarted.step2.title')}</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">{t('getstarted.step2.desc')}</p>
+
+          <div class="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-4 py-2.5 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+              <div class="flex items-center gap-2">
+                <Bot size={13} strokeWidth={1.5} class="text-gray-400 dark:text-gray-500" />
+                <span class="text-gray-400 dark:text-gray-500 text-xs">{t('getstarted.step2.label')}</span>
+              </div>
+              <button
+                class="gs-copy-btn flex items-center gap-1.5 px-3 py-1 rounded-md text-xs text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                data-copy={llmGuide}
+              >
+                <Copy size={12} strokeWidth={1.5} />
+                {t('getstarted.step2.copy')}
+              </button>
+            </div>
+            <!-- Guide content -->
+            <pre class="overflow-x-auto px-5 py-4 bg-gray-50 dark:bg-gray-950 text-xs text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-wrap break-words font-mono"><code set:text={llmGuide} /></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Ask a Question -->
+      <div class="flex gap-5">
+        <div class="flex-shrink-0 w-9 h-9 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 flex items-center justify-center text-sm font-bold mt-0.5">3</div>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-1.5">{t('getstarted.step3.title')}</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">{t('getstarted.step3.desc')}</p>
+
+          <div class="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden font-mono text-sm">
+            <!-- Terminal title bar -->
+            <div class="flex items-center gap-2 px-4 py-2.5 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+              <Terminal size={13} strokeWidth={1.5} class="text-gray-400 dark:text-gray-500" />
+              <span class="text-gray-400 dark:text-gray-500 text-xs">terminal</span>
+            </div>
+            <!-- Terminal content -->
+            <div class="bg-gray-50 dark:bg-gray-950 px-5 py-4 space-y-3 text-gray-700 dark:text-gray-300">
+              <div>
+                <span class="text-green-500 dark:text-green-400 select-none">$ </span>opencode
+              </div>
+              <div>
+                <span class="text-blue-400 dark:text-blue-500 select-none">&gt; </span>{t('getstarted.step3.prompt')}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.gs-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-copy') || '';
+      navigator.clipboard.writeText(text);
+      btn.classList.add('gs-copied');
+      setTimeout(() => btn.classList.remove('gs-copied'), 1500);
+    });
+  });
+</script>
+
+<style>
+  .gs-copy-btn.gs-copied { color: #16a34a !important; border-color: #16a34a !important; }
+</style>

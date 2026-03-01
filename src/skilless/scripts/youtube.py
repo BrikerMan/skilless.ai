@@ -18,7 +18,7 @@ class YouTubeTool(BaseTool):
         "Extract video subtitles and metadata "
         "(YouTube, Bilibili, TikTok, Twitter, Vimeo, Twitch, 1700+ platforms)"
     )
-    usage = "skilless.ai ytd <url>"
+    usage = "cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py <url>"
     how = "Uses yt-dlp to extract video metadata and subtitles; supports 1700+ platforms"
 
     def doctor(self) -> DoctorResult:
@@ -51,7 +51,7 @@ class YouTubeTool(BaseTool):
 
     def run(self, args: list[str]) -> str:
         if not args:
-            raise ValueError("Usage: skilless.ai ytd <url>")
+            raise ValueError("Usage: cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py <url>")
 
         from pathlib import Path
 
@@ -105,7 +105,7 @@ class YouTubeTool(BaseTool):
     @property
     def troubleshooting(self) -> list[tuple[str, str]]:
         from pathlib import Path
-        _venv = Path.home() / ".agents/skills/skilless.ai/.venv"
+        _venv = Path.home() / ".agents/skills/skilless/.venv"
         _pip = f"uv pip install --python {_venv}"
         return [
             ("yt-dlp not installed", f"Run: {_pip} yt-dlp"),

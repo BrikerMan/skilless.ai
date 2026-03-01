@@ -76,40 +76,40 @@ digraph brainstorming {
 ### Search (Exa AI)
 ```bash
 # Find examples, best practices, and references
-cd ~/.agents/skills/skilless.ai && uv run scripts/search.py "your query" [num_results]
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "your query" [num_results]
 
 # Examples:
-skilless.ai search "microservices architecture patterns" 10
-skilless.ai search "authentication best practices for APIs"
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "microservices architecture patterns" 10
+cd ~/.agents/skills/skilless/ && uv run scripts/search.py "authentication best practices for APIs"
 ```
 
 ### Web Reader (Jina Reader)
 ```bash
 # Read documentation, articles, and references
-cd ~/.agents/skills/skilless.ai && uv run scripts/web.py <url>
+cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>
 
 # Examples:
-skilless.ai web https://docs.python.org/3/library/asyncio.html
-skilless.ai web https://blog.pragmaticengineer.com/
+cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://docs.python.org/3/library/asyncio.html
+cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://blog.pragmaticengineer.com/
 ```
 
 ### Video Transcript Extractor
 ```bash
 # Extract video content for research (YouTube, Bilibili, TikTok, Vimeo, Twitch, 1700+ sites)
-cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py <video_url>
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py <video_url>
 
 # Examples:
-skilless.ai ytd https://www.youtube.com/watch?v=abc123
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py https://www.youtube.com/watch?v=abc123
 ```
 
 ### Media Converter
 ```bash
 # Convert and compress media files
-cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py <input> <output>
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py <input> <output>
 
 # Examples:
-skilless.ai media video.mkv output.mp4
-skilless.ai media input.mp4 output.mp3
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py video.mkv output.mp4
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py input.mp4 output.mp3
 ```
 
 ## Key Principles

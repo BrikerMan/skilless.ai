@@ -48,16 +48,16 @@ export const ui = {
         'tools.subtitle': 'A complete CLI toolkit that gives your AI Agent direct access to real-world data',
         'tools.search.name': 'search — Semantic Search',
         'tools.search.desc': 'Deep semantic search powered by Exa, optimized for AI use cases. Supports multi-source cross-validation and fact-checking.',
-        'tools.search.cmd': 'skilless.ai search "AI trends 2026"',
+        'tools.search.cmd': 'cd ~/.agents/skills/skilless/ && uv run scripts/search.py "AI trends 2026"',
         'tools.web.name': 'web — Web Reading',
         'tools.web.desc': 'Extracts any webpage into clean Markdown via Jina Reader, ready for LLM context input.',
-        'tools.web.cmd': 'skilless.ai web https://example.com',
+        'tools.web.cmd': 'cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://example.com',
         'tools.ytd.name': 'ytd — Video Download & Subtitles',
         'tools.ytd.desc': 'Powered by yt-dlp, supports video download and subtitle extraction from YouTube, Bilibili, and 1700+ sites.',
-        'tools.ytd.cmd': 'skilless.ai ytd "https://youtube.com/watch?v=xxx"',
+        'tools.ytd.cmd': 'cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://youtube.com/watch?v=xxx"',
         'tools.media.name': 'media — Media Processing',
         'tools.media.desc': 'Convert and compress video/audio files via FFmpeg. Supports all formats: mp4, mkv, mp3, aac, wav, and more.',
-        'tools.media.cmd': 'skilless.ai media input.mp4 output.mp3',
+        'tools.media.cmd': 'cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py input.mp4 output.mp3',
 
         // Skills
         'skills.title': 'Three AI Skills',
@@ -88,11 +88,8 @@ export const ui = {
         'faq.q4': 'How do I use it with my AI Agent?',
         'faq.a4': 'After installation, Skilless exposes four CLI commands: search, web, ytd, and media. Any tool that reads SKILL.md files from ~/.agents/skills/ will work. We recommend **OpenCode** — open source and free, works great with Skilless out of the box. Also works with OpenClaw, Kilo Code, Cursor, and Claude Code.',
         'faq.q5': 'What if I run into issues?',
-        'faq.a5.prefix': 'Run',
-        'faq.a5.cmd': 'skilless.ai doctor',
-        'faq.a5.mid': 'to check your system status. For common issues, see the',
+        'faq.a5': 'Check the Troubleshooting Guide on GitHub for solutions to common problems, or open an issue and we\'ll help you out.',
         'faq.a5.link': 'Troubleshooting Guide',
-        'faq.a5.suffix': ', or report issues on GitHub.',
 
         // About
         'about.label.author': 'Built with ❤️ by',
@@ -111,6 +108,21 @@ export const ui = {
         'hero.llm.line1': 'Run this command in the user\'s terminal to install skilless.ai:',
         'hero.llm.line2': 'For Windows (PowerShell):',
         'hero.copy.llm': 'Copy prompt',
+
+        // Getting Started
+        'nav.getstarted': 'Get Started',
+        'getstarted.title': 'How to Get Started',
+        'getstarted.subtitle': 'Three steps to up and running — no prior experience needed',
+        'getstarted.step1.title': 'Download OpenCode',
+        'getstarted.step1.desc': 'OpenCode is a free, open-source AI agent that runs in your terminal. It reads your installed skill files and can execute real-world tasks on your behalf — web search, video subtitles, media conversion, and more.',
+        'getstarted.step1.link': 'Download from opencode.ai →',
+        'getstarted.step2.title': 'Paste This Into OpenCode',
+        'getstarted.step2.desc': 'Copy the prompt below and paste it into OpenCode. The AI will detect your OS, run the install command, and confirm when done — no terminal knowledge needed.',
+        'getstarted.step2.label': 'LLM install prompt',
+        'getstarted.step2.copy': 'Copy prompt',
+        'getstarted.step3.title': 'Ask Anything',
+        'getstarted.step3.desc': 'Open your terminal, type opencode to launch the agent, and start chatting. Your agent now has real-world data superpowers through skilless.ai.',
+        'getstarted.step3.prompt': 'Download the video and subtitles from https://www.youtube.com/watch?v=dQw4w9WgXcQ',
 
         // Footer
         'footer.license': 'MIT License',
@@ -158,16 +170,16 @@ export const ui = {
         'tools.subtitle': '一套完整的 CLI 工具包，让 AI Agent 直接操作真实世界数据',
         'tools.search.name': 'search — 语义搜索',
         'tools.search.desc': '基于 Exa 的深度语义搜索引擎，专为 AI 场景优化。支持多源交叉验证和事实核查。',
-        'tools.search.cmd': 'skilless.ai search "AI trends 2026"',
+        'tools.search.cmd': 'cd ~/.agents/skills/skilless/ && uv run scripts/search.py "AI trends 2026"',
         'tools.web.name': 'web — 网页读取',
         'tools.web.desc': '通过 Jina Reader 将任意网页提取为干净的 Markdown 格式，用于 LLM 上下文输入。',
-        'tools.web.cmd': 'skilless.ai web https://example.com',
+        'tools.web.cmd': 'cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://example.com',
         'tools.ytd.name': 'ytd — 视频下载与字幕',
         'tools.ytd.desc': '基于 yt-dlp，支持 YouTube、Bilibili 等 1700+ 站点的视频下载和字幕提取。',
-        'tools.ytd.cmd': 'skilless.ai ytd "https://youtube.com/watch?v=xxx"',
+        'tools.ytd.cmd': 'cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://youtube.com/watch?v=xxx"',
         'tools.media.name': 'media — 媒体处理',
         'tools.media.desc': '通过 FFmpeg 转换和压缩视频/音频文件。支持所有格式：mp4、mkv、mp3、aac、wav 等。',
-        'tools.media.cmd': 'skilless.ai media input.mp4 output.mp3',
+        'tools.media.cmd': 'cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py input.mp4 output.mp3',
 
         // Skills
         'skills.title': '三大 AI 技能',
@@ -198,11 +210,8 @@ export const ui = {
         'faq.q4': '如何与 AI Agent 配合使用？',
         'faq.a4': '安装后，Skilless 暴露 search、web、ytd、media 四个 CLI 命令。任何能读取 ~/.agents/skills/ 下 SKILL.md 文件的工具都支持。推荐使用 **OpenCode** — 开源免费，和 Skilless 配合开箱即用。也支持 OpenClaw、Kilo Code、Cursor、Claude Code。',
         'faq.q5': '遇到问题怎么办？',
-        'faq.a5.prefix': '运行',
-        'faq.a5.cmd': 'skilless.ai doctor',
-        'faq.a5.mid': '检查系统状态。常见问题请查看',
+        'faq.a5': '查看 GitHub 上的排障指南解决常见问题，或者提交 Issue，我们会帮你解决。',
         'faq.a5.link': '排障指南',
-        'faq.a5.suffix': '，或在 GitHub Issues 中反馈。',
 
         // About
         'about.label.author': '本工具由以下作者用心构建',
@@ -221,6 +230,21 @@ export const ui = {
         'hero.llm.line1': '在用户的终端中运行以下命令安装 skilless.ai：',
         'hero.llm.line2': 'Windows 用户（PowerShell）：',
         'hero.copy.llm': '复制提示词',
+
+        // Getting Started
+        'nav.getstarted': '如何开始',
+        'getstarted.title': '如何开始使用',
+        'getstarted.subtitle': '三步上手，无需任何基础',
+        'getstarted.step1.title': '下载 OpenCode',
+        'getstarted.step1.desc': 'OpenCode 是免费开源的 AI Agent，在终端中运行。它会自动读取你安装的技能文件，帮你完成各种真实任务——网页搜索、视频字幕、媒体转换等。',
+        'getstarted.step1.link': '前往 opencode.ai 下载 →',
+        'getstarted.step2.title': '把这段提示词粘贴给 OpenCode',
+        'getstarted.step2.desc': '复制下面的内容，粘贴到 OpenCode 里发给 AI。AI 会自动识别你的系统、运行安装命令并确认完成——不需要任何命令行基础。',
+        'getstarted.step2.label': 'LLM 安装提示词',
+        'getstarted.step2.copy': '复制提示词',
+        'getstarted.step3.title': '开始提问',
+        'getstarted.step3.desc': '打开终端，输入 opencode 启动 Agent，然后直接向它提问。你的 Agent 现在已经获得了真实世界的数据超能力。',
+        'getstarted.step3.prompt': '下载视频和字幕：https://www.youtube.com/watch?v=dQw4w9WgXcQ',
 
         // Footer
         'footer.license': 'MIT License',

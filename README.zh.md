@@ -81,7 +81,7 @@ irm https://skilless.ai/install.ps1 | iex
 
 1. **安装 uv** — 极速 Python 包管理器，装到 `~/.local/bin`
 2. **网络检测** — 自动识别网络环境，国内自动切换清华 TUNA 镜像源
-3. **隔离部署** — 在 `~/.agents/skills/skilless.ai/` 创建完全隔离的虚拟环境，安装所有依赖：`yt-dlp` `fastmcp` `jina reader` `feedparser`
+3. **隔离部署** — 在 `~/.agents/skills/skilless/` 创建完全隔离的虚拟环境，安装所有依赖：`yt-dlp` `fastmcp` `jina reader` `feedparser`
 4. **暴露 CLI** — 生成 `skilless.ai` 可执行文件，即刻可用
 
 *不污染系统环境 · 不需要 sudo · 随时可卸载*
@@ -112,7 +112,7 @@ irm https://skilless.ai/install.ps1 | iex
 <details>
 <summary><strong>会修改系统环境吗？</strong></summary>
 
-不会。所有内容安装在 `~/.agents/skills/skilless.ai/` 目录的隔离虚拟环境中，不需要 sudo，不影响全局 Python 或 Node.js 环境。
+不会。所有内容安装在 `~/.agents/skills/skilless/` 目录的隔离虚拟环境中，不需要 sudo，不影响全局 Python 或 Node.js 环境。
 </details>
 
 <details>
@@ -125,8 +125,8 @@ irm https://skilless.ai/install.ps1 | iex
 <summary><strong>如何卸载？</strong></summary>
 
 ```bash
-rm -rf ~/.agents/skills/skilless.ai
-rm -rf ~/.agents/skills/skilless.ai-*
+rm -rf ~/.agents/skills/skilless
+rm -rf ~/.agents/skills/skilless-*
 ```
 </details>
 

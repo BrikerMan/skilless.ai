@@ -33,16 +33,15 @@ ${winCmd}
 This will:
 1. Download the latest release from GitHub (github.com/brikerman/skilless.ai)
 2. Install uv (ultra-fast Python package manager) if not present
-3. Create an isolated virtual environment at ~/.agents/skills/skilless.ai/
+3. Create an isolated virtual environment at ~/.agents/skills/skilless/
 4. Install all dependencies (yt-dlp, fastmcp, jina reader, feedparser)
-5. Generate the skilless.ai CLI executable
+5. Generate the skilless CLI executable at ~/.agents/skills/skilless/
 
 After installation, you can use these commands:
-- \`skilless.ai search <query>\` — semantic search via Exa
-- \`skilless.ai web <url>\` — extract webpage as Markdown via Jina Reader
-- \`skilless.ai ytd <url>\` — download video/subtitles via yt-dlp
-- \`skilless.ai rss <url>\` — parse RSS/Atom feeds
-- \`skilless.ai doctor\` — check system status
+- \`cd ~/.agents/skills/skilless/ && uv run scripts/search.py <query>\` — semantic search via Exa
+- \`cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>\` — extract webpage as Markdown via Jina Reader
+- \`cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py <url>\` — download video/subtitles via yt-dlp
+- \`cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor\` — check system status
 
 To upgrade, re-run the install command. No sudo required.`;
 ---

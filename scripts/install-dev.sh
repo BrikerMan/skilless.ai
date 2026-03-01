@@ -86,11 +86,11 @@ echo ""
 # Run doctor check
 echo "Running diagnostics..."
 echo ""
-"$INSTALL_DIR/skilless.ai" doctor
+cd "$INSTALL_DIR" && uv run scripts/cli.py doctor
 
 echo ""
 echo "Usage:"
-echo "  $INSTALL_DIR/skilless.ai doctor"
-echo "  $INSTALL_DIR/skilless.ai explain skilless.ai-brainstorming"
-echo "  $INSTALL_DIR/skilless.ai search <query>"
+echo "  $INSTALL_DIR/scripts/cli.py doctor"
+echo "  $INSTALL_DIR/scripts/cli.py explain skilless.ai-brainstorming"
+echo "  $INSTALL_DIR/scripts/search.py <query>"
 

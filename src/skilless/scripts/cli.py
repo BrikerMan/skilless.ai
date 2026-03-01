@@ -187,13 +187,13 @@ def cmd_guidance(args: list[str]):
             )
         )
         console.print("\n[bold]Commands:[/]")
-        console.print("  skilless.ai doctor             Check all tools")
-        console.print("  skilless.ai explain [name]     Explain a skill or tool")
-        console.print("  skilless.ai guidance [tool]    Show usage guidance")
-        console.print("  skilless.ai troubleshoot [tool] Show troubleshooting help")
+        console.print("  scripts/cli.py doctor             Check all tools")
+        console.print("  scripts/cli.py explain [name]     Explain a skill or tool")
+        console.print("  scripts/cli.py guidance [tool]    Show usage guidance")
+        console.print("  scripts/cli.py troubleshoot [tool] Show troubleshooting help")
         console.print("\n[bold]Tools:[/]")
         for tool in TOOLS.values():
-            console.print(f"  [cyan]{tool.usage}[/]")
+            console.print(f"  cd ~/.agents/skills/skilless/ && uv run {tool.usage}")
         return
 
     key = args[0]

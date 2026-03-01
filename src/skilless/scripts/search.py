@@ -15,7 +15,7 @@ except ImportError:
 class SearchTool(BaseTool):
     name = "search"
     description = "AI semantic web search via Exa"
-    usage = "skilless.ai search <query> [num_results]"
+    usage = "cd ~/.agents/skills/skilless/ && uv run scripts/search.py <query> [num_results]"
     how = "Connects to the Exa MCP endpoint via FastMCP for semantic search"
 
     MCP_URL = "https://mcp.exa.ai/mcp"
@@ -42,7 +42,7 @@ class SearchTool(BaseTool):
 
     def run(self, args: list[str]) -> str:
         if not args:
-            raise ValueError("Usage: skilless.ai search <query> [num_results]")
+            raise ValueError("Usage: cd ~/.agents/skills/skilless/ && uv run scripts/search.py <query> [num_results]")
 
         query = args[0]
         num_results = int(args[1]) if len(args) > 1 else 5
@@ -63,7 +63,7 @@ class SearchTool(BaseTool):
     @property
     def troubleshooting(self) -> list[tuple[str, str]]:
         from pathlib import Path
-        _venv = Path.home() / ".agents/skills/skilless.ai/.venv"
+        _venv = Path.home() / ".agents/skills/skilless/.venv"
         _pip = f"uv pip install --python {_venv}"
         return [
             ("fastmcp not installed", f"Run: {_pip} fastmcp"),

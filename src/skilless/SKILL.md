@@ -16,24 +16,24 @@ Skilless provides AI-powered tools (search, web, ytd, media) and AI skills (brai
 ## Usage
 
 ```bash
-cd ~/.agents/skills/skilless.ai
+cd ~/.agents/skills/skilless/
 
 # Check installation status and all tools
-uv run skilless.ai doctor
+uv run scripts/cli.py doctor
 
 # Check specific tool
-uv run skilless.ai doctor web
-uv run skilless.ai doctor search
-uv run skilless.ai doctor ytd
-uv run skilless.ai doctor media
+uv run scripts/cli.py doctor web
+uv run scripts/cli.py doctor search
+uv run scripts/cli.py doctor ytd
+uv run scripts/cli.py doctor media
 
 # Update skilless to latest version
-uv run skilless.ai update
+uv run scripts/cli.py update
 
 # View available skills
-uv run skilless.ai explain skilless.ai-brainstorming
-uv run skilless.ai explain skilless.ai-research
-uv run skilless.ai explain skilless.ai-writing
+uv run scripts/cli.py explain skilless.ai-brainstorming
+uv run scripts/cli.py explain skilless.ai-research
+uv run scripts/cli.py explain skilless.ai-writing
 
 # Run CLI tools directly (see each skill for details)
 uv run scripts/search.py "query"
@@ -61,7 +61,7 @@ uv run scripts/ffmpeg.py <input> <output>
 
 ## Troubleshooting
 
-Run `cd ~/.agents/skills/skilless.ai && uv run skilless.ai doctor` to diagnose:
+Run `cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor` to diagnose:
 - ✓ web (Jina Reader)
 - ✓ search (Exa Search)
 - ✓ ytd (yt-dlp)

@@ -12,19 +12,19 @@ When using yt-dlp in an agent or AI context, you MUST use the skilless virtual e
 
 ```bash
 # Switch to skilless directory and use uv run
-cd ~/.agents/skills/skilless.ai && uv run yt-dlp [args]
+cd ~/.agents/skills/skilless/ && uv run yt-dlp [args]
 
 # Or use skilless scripts (recommended)
-cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py <URL>
+cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py <URL>
 ```
 
 **Example - Download video:**
 
 ```bash
-cd ~/.agents/skills/skilless.ai && uv run yt-dlp -f "best" -o "~/Downloads/video.mp4" "URL"
+cd ~/.agents/skills/skilless/ && uv run yt-dlp -f "best" -o "~/Downloads/video.mp4" "URL"
 ```
 
-> ⚠️ **Agent Prompt Rule**: Always use `cd ~/.agents/skills/skilless.ai && uv run` before any yt-dlp command. Never call system pip or global yt-dlp directly.
+> ⚠️ **Agent Prompt Rule**: Always use `cd ~/.agents/skills/skilless/ && uv run` before any yt-dlp command. Never call system pip or global yt-dlp directly.
 
 ---
 
@@ -77,7 +77,7 @@ chmod -R 755 ~/.agents
 
 ## yt-dlp / ffmpeg Issues / 视频工具问题
 
-**Symptom**: `skilless.ai ytd` fails with ffmpeg-related errors.
+**Symptom**: `cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py` fails with ffmpeg-related errors.
 
 **Solution**:
 ```bash
@@ -116,7 +116,7 @@ curl -LsSf https://skilless.ai/install | bash
 Run the built-in health check:
 
 ```bash
-skilless.ai doctor
+cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor
 ```
 
 This will verify:
@@ -133,10 +133,10 @@ This will verify:
 To completely remove Skilless:
 
 ```bash
-rm -rf ~/.agents/skills/skilless.ai
-rm -rf ~/.agents/skills/skilless.ai-brainstorming
-rm -rf ~/.agents/skills/skilless.ai-research
-rm -rf ~/.agents/skills/skilless.ai-writing
+rm -rf ~/.agents/skills/skilless
+rm -rf ~/.agents/skills/skilless-brainstorming
+rm -rf ~/.agents/skills/skilless-research
+rm -rf ~/.agents/skills/skilless-writing
 ```
 
 ---
@@ -145,4 +145,4 @@ rm -rf ~/.agents/skills/skilless.ai-writing
 
 - Open an issue: https://github.com/brikerman/skilless.ai/issues
 - Check existing issues for similar problems
-- Include the output of `skilless.ai doctor` in your report
+- Include the output of `cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor` in your report
