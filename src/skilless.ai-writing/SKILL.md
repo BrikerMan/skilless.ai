@@ -64,13 +64,11 @@ cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py input.mp4 output.mp3
 ```
 
 ### Video Transcript Extractor
-```bash
-# Get video content for research (YouTube, Bilibili, TikTok, Vimeo, Twitch, 1700+ sites)
-cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py <video_url>
 
-# Examples:
-cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py https://www.youtube.com/watch?v=abc123
-```
+> ⚠️ **PEP 668 Environment Restriction:** Always use the skilless virtual environment:
+> ```bash
+> cd ~/.agents/skills/skilless/ && uv run yt-dlp [args]
+> ```
 
 ## Output Guidelines
 

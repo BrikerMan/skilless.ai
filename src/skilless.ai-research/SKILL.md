@@ -56,6 +56,20 @@ cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://github.com/modelc
 > ```
 > Never call system pip or global yt-dlp directly.
 
+> 💡 **Direct yt-dlp usage:** You can run full yt-dlp commands directly:
+> ```bash
+> cd ~/.agents/skills/skilless/ && uv run yt-dlp "URL"           # Download video
+> cd ~/.agents/skills/skilless/ && uv run yt-dlp --list-subs "URL"  # List available subtitles
+> cd ~/.agents/skills/skilless/ && uv run yt-dlp --write-subs --write-auto-subs "URL"  # Download subs
+> cd ~/.agents/skills/skilless/ && uv run yt-dlp -x --audio-format mp3 "URL"  # Extract audio
+> ```
+
+> **Download path rules:**
+> - **In a project directory** (e.g., `~/codes/my-project/`) → download directly to current directory
+> - **In home directory** (`~`) → download to `~/Downloads/` by default
+> - **NEVER download to `/tmp`** — requires special permissions and files may be auto-deleted
+> - Use `-o` flag to specify custom output path: `yt-dlp -o "~/Downloads/video.mp4" <url>`
+
 > **Transcript loading rules:**
 > - Download transcript/subtitle files to the current working directory by default — do NOT load the full content into context automatically
 > - Only read the transcript content when the user explicitly asks for it (e.g. "summarize this video", "what does this video say about X", "translate the transcript")
