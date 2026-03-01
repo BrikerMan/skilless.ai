@@ -73,10 +73,7 @@ def load_skills() -> dict[str, dict]:
                     if "FFmpeg" in description or "ffmpeg" in description or "media" in description.lower() or "convert" in description.lower() or "compress" in description.lower():  # noqa: E501
                         if "media" not in tools:
                             tools.append("media")
-                    if "RSS" in description or "rss" in description:
-                        if "rss" not in tools:
-                            tools.append("rss")
-                    
+
                     # Use folder name as key (remove skilless.ai- prefix if present)
                     key = skill_file.parent.name
                     if key.startswith("skilless.ai-"):
@@ -306,7 +303,7 @@ def cmd_update(args: list[str]):
     skills_parent = install_dir.parent
 
     try:
-        for fname in ["base.py", "cli.py", "search.py", "web.py", "youtube.py", "rss.py"]:
+        for fname in ["base.py", "cli.py", "search.py", "web.py", "youtube.py", "ffmpeg.py"]:
             r = httpx.get(f"{github_raw}/src/skilless/scripts/{fname}", timeout=30)
             r.raise_for_status()
             (scripts_dir / fname).write_bytes(r.content)
@@ -358,7 +355,7 @@ def show_help():
     table.add_row("search <query>", "Search the web (Exa)")
     table.add_row("web <url>", "Read a webpage (Jina Reader)")
     table.add_row("ytd <url>", "Extract video/transcript (yt-dlp, 1700+ sites)")
-    table.add_row("rss <url>", "Read an RSS feed")
+    table.add_row("media <input> <output>", "Convert/compress media (FFmpeg)")
 
     console.print(table)
 

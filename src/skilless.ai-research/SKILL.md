@@ -19,7 +19,6 @@ Two operating modes:
 - "download", "extract", "get subtitles/transcript" → use `ytd`
 - "convert", "compress", "encode", "media", "ffmpeg" → use `media`
 - "research", "investigate", "analyze", "compare" → deep multi-source research
-- "latest news", "follow feed" → parse with `rss`
 
 ## CLI Tools
 
@@ -90,17 +89,6 @@ skilless.ai ytd "https://twitter.com/i/status/123456789"
 >   4. 使用 Bilibili 替代（通常更稳定，无需代理）
 > - 详细文档：https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp
 
-### RSS Feed Reader
-
-```bash
-# Parse RSS/Atom feeds
-cd ~/.agents/skills/skilless.ai && uv run scripts/rss.py <feed_url>
-
-skilless.ai rss https://hnrss.org/frontpage
-skilless.ai rss https://feeds.arstechnica.com/arstechnica/index
-skilless.ai rss https://www.reddit.com/r/python/.rss
-```
-
 ### FFmpeg (Media Converter & Compressor)
 
 ```bash
@@ -138,7 +126,7 @@ Grab specific content without deep analysis:
 1. **Search** → `skilless search` to find sources
 2. **Read** → `skilless web` to extract a page
 3. **Extract** → `skilless ytd` for video transcript or metadata
-4. **Feed** → `skilless rss` for latest articles
+4. **Convert** → `skilless media` for media conversion & compression
 
 ## Mode 2: Deep Research
 

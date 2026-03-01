@@ -27,7 +27,7 @@
 
     /* Fonts */
     --font-sans: 'Inter', 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+    --font-mono: 'MapleMono-CN', ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
 
     /* Spacing scale */
     --space-1: 4px;

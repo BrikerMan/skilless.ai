@@ -19,14 +19,15 @@ Use when user needs to: write articles, emails, documentation, reports, or any c
 
 1. **Research** — Use `search` to find relevant information
 2. **Read references** — Use `web` to extract content from sources
-3. **Stay updated** — Use `rss` to follow latest news on topic
+3. **Get video content** — Use `ytd` for video transcripts
 4. **Write** — Produce clear, well-structured content
 
 ## Tools Available
 
 - `search` — Exa AI semantic search
 - `web` — Jina Reader for any webpage
-- `rss` — feedparser for RSS/Atom feeds
+- `ytd` — yt-dlp for video transcripts (1700+ sites)
+- `media` — FFmpeg for media conversion
 
 ## CLI Tools
 
@@ -52,14 +53,14 @@ skilless.ai web https://example.com/article
 skilless.ai web https://docs.example.com/guide
 ```
 
-### RSS Feed Reader
+### Media Converter
 ```bash
-# Follow latest news on your topic
-cd ~/.agents/skills/skilless.ai && uv run scripts/rss.py <feed_url>
+# Convert and compress media files
+cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py <input> <output>
 
 # Examples:
-skilless.ai rss https://feeds.arstechnica.com/arstechnica/index
-skilless.ai rss https://hnrss.org/frontpage
+skilless.ai media video.mkv output.mp4
+skilless.ai media input.mp4 output.mp3
 ```
 
 ### Video Transcript Extractor

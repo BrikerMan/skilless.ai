@@ -102,13 +102,14 @@ cd ~/.agents/skills/skilless.ai && uv run scripts/youtube.py <video_url>
 skilless.ai ytd https://www.youtube.com/watch?v=abc123
 ```
 
-### RSS Feed Reader
+### Media Converter
 ```bash
-# Follow latest news and trends
-cd ~/.agents/skills/skilless.ai && uv run scripts/rss.py <feed_url>
+# Convert and compress media files
+cd ~/.agents/skills/skilless.ai && uv run scripts/ffmpeg.py <input> <output>
 
 # Examples:
-skilless.ai rss https://hnrss.org/frontpage
+skilless.ai media video.mkv output.mp4
+skilless.ai media input.mp4 output.mp3
 ```
 
 ## Key Principles

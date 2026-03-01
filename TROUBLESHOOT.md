@@ -123,7 +123,7 @@ This will verify:
 - ✅ uv is installed and accessible
 - ✅ Virtual environment exists
 - ✅ All Python dependencies are installed
-- ✅ CLI tools (search, web, ytd, rss) are functional
+- ✅ CLI tools (search, web, ytd, media) are functional
 - ✅ ffmpeg is available (optional, for video processing)
 
 ---

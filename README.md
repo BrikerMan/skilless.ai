@@ -44,7 +44,7 @@ Just tell your AI what you need — it reads the skill files and figures out the
 - "Find reviews of this product online" → searches the web
 - "Read what's on this page and summarize it" → extracts clean content from any URL
 - "What does this YouTube video talk about?" → pulls the transcript
-- "Convert this video to mp3" → converts and compresses media files
+- "What's new in this RSS feed?" → parses and summarizes the feed
 
 **You don't need to remember any commands.** That's the point.
 
@@ -96,7 +96,7 @@ irm https://skilless.ai/install.ps1 | iex
 | [Jina Reader](https://github.com/jina-ai/reader) | Web page extraction |
 | [Exa](https://exa.ai) | AI semantic search, free, no key needed |
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp) | Video & subtitle extraction, 1700+ sites |
-| [FFmpeg](https://ffmpeg.org) | Media conversion & compression |
+| [feedparser](https://github.com/kurtmckee/feedparser) | RSS/Atom parsing |
 | [uv](https://github.com/astral-sh/uv) | Ultra-fast Python package manager, isolated deployment |
 
 ---
