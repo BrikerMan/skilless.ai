@@ -108,6 +108,10 @@ Get-ChildItem -Path $SrcPath | ForEach-Object {
     if (Test-Path $Dest) { Remove-Item -Recurse -Force $Dest }
     Copy-Item -Path $_.FullName -Destination $Dest -Recurse -Force
 }
+# Copy README files to skilless/
+Get-ChildItem -Path $SrcDir -Filter "README*.md" | ForEach-Object {
+    Copy-Item -Path $_.FullName -Destination $InstallDir -Force
+}
 
 # Cleanup work dir
 Remove-Item -Recurse -Force $WorkDir -ErrorAction SilentlyContinue
