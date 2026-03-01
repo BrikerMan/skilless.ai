@@ -127,8 +127,7 @@ export const ui = {
         'getstarted.step3.example2': 'I\'m planning a trip to Japan, help me research and create a 7-day Tokyo travel guide with food recommendations',
         'getstarted.step3.example3': 'This YouTube video is too fast, extract the subtitles and organize them into readable notes',
         'getstarted.step3.example4': 'I want to buy noise-canceling headphones, help me search for reviews and recommend the best value option',
-        'getstarted.step3.example5': 'Help me write a polite email to request a day off next Friday for personal matters'
-
+        'getstarted.step3.example5': 'Help me write a polite email to request a day off next Friday for personal matters',
         // Footer
         'footer.license': 'MIT License',
     },
@@ -254,7 +253,7 @@ export const ui = {
         'getstarted.step3.example2': '我想去日本旅游，帮我搜索并整理一份 7 天东京深度游攻略，包含美食推荐',
         'getstarted.step3.example3': '这个 B 站视频讲得太快了，帮我提取字幕并整理成可阅读的笔记',
         'getstarted.step3.example4': '最近想买一款降噪耳机，帮我搜索各个品牌的评测和对比，推荐性价比最高的',
-        'getstarted.step3.example5': '帮我写一封礼貌的邮件，申请下周五请假一天去处理个人事务'
+        'getstarted.step3.example5': '帮我写一封礼貌的邮件，申请下周五请假一天去处理个人事务',
 
         // Footer
         'footer.license': 'MIT License',

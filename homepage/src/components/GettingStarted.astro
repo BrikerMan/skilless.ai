@@ -103,25 +103,8 @@ To upgrade, re-run the install command. No sudo required.`;
           <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-1.5">{t('getstarted.step3.title')}</h3>
           <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">{t('getstarted.step3.desc')}</p>
 
-          <div class="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden font-mono text-sm">
-            <!-- Terminal title bar -->
-            <div class="flex items-center gap-2 px-4 py-2.5 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-              <Terminal size={13} strokeWidth={1.5} class="text-gray-400 dark:text-gray-500" />
-              <span class="text-gray-400 dark:text-gray-500 text-xs">terminal</span>
-            </div>
-            <!-- Terminal content -->
-            <div class="bg-gray-50 dark:bg-gray-950 px-5 py-4 space-y-3 text-gray-700 dark:text-gray-300">
-              <div>
-                <span class="text-green-500 dark:text-green-400 select-none">$ </span>opencode
-              </div>
-              <div class="pt-2">
-                <span class="text-blue-400 dark:text-blue-500 select-none">&gt; </span>{t('getstarted.step3.prompt')}
-              </div>
-            </div>
-          </div>
-
           <!-- Example prompts -->
-          <div class="mt-5">
+          <div>
             <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-3">{t('getstarted.step3.examples')}</p>
             <div class="space-y-2">
               {[1, 2, 3, 4, 5].map(i => (

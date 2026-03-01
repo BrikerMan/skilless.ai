@@ -20,6 +20,22 @@ Two operating modes:
 - "convert", "compress", "encode", "media", "ffmpeg" → use `media`
 - "research", "investigate", "analyze", "compare" → deep multi-source research
 
+## When to Use Todo (MANDATORY FOR RESEARCH)
+
+You **MUST** use `todo_write` (or equivalent project planning tool) when:
+
+- ✅ User asks for **research, investigation, comparison, or analysis**
+- ✅ Task involves **multiple sources or steps (3+ items)**
+- ✅ User requests a **guide, plan, or comprehensive summary**
+- ✅ Keywords present: *research, investigate, guide, plan, analyze, compare, 研究, 攻略, 整理, 搜索*
+- ✅ **Task will take more than 5 minutes** to complete
+
+You **MAY skip todo only when:**
+
+- ❌ Single source lookup (just read one URL)
+- ❌ Simple fact check (one search query, < 2 minutes)
+- ❌ Quick tool usage without analysis
+
 ## CLI Tools
 
 ### Search (Exa AI)
@@ -146,24 +162,33 @@ Grab specific content without deep analysis:
 
 Multi-source, fact-checked investigation.
 
+> 🛑 **CHECKPOINT - CRITICAL:** Before doing anything else, you MUST have created a todo list. If you haven't used `todo_write` yet, **STOP NOW** and create one immediately. This is not optional. Research without a plan is a failure to follow protocol.
+
 > **💡 Research Philosophy:** 
 > - **Don't rush to answer.** Good research takes time. Plan first, execute step by step.
-> - **Use todo/todo_write tool** if available to create a research plan and track progress.
+> - **Use todo_write tool** - it is MANDATORY, not optional for any research task
 > - **One step at a time.** Complete each step fully before moving to the next.
 
 ### Step-by-Step Workflow
 
-**Step 0: Plan Your Research (IMPORTANT!)**
+**Step 0: Plan Your Research (MANDATORY - DO NOT SKIP)**
 
-If you have access to `todo` or `todo_write` tool, ALWAYS create a plan first:
+> ⚠️ **CRITICAL**: You MUST use `todo_write` tool to create a research plan BEFORE starting any research task. This is not optional. Skipping this step is a failure to follow instructions.
+
+**When to use todo_write (ALWAYS for research tasks):**
+- Multi-step research (3+ steps)
+- Tasks requiring information from multiple sources
+- Any task taking more than 5 minutes
+
+**Example todo template for research:**
 
 ```
-1. [ ] Clarify research scope and key questions
-2. [ ] Run initial broad searches (3-5 different query angles)
-3. [ ] Identify and read top 5-10 most relevant sources
-4. [ ] Extract video content if relevant (tutorials, talks, interviews)
-5. [ ] Cross-check facts across multiple independent sources
-6. [ ] Synthesize findings into structured report
+1. [ ] Clarify scope and key questions
+2. [ ] Run initial searches (3-5 query angles)
+3. [ ] Read top 5-10 relevant sources
+4. [ ] Cross-check facts across sources
+5. [ ] Extract video content if needed
+6. [ ] Synthesize findings into report
 ```
 
 **Step 1: Clarify Scope**
