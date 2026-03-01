@@ -107,6 +107,9 @@ export const ui = {
 
         // Hero - LLM tab
         'hero.tab.llm': 'LLM Guide',
+        'hero.llm.hint': 'Paste this into your AI agent\'s system prompt or context window to let it install skilless.ai for users.',
+        'hero.llm.line1': 'Run this command in the user\'s terminal to install skilless.ai:',
+        'hero.llm.line2': 'For Windows (PowerShell):',
         'hero.copy.llm': 'Copy prompt',
 
         // Footer
@@ -214,6 +217,9 @@ export const ui = {
 
         // Hero - LLM tab
         'hero.tab.llm': 'LLM 指南',
+        'hero.llm.hint': '将以下内容粘贴到 AI Agent 的系统提示或上下文窗口，让它帮用户安装 skilless.ai。',
+        'hero.llm.line1': '在用户的终端中运行以下命令安装 skilless.ai：',
+        'hero.llm.line2': 'Windows 用户（PowerShell）：',
         'hero.copy.llm': '复制提示词',
 
         // Footer

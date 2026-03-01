@@ -18,31 +18,30 @@ const faqs = [
 ];
 ---
 
-<section class="faq section section-border">
-  <div class="faq__container">
-    <h2 class="heading-lg faq__title">{t('faq.title')}</h2>
-    <div class="faq__list">
+<section class="py-16 bg-gray-50 dark:bg-gray-950/50 border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-2xl mx-auto px-6">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white text-center mb-8">{t('faq.title')}</h2>
+    <div>
       {faqs.map(item => (
-        <div class="faq-item">
-          <button class="faq-btn">
+        <div class="faq-item border-t border-gray-200 dark:border-gray-800">
+          <button class="faq-btn w-full text-left py-4 flex items-center justify-between gap-4 font-medium text-[0.9375rem] text-gray-900 dark:text-white leading-snug">
             <span>{item.q}</span>
-            <ChevronDown size={16} strokeWidth={1.5} />
+            <ChevronDown size={16} strokeWidth={1.5} class="text-gray-400 dark:text-gray-600 flex-shrink-0" />
           </button>
           <div class="faq-answer">
-            <p>{item.a}</p>
+            <p class="pb-5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{item.a}</p>
           </div>
         </div>
       ))}
-      <!-- Special last FAQ with inline code/link -->
-      <div class="faq-item faq-item--last">
-        <button class="faq-btn">
+      <div class="faq-item border-t border-b border-gray-200 dark:border-gray-800">
+        <button class="faq-btn w-full text-left py-4 flex items-center justify-between gap-4 font-medium text-[0.9375rem] text-gray-900 dark:text-white leading-snug">
           <span>{t('faq.q5')}</span>
-          <ChevronDown size={16} strokeWidth={1.5} />
+          <ChevronDown size={16} strokeWidth={1.5} class="text-gray-400 dark:text-gray-600 flex-shrink-0" />
         </button>
         <div class="faq-answer">
-          <p>
-            {t('faq.a5.prefix')} <code>{t('faq.a5.cmd')}</code> {t('faq.a5.mid')}
-            <a href="https://github.com/brikerman/skilless.ai/blob/main/TROUBLESHOOT.md" target="_blank" class="faq-link">{t('faq.a5.link')}</a>{t('faq.a5.suffix')}
+          <p class="pb-5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+            {t('faq.a5.prefix')} <code class="font-mono text-xs bg-gray-200 dark:bg-gray-800 px-1.5 py-0.5 rounded text-gray-700 dark:text-gray-300">{t('faq.a5.cmd')}</code> {t('faq.a5.mid')}
+            <a href="https://github.com/brikerman/skilless.ai/blob/main/TROUBLESHOOT.md" target="_blank" class="text-gray-900 dark:text-white underline hover:text-gray-600 dark:hover:text-gray-300 transition-colors">{t('faq.a5.link')}</a>{t('faq.a5.suffix')}
           </p>
         </div>
       </div>
@@ -63,78 +62,12 @@ const faqs = [
 </script>
 
 <style>
-  .faq__container {
-    max-width: 672px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  .faq__title {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .faq-item {
-    border-top: 1px solid var(--border-light);
-  }
-
-  .faq-item--last {
-    border-bottom: 1px solid var(--border-light);
-  }
-
-  .faq-btn {
-    width: 100%;
-    text-align: left;
-    padding: 16px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    font-weight: 500;
-    font-size: 0.9375rem;
-    line-height: 1.5;
-  }
-
-  .faq-btn :global(svg) {
-    color: var(--text-tertiary);
-    flex-shrink: 0;
-    transition: transform 0.25s ease;
-  }
-
-  .faq-item.open .faq-btn :global(svg) {
-    transform: rotate(180deg);
-  }
-
+  .faq-btn :global(svg) { transition: transform 0.25s ease; }
+  .faq-item.open .faq-btn :global(svg) { transform: rotate(180deg); }
   .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s ease;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
-
-  .faq-item.open .faq-answer {
-    max-height: 300px;
-    padding-bottom: 20px;
-  }
-
-  .faq-answer p {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    line-height: 1.7;
-  }
-
-  .faq-answer code {
-    font-size: 0.75rem;
-    background: var(--bg-secondary);
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-
-  .faq-link {
-    color: var(--text-primary);
-    text-decoration: underline;
-  }
-
-  .faq-link:hover {
-    color: var(--text-secondary);
-  }
+  .faq-item.open .faq-answer { max-height: 300px; }
 </style>

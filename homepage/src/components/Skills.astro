@@ -11,91 +11,43 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const skills = [
-  { icon: Lightbulb, name: t('skills.brainstorm.name'), desc: t('skills.brainstorm.desc'), bgColor: 'var(--amber-50)', color: 'var(--amber-600)' },
-  { icon: BookOpen, name: t('skills.research.name'), desc: t('skills.research.desc'), bgColor: 'var(--indigo-50)', color: 'var(--indigo-600)' },
-  { icon: PenTool, name: t('skills.writing.name'), desc: t('skills.writing.desc'), bgColor: 'var(--emerald-50)', color: 'var(--emerald-600)' },
+  {
+    icon: Lightbulb,
+    name: t('skills.brainstorm.name'),
+    desc: t('skills.brainstorm.desc'),
+    iconClass: 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400',
+  },
+  {
+    icon: BookOpen,
+    name: t('skills.research.name'),
+    desc: t('skills.research.desc'),
+    iconClass: 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400',
+  },
+  {
+    icon: PenTool,
+    name: t('skills.writing.name'),
+    desc: t('skills.writing.desc'),
+    iconClass: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400',
+  },
 ];
 ---
 
-<section class="skills section section--alt section-border">
-  <div class="skills__container">
-    <div class="skills__header">
-      <h2 class="heading-lg">{t('skills.title')}</h2>
-      <p class="text-sm">{t('skills.subtitle')}</p>
+<section class="py-16 bg-gray-50 dark:bg-gray-950/50 border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">{t('skills.title')}</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto leading-relaxed">{t('skills.subtitle')}</p>
     </div>
-    <div class="skills__grid">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
       {skills.map(skill => (
-        <div class="skill-card hover-lift">
-          <div class="skill-card__icon" style={`background: ${skill.bgColor}; color: ${skill.color};`}>
+        <div class="border border-gray-200 dark:border-gray-800 rounded-xl p-6 bg-white dark:bg-gray-900 hover:-translate-y-0.5 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200">
+          <div class={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${skill.iconClass}`}>
             <skill.icon size={20} strokeWidth={1.5} />
           </div>
-          <h3 class="skill-card__name">{skill.name}</h3>
-          <p class="skill-card__desc">{skill.desc}</p>
+          <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2">{skill.name}</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{skill.desc}</p>
         </div>
       ))}
     </div>
   </div>
 </section>
-
-<style>
-  .skills__container {
-    max-width: 896px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  .skills__header {
-    text-align: center;
-    margin-bottom: 48px;
-  }
-
-  .skills__header h2 {
-    margin-bottom: 12px;
-  }
-
-  .skills__header p {
-    max-width: 448px;
-    margin: 0 auto;
-  }
-
-  .skills__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  @media (min-width: 640px) {
-    .skills__grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .skill-card {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
-    padding: 24px;
-  }
-
-  .skill-card__icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-  }
-
-  .skill-card__name {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .skill-card__desc {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-</style>

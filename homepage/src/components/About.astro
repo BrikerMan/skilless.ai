@@ -1,5 +1,5 @@
 ---
-import { Github, ArrowRight, Building2 } from 'lucide-astro';
+import { Github, ArrowRight, Rocket } from 'lucide-astro';
 import type { Lang } from '../i18n/utils';
 import { useTranslations } from '../i18n/utils';
 
@@ -11,309 +11,122 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<section class="about section section--alt section-border">
-  <div class="about__container">
-    <div class="about__grid">
-      <!-- Author Card -->
-      <div class="about__col">
-        <p class="about__label">{t('about.label.author')}</p>
-        <article class="pcard">
-          <div class="pcard__content">
-            <div class="author-header">
-              <div class="avatar-wrap">
-                <img
-                  src="https://avatars.githubusercontent.com/u/9368907?v=4"
-                  alt={t('about.name')}
-                  class="avatar-img"
-                  loading="lazy"
-                />
-                <span class="status-dot"></span>
-              </div>
-              <div class="author-info">
-                <h3 class="author-name">{t('about.name')}</h3>
-                <p class="author-role">{t('about.role')}</p>
-                <p class="author-gde">Google Developer Expert</p>
-              </div>
-            </div>
-            <a href="https://github.com/BrikerMan" target="_blank" class="author-link">
-              <Github size={14} strokeWidth={1.5} />
-              <span>@BrikerMan</span>
-            </a>
-          </div>
-        </article>
+<section class="py-16 border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-2xl mx-auto px-6">
+
+    <!-- Terminal Window -->
+    <div class="border border-gray-300 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
+
+      <!-- Window Chrome -->
+      <div class="bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-2.5 flex items-center gap-2">
+        <div class="flex gap-1.5">
+          <div class="w-3 h-3 rounded-full bg-red-400 border border-red-500/40"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-400 border border-yellow-500/40"></div>
+          <div class="w-3 h-3 rounded-full bg-green-400 border border-green-500/40"></div>
+        </div>
+        <div class="flex-1 text-center text-xs font-medium font-mono text-gray-500 dark:text-gray-400">
+          terminal — credits.sh
+        </div>
       </div>
 
-      <!-- Company Card -->
-      <div class="about__col about__col--wide">
-        <p class="about__label">{t('about.label.company')}</p>
-        <article class="pcard">
-          <div class="pcard__content">
-            <div class="company-header">
-              <div class="company-brand">
-                <div class="company-icon-wrap">
-                  <Building2 size={18} strokeWidth={1.5} />
-                </div>
-                <div class="company-name-wrap">
-                  <span class="company-name">Yodo1</span>
-                  <span class="forbes-tag">Forbes Top 30 Remote</span>
-                </div>
-              </div>
+      <!-- Terminal Content -->
+      <div class="p-5 bg-white dark:bg-gray-900 font-mono text-xs space-y-3">
+
+        <!-- Prompt -->
+        <div class="flex items-center gap-2">
+          <span class="text-green-600 dark:text-green-400">➜</span>
+          <span class="text-blue-600 dark:text-blue-400">~</span>
+          <span class="text-gray-700 dark:text-gray-300">cat credits.sh</span>
+        </div>
+
+        <div class="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
+
+        <!-- Author comment -->
+        <div class="text-gray-400 dark:text-gray-500"># {t('about.label.author')}</div>
+
+        <!-- Author card -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200 dark:border-blue-800/60 rounded-lg p-3">
+          <div class="flex items-center gap-3 mb-2.5">
+            <img
+              src="https://avatars.githubusercontent.com/u/9368907?v=4"
+              alt={t('about.name')}
+              class="w-11 h-11 rounded-lg border-2 border-blue-300 dark:border-blue-700 flex-shrink-0"
+              loading="lazy"
+            />
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-bold text-gray-900 dark:text-gray-100 mb-0.5">{t('about.name')}</div>
+              <div class="text-[11px] text-gray-600 dark:text-gray-400">{t('about.role')} @ Yodo1</div>
             </div>
-            <p class="company-desc">{t('about.yodo1.desc')}</p>
-            <p class="company-pitch">{t('about.yodo1.pitch')}</p>
-            <a href="https://www.yodo1.com/careers" target="_blank" class="company-link">
-              <span>{t('about.yodo1.cta')}</span>
-              <ArrowRight size={14} strokeWidth={2} />
-            </a>
           </div>
-        </article>
+
+          <div class="flex flex-wrap gap-1.5 mb-2.5">
+            <span class="px-2 py-0.5 bg-blue-500 text-white rounded text-[10px] font-semibold">Google Developer Expert</span>
+            <span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-[10px] font-medium">AI Builder</span>
+            <span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-[10px] font-medium">Engineer</span>
+          </div>
+
+          <a
+            href="https://github.com/BrikerMan"
+            target="_blank"
+            class="inline-flex items-center gap-1.5 text-blue-700 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 font-semibold transition-colors"
+          >
+            <Github size={13} strokeWidth={2} />
+            <span>@BrikerMan</span>
+            <ArrowRight size={11} strokeWidth={2} />
+          </a>
+        </div>
+
+        <div class="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
+
+        <!-- Company comment -->
+        <div class="text-gray-400 dark:text-gray-500"># {t('about.label.company')}</div>
+
+        <!-- Company card -->
+        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-3 bg-gray-50 dark:bg-gray-800/50">
+          <div class="flex items-start gap-2.5 mb-2.5">
+            <div class="h-8 flex items-center justify-center flex-shrink-0">
+              <img
+                src="https://cdn.prod.website-files.com/6887bf4736a1af9bcda0d776/6888c8081469b2c2066f198b_yodo1_logo_web.png.webp"
+                alt="Yodo1"
+                class="h-6 w-auto object-contain dark:invert"
+                loading="lazy"
+              />
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="text-sm font-bold text-gray-900 dark:text-gray-100">Yodo1</span>
+                <span class="px-2 py-0.5 bg-gradient-to-r from-amber-400 to-orange-400 text-white rounded text-[10px] font-bold shadow-sm">
+                  🏆 {t('about.yodo1.badge')}
+                </span>
+              </div>
+              <p class="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">{t('about.yodo1.desc')}</p>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 border border-purple-200 dark:border-purple-800/50 rounded px-3 py-2 mb-2.5">
+            <p class="text-xs font-semibold text-purple-900 dark:text-purple-300">💡 {t('about.yodo1.pitch')}</p>
+          </div>
+
+          <a
+            href="https://www.yodo1.com/careers"
+            target="_blank"
+            class="group flex items-center justify-center gap-2 bg-gray-900 dark:bg-white hover:bg-gray-700 dark:hover:bg-gray-100 text-white dark:text-gray-900 px-3 py-2 rounded text-xs font-semibold transition-colors"
+          >
+            <Rocket size={13} strokeWidth={1.5} />
+            <span>{t('about.yodo1.cta')}</span>
+            <ArrowRight size={11} strokeWidth={2} class="group-hover:translate-x-0.5 transition-transform" />
+          </a>
+        </div>
+
+        <!-- Cursor line -->
+        <div class="flex items-center gap-2 pt-1">
+          <span class="text-green-600 dark:text-green-400">➜</span>
+          <span class="text-blue-600 dark:text-blue-400">~</span>
+          <span class="text-gray-400 dark:text-gray-600 animate-pulse">█</span>
+        </div>
+
       </div>
     </div>
   </div>
 </section>
 
-<style>
-  .about__container {
-    max-width: 896px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  .about__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  @media (min-width: 768px) {
-    .about__grid {
-      grid-template-columns: 1fr 1.5fr;
-      gap: 24px;
-    }
-  }
-
-  .about__col {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .about__label {
-    font-size: 0.6875rem;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 600;
-    margin: 0;
-    padding: 0 2px;
-  }
-
-  /* ═══════════════════════════════
-     Unified Card Base
-     ═══════════════════════════════ */
-  .pcard {
-    position: relative;
-    border-radius: 14px;
-    border: 1px solid var(--border-light);
-    background: var(--bg-primary);
-    overflow: hidden;
-    height: 100%;
-    transition: all 0.2s ease;
-  }
-
-  .pcard:hover {
-    border-color: var(--border-medium);
-    box-shadow: var(--shadow-md);
-  }
-
-  .pcard__content {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    gap: 16px;
-  }
-
-  /* ═══════════════════════════════
-     Author Card
-     ═══════════════════════════════ */
-  .author-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .avatar-wrap {
-    position: relative;
-    flex-shrink: 0;
-  }
-
-  .avatar-img {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--bg-primary);
-    box-shadow: 0 0 0 1px var(--border-light);
-  }
-
-  .status-dot {
-    position: absolute;
-    bottom: 1px;
-    right: 1px;
-    width: 12px;
-    height: 12px;
-    background: #22c55e;
-    border-radius: 50%;
-    border: 2px solid var(--bg-primary);
-  }
-
-  .author-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .author-name {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0 0 2px;
-    letter-spacing: -0.01em;
-  }
-
-  .author-role {
-    font-size: 0.8125rem;
-    color: var(--text-tertiary);
-    margin: 0;
-  }
-
-  .author-gde {
-    font-size: 0.75rem;
-    color: var(--text-tertiary);
-    margin: 2px 0 0;
-    opacity: 0.75;
-  }
-
-  .author-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
-    padding: 6px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border-light);
-    background: var(--bg-secondary);
-    transition: all 0.15s ease;
-    width: fit-content;
-    margin-top: auto;
-  }
-
-  .author-link:hover {
-    color: var(--text-primary);
-    background: var(--bg-tertiary);
-    border-color: var(--border-medium);
-  }
-
-  /* ═══════════════════════════════
-     Company Card
-     ═══════════════════════════════ */
-  .company-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .company-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .company-icon-wrap {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-    border: 1px solid var(--border-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-  }
-
-  .company-name-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .company-name {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-  }
-
-  .forbes-tag {
-    font-size: 0.625rem;
-    font-weight: 600;
-    color: var(--accent-color);
-    background: color-mix(in srgb, var(--accent-color) 8%, transparent);
-    padding: 2px 8px;
-    border-radius: 100px;
-    width: fit-content;
-    letter-spacing: 0.02em;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .forbes-tag {
-      background: rgba(255, 255, 255, 0.08);
-    }
-  }
-
-  .company-desc {
-    font-size: 0.8125rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  .company-pitch {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
-    margin-top: auto;
-  }
-
-  .company-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #fff;
-    background: var(--accent-color);
-    padding: 8px 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.15s ease;
-    width: fit-content;
-    margin-top: auto;
-  }
-
-  .company-link:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .company-link:hover {
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-    }
-  }
-</style>

@@ -17,62 +17,18 @@ const highlights = [
 ];
 ---
 
-<section class="highlights section section-border">
-  <div class="highlights__container">
-    <div class="highlights__grid">
+<section class="py-16 border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
       {highlights.map(item => (
-        <div class="highlight-item">
-          <div class="highlight-item__icon">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 flex items-center justify-center mx-auto mb-3">
             <item.icon size={20} strokeWidth={1.5} />
           </div>
-          <h3 class="highlight-item__title">{item.title}</h3>
-          <p class="highlight-item__desc">{item.desc}</p>
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-1.5">{item.title}</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{item.desc}</p>
         </div>
       ))}
     </div>
   </div>
 </section>
-
-<style>
-  .highlights__container {
-    max-width: 896px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  .highlights__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 32px;
-    text-align: center;
-  }
-
-  @media (min-width: 640px) {
-    .highlights__grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .highlight-item__icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 12px;
-  }
-
-  .highlight-item__title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-
-  .highlight-item__desc {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-  }
-</style>

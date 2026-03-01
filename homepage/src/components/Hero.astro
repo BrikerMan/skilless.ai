@@ -13,99 +13,127 @@ const t = useTranslations(lang);
 const macCmd = lang === 'zh'
   ? 'curl -LsSf https://skilless.ai/install | bash -s -- --china'
   : 'curl -LsSf https://skilless.ai/install | bash';
-const winCmd = lang === 'zh'
-  ? '& ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -China'
-  : 'irm https://skilless.ai/install.ps1 | iex';
+const winCmd = 'irm https://skilless.ai/install.ps1 | iex';
 
 const llmPrompt = `# Install skilless.ai\n\nRun this command in the user's terminal to install skilless.ai:\n\n\`\`\`bash\n${macCmd}\n\`\`\`\n\nFor Windows (PowerShell):\n\`\`\`powershell\n${winCmd}\n\`\`\``;
+
+const macCmdHtml = lang === 'zh'
+  ? `<span class="text-sky-500 dark:text-sky-400">curl</span><span class="text-gray-400 dark:text-gray-500"> -LsSf </span><span class="text-emerald-500 dark:text-emerald-400">https://skilless.ai/install</span><span class="text-amber-400"> | </span><span class="text-sky-500 dark:text-sky-400">bash</span><span class="text-gray-400 dark:text-gray-500"> -s -- --china</span>`
+  : `<span class="text-sky-500 dark:text-sky-400">curl</span><span class="text-gray-400 dark:text-gray-500"> -LsSf </span><span class="text-emerald-500 dark:text-emerald-400">https://skilless.ai/install</span><span class="text-amber-400"> | </span><span class="text-sky-500 dark:text-sky-400">bash</span>`;
+
+const winCmdHtml = `<span class="text-sky-500 dark:text-sky-400">irm</span> <span class="text-emerald-500 dark:text-emerald-400">https://skilless.ai/install.ps1</span><span class="text-amber-400"> | </span><span class="text-sky-500 dark:text-sky-400">iex</span>`;
 ---
 
-<section class="hero">
-  <div class="hero__container">
-    <h1 class="hero__title">
+<section class="py-20 px-6">
+  <div class="max-w-2xl mx-auto text-center">
+
+    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.15] mb-5 text-gray-900 dark:text-white">
       {t('hero.title.1')}<br />{t('hero.title.2')}
     </h1>
-    <p class="hero__subtitle">
+    <p class="text-lg text-gray-500 dark:text-gray-400 leading-relaxed max-w-md mx-auto mb-4">
       {t('hero.subtitle')}<br />{t('hero.subtitle2')}
     </p>
-    <p class="hero__desc">
+    <p class="text-sm text-gray-400 dark:text-gray-500 mb-10">
       {t('hero.desc.1')}<br />
-      {t('hero.desc.2')} <strong>{t('hero.desc.strong')}</strong> {t('hero.desc.3')}
+      {t('hero.desc.2')} <strong class="text-gray-500 dark:text-gray-400">{t('hero.desc.strong')}</strong> {t('hero.desc.3')}
     </p>
 
     <!-- Install Box -->
-    <div class="install-box" id="install-box">
-      <div class="install-tabs">
-        <button class="tab-btn active" data-target="cmd-mac">
+    <div id="install-box" class="max-w-xl mx-auto rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm bg-white dark:bg-gray-900">
+      <!-- Tabs -->
+      <div class="flex border-b border-gray-200 dark:border-gray-800 text-sm">
+        <button class="tab-btn active relative px-5 py-2.5 flex items-center gap-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" data-target="cmd-mac">
           <Apple size={16} strokeWidth={1.5} /> {t('hero.tab.mac')}
         </button>
-        <button class="tab-btn" data-target="cmd-win">
+        <button class="tab-btn relative px-5 py-2.5 flex items-center gap-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" data-target="cmd-win">
           <Monitor size={16} strokeWidth={1.5} /> {t('hero.tab.win')}
         </button>
-        <button class="tab-btn" data-target="cmd-llm">
+        <button class="tab-btn relative px-5 py-2.5 flex items-center gap-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" data-target="cmd-llm">
           <Bot size={16} strokeWidth={1.5} /> {t('hero.tab.llm')}
         </button>
       </div>
-      <div id="cmd-mac" class="cmd-panel cmd-panel--visible">
-        <div class="cmd-text"><span class="cmd-prompt">$</span>{macCmd}</div>
-        <button class="copy-btn" data-copy={macCmd} title={t('hero.copy')}>
+
+      <!-- Mac panel -->
+      <div id="cmd-mac" class="cmd-panel flex items-start justify-between gap-3 px-5 py-3.5 bg-gray-50 dark:bg-gray-950 font-mono text-sm">
+        <div class="text-gray-700 dark:text-gray-300 min-w-0 break-all text-left">
+          <span class="text-green-500 dark:text-green-400 select-none mr-2">$</span><span set:html={macCmdHtml} />
+        </div>
+        <button class="copy-btn flex-shrink-0 p-1.5 rounded text-gray-400 dark:text-gray-600 hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-copy={macCmd} title={t('hero.copy')}>
           <Copy size={16} strokeWidth={1.5} />
         </button>
       </div>
-      <div id="cmd-win" class="cmd-panel">
-        <div class="cmd-text"><span class="cmd-prompt">&gt;</span>{winCmd}</div>
-        <button class="copy-btn" data-copy={winCmd} title={t('hero.copy')}>
+
+      <!-- Win panel -->
+      <div id="cmd-win" class="cmd-panel hidden items-start justify-between gap-3 px-5 py-3.5 bg-gray-50 dark:bg-gray-950 font-mono text-sm">
+        <div class="text-gray-700 dark:text-gray-300 min-w-0 break-all text-left">
+          <span class="text-gray-400 dark:text-gray-500 select-none mr-2">&gt;</span><span set:html={winCmdHtml} />
+        </div>
+        <button class="copy-btn flex-shrink-0 p-1.5 rounded text-gray-400 dark:text-gray-600 hover:text-gray-700 dark:hover:text-gray-300 transition-colors" data-copy={winCmd} title={t('hero.copy')}>
           <Copy size={16} strokeWidth={1.5} />
         </button>
       </div>
-      <div id="cmd-llm" class="cmd-panel cmd-panel--llm">
-        <pre class="llm-text">{`# Install skilless.ai
 
-Run this command in the user's terminal to install skilless.ai:
-
-\`\`\`bash
-${macCmd}
-\`\`\`
-
-For Windows (PowerShell):
-\`\`\`powershell
-${winCmd}
-\`\`\``}</pre>
-        <button class="copy-btn copy-btn--llm" data-copy={llmPrompt} title={t('hero.copy.llm')}>
-          <Copy size={14} strokeWidth={1.5} />
-          <span class="copy-label">{t('hero.copy.llm')}</span>
-        </button>
+      <!-- LLM panel -->
+      <div id="cmd-llm" class="cmd-panel hidden px-5 py-4 bg-gray-50 dark:bg-gray-950">
+        <div class="flex items-start justify-between gap-3 mb-3">
+          <p class="text-xs text-gray-400 dark:text-gray-500 font-sans leading-relaxed text-left">{t('hero.llm.hint')}</p>
+          <button class="copy-btn flex-shrink-0 flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-600 hover:text-gray-700 dark:hover:text-gray-300 transition-colors border border-gray-200 dark:border-gray-700 rounded px-2.5 py-1 bg-white dark:bg-gray-900" data-copy={llmPrompt} title={t('hero.copy.llm')}>
+            <Copy size={13} strokeWidth={1.5} />
+            <span class="copy-label font-sans">{t('hero.copy.llm')}</span>
+          </button>
+        </div>
+        <!-- Rendered markdown -->
+        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-4 py-3 text-left space-y-2.5">
+          <p class="font-mono text-xs font-bold text-gray-700 dark:text-gray-300"># Install skilless.ai</p>
+          <p class="font-sans text-xs text-gray-500 dark:text-gray-400">{t('hero.llm.line1')}</p>
+          <!-- bash block -->
+          <div class="rounded border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="bg-gray-100 dark:bg-gray-800 px-3 py-0.5 flex items-center gap-1.5">
+              <span class="font-mono text-[10px] text-gray-400 dark:text-gray-500">bash</span>
+            </div>
+            <div class="px-3 py-2 font-mono text-xs"><span set:html={macCmdHtml} /></div>
+          </div>
+          <p class="font-sans text-xs text-gray-500 dark:text-gray-400">{t('hero.llm.line2')}</p>
+          <!-- powershell block -->
+          <div class="rounded border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="bg-gray-100 dark:bg-gray-800 px-3 py-0.5 flex items-center gap-1.5">
+              <span class="font-mono text-[10px] text-gray-400 dark:text-gray-500">powershell</span>
+            </div>
+            <div class="px-3 py-2 font-mono text-xs"><span set:html={winCmdHtml} /></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- What does this install -->
-    <div class="install-info">
-      <button class="install-toggle" id="install-toggle">
+    <!-- Install info toggle -->
+    <div class="max-w-lg mx-auto mt-3">
+      <button class="install-toggle w-full flex items-center justify-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 py-2 transition-colors" id="install-toggle">
         <span>{t('hero.install.toggle')}</span>
         <ChevronDown size={12} strokeWidth={1.5} />
       </button>
       <div class="install-details" id="install-details">
-        <div class="install-steps">
-          <div class="install-step">
-            <span class="step-num">1</span>
-            <div><strong>{t('hero.install.step1.title')}</strong> {t('hero.install.step1.desc')} <code>github.com/brikerman/skilless.ai</code></div>
+        <div class="mt-2 border border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-gray-900 px-5 py-4 text-left text-sm text-gray-600 dark:text-gray-400 space-y-3">
+          <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-5 h-5 rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-mono font-bold flex items-center justify-center">1</span>
+            <div><strong class="text-gray-800 dark:text-gray-200">{t('hero.install.step1.title')}</strong> {t('hero.install.step1.desc')} <code class="text-xs bg-gray-200 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono text-gray-700 dark:text-gray-300">github.com/brikerman/skilless.ai</code></div>
           </div>
-          <div class="install-step">
-            <span class="step-num">2</span>
-            <div><strong>{t('hero.install.step2.title')}</strong> {t('hero.install.step2.desc')}</div>
+          <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-5 h-5 rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-mono font-bold flex items-center justify-center">2</span>
+            <div><strong class="text-gray-800 dark:text-gray-200">{t('hero.install.step2.title')}</strong> {t('hero.install.step2.desc')}</div>
           </div>
-          <div class="install-step">
-            <span class="step-num">3</span>
-            <div><strong>{t('hero.install.step3.title')}</strong> {t('hero.install.step3.desc')} <code>~/.agents/skills/</code> {t('hero.install.step3.desc2')} <code>yt-dlp</code> <code>fastmcp</code> <code>jina reader</code> <code>feedparser</code></div>
+          <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-5 h-5 rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-mono font-bold flex items-center justify-center">3</span>
+            <div><strong class="text-gray-800 dark:text-gray-200">{t('hero.install.step3.title')}</strong> {t('hero.install.step3.desc')} <code class="text-xs bg-gray-200 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono text-gray-700 dark:text-gray-300">~/.agents/skills/</code> {t('hero.install.step3.desc2')} <code class="text-xs bg-gray-200 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono text-gray-700 dark:text-gray-300">yt-dlp</code> <code class="text-xs bg-gray-200 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono text-gray-700 dark:text-gray-300">fastmcp</code></div>
           </div>
-          <div class="install-step">
-            <span class="step-num">4</span>
-            <div><strong>{t('hero.install.step4.title')}</strong> {t('hero.install.step4.desc')} <code>skilless.ai</code> {t('hero.install.step4.desc2')}</div>
+          <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-5 h-5 rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-mono font-bold flex items-center justify-center">4</span>
+            <div><strong class="text-gray-800 dark:text-gray-200">{t('hero.install.step4.title')}</strong> {t('hero.install.step4.desc')} <code class="text-xs bg-gray-200 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono text-gray-700 dark:text-gray-300">skilless.ai</code> {t('hero.install.step4.desc2')}</div>
           </div>
-          <p class="install-footer">{t('hero.install.footer')}</p>
+          <p class="text-xs text-gray-400 dark:text-gray-500 pt-2 border-t border-gray-200 dark:border-gray-700">{t('hero.install.footer')}</p>
         </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -114,11 +142,11 @@ ${winCmd}
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.cmd-panel').forEach(p => p.classList.remove('cmd-panel--visible'));
+      document.querySelectorAll('.cmd-panel').forEach(p => p.classList.add('hidden'));
       btn.classList.add('active');
       const target = btn.getAttribute('data-target');
       if (target) {
-        document.getElementById(target)?.classList.add('cmd-panel--visible');
+        document.getElementById(target)?.classList.remove('hidden');
       }
     });
   });
@@ -145,256 +173,25 @@ ${winCmd}
 </script>
 
 <style>
-  .hero {
-    padding: 80px 24px 64px;
-  }
-
-  .hero__container {
-    max-width: 640px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .hero__title {
-    font-size: 2.25rem;
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    line-height: 1.15;
-    margin-bottom: 20px;
-  }
-
-  @media (min-width: 640px) {
-    .hero__title {
-      font-size: 3rem;
-    }
-  }
-
-  .hero__subtitle {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    max-width: 480px;
-    margin: 0 auto 16px;
-  }
-
-  .hero__desc {
-    font-size: 0.875rem;
-    color: var(--text-tertiary);
-    margin-bottom: 40px;
-  }
-
-  .hero__desc strong {
-    color: var(--text-secondary);
-  }
-
-  /* Install Box */
-  .install-box {
-    max-width: 512px;
-    margin: 0 auto;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: var(--bg-primary);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .install-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border-light);
-    font-size: 0.875rem;
-  }
-
-  .tab-btn {
-    position: relative;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-tertiary);
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: color 0.15s ease;
-  }
-
-  .tab-btn:hover {
-    color: var(--text-secondary);
-  }
-
-  .tab-btn.active {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
+  /* Tab active state */
+  .tab-btn.active { color: #111827; font-weight: 600; }
   .tab-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--text-primary);
+    content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+    height: 2px; background: #111827;
   }
-
-  .cmd-panel {
-    padding: 14px 20px;
-    background: var(--bg-secondary);
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+  @media (prefers-color-scheme: dark) {
+    .tab-btn.active { color: #f9fafb; }
+    .tab-btn.active::after { background: #f9fafb; }
   }
-
-  .cmd-panel--visible {
-    display: flex;
-  }
-
-  .cmd-prompt {
-    color: var(--text-tertiary);
-    user-select: none;
-    margin-right: 8px;
-  }
-
-  .copy-btn {
-    color: var(--text-tertiary);
-    flex-shrink: 0;
-    padding: 4px;
-    border-radius: var(--radius-sm);
-    transition: color 0.15s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .copy-btn:hover {
-    color: var(--text-primary);
-  }
-
-  .copy-btn.copied {
-    color: #16a34a;
-  }
-
-  /* LLM panel */
-  .cmd-panel--llm {
-    flex-direction: column;
-    align-items: stretch;
-    position: relative;
-  }
-
-  .cmd-panel--llm.cmd-panel--visible {
-    display: flex;
-  }
-
-  .llm-text {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--text-secondary);
-    line-height: 1.65;
-    white-space: pre-wrap;
-    word-break: break-word;
-    margin: 0;
-    padding-right: 80px;
-    text-align: left;
-  }
-
-  .copy-btn--llm {
-    position: absolute;
-    top: 14px;
-    right: 16px;
-    gap: 4px;
-    padding: 5px 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-light);
-    background: var(--bg-primary);
-    font-size: 0.6875rem;
-  }
-
-  .copy-btn--llm:hover {
-    border-color: var(--text-tertiary);
-  }
-
-  .copy-label {
-    font-family: var(--font-sans, system-ui, sans-serif);
-  }
-
-  /* Install Info */
-  .install-info {
-    max-width: 512px;
-    margin: 12px auto 0;
-  }
-
-  .install-toggle {
-    font-size: 0.75rem;
-    color: var(--text-tertiary);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin: 0 auto;
-    transition: color 0.15s ease;
-  }
-
-  .install-toggle:hover {
-    color: var(--text-secondary);
-  }
-
-  .install-toggle :global(svg) {
-    transition: transform 0.25s ease;
-  }
-
-  .install-toggle.open :global(svg) {
-    transform: rotate(180deg);
-  }
-
-  .install-details {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .install-details.open {
-    max-height: 500px;
-  }
-
-  .install-steps {
-    margin-top: 12px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    text-align: left;
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-  }
-
-  .install-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 10px;
-  }
-
-  .install-step strong {
-    color: var(--text-primary);
-  }
-
-  .step-num {
-    background: var(--bg-tertiary);
-    color: var(--text-secondary);
-    font-size: 0.75rem;
-    font-family: var(--font-mono);
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-top: 2px;
-    flex-shrink: 0;
-  }
-
-  .install-footer {
-    font-size: 0.75rem;
-    color: var(--text-tertiary);
-    padding-top: 8px;
-    border-top: 1px solid var(--border-light);
-    margin-top: 4px;
-  }
+  /* Win/LLM panel restore display when not hidden */
+  .cmd-panel:not(.hidden) { display: flex; }
+  #cmd-llm:not(.hidden) { display: block; }
+  /* Copy feedback */
+  .copy-btn.copied { color: #16a34a !important; }
+  /* Install accordion */
+  .install-details { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .install-details.open { max-height: 520px; }
+  .install-toggle :global(svg) { transition: transform 0.25s ease; }
+  .install-toggle.open :global(svg) { transform: rotate(180deg); }
 </style>
+
