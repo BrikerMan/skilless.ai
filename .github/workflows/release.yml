@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - 'release/v*'
 
 permissions:
   contents: write
@@ -17,7 +17,10 @@ jobs:
 
       - name: Get version
         id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: |
+          # release/v2025.01.01 → 2025.01.01
+          VERSION="${GITHUB_REF#refs/tags/release/v}"
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Update VERSION file
         run: echo "${{ steps.version.outputs.VERSION }}" > src/skilless/VERSION
@@ -25,38 +28,30 @@ jobs:
       - name: Create distribution directory
         run: mkdir -p dist
 
-      - name: Build package (cross-platform)
+      - name: Build package
         run: |
-          # Create base package structure
           mkdir -p package/src/skilless/scripts
           mkdir -p package/src/skilless.ai-brainstorming
           mkdir -p package/src/skilless.ai-research
           mkdir -p package/src/skilless.ai-writing
-          
-          # Copy pyproject.toml and README
+
           cp pyproject.toml package/
           cp README.md package/
-          
-          # Copy VERSION
           cp src/skilless/VERSION package/src/skilless/
-          
-          # Copy core package
           cp src/skilless/__init__.py package/src/skilless/
           cp src/skilless/SKILL.md package/src/skilless/
           cp -r src/skilless/scripts/*.py package/src/skilless/scripts/
-          
-          # Copy skills
           cp src/skilless.ai-brainstorming/SKILL.md package/src/skilless.ai-brainstorming/
           cp src/skilless.ai-research/SKILL.md package/src/skilless.ai-research/
           cp src/skilless.ai-writing/SKILL.md package/src/skilless.ai-writing/
-          
-          # Create zip
+
           cd package
-          zip -r ../dist/skilless-${{ steps.version.outputs.VERSION }}.zip .
-          
-      - name: Upload Release Asset
+          zip -r ../dist/skilless.zip .
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/*.zip
-          generate_release_notes: true
+          tag_name: ${{ github.ref_name }}
+          name: v${{ steps.version.outputs.VERSION }}
+          files: dist/skilless.zip
           generate_release_notes: true

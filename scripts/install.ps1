@@ -51,7 +51,7 @@ if ($Dev) {
     Write-Host "  Checking latest release..."
     try {
         $Release = Invoke-RestMethod -Uri $GithubApi -UseBasicParsing
-        $LatestVersion = $Release.tag_name -replace '^v', ''
+        $LatestVersion = $Release.tag_name -replace '^release/v?', ''
     } catch {
         Write-Host "  ✗ Failed to fetch latest version from GitHub" -ForegroundColor Red
         exit 1
@@ -66,7 +66,7 @@ if ($Dev) {
         exit 0
     }
 
-    $AssetName = "skilless-windows-$Arch.zip"
+    $AssetName = "skilless.zip"
     $DownloadUrl = "$GithubRelease/$AssetName"
 }
 
