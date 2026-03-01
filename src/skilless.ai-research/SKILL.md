@@ -144,13 +144,60 @@ Grab specific content without deep analysis:
 
 ## Mode 2: Deep Research
 
-Multi-source, fact-checked investigation:
+Multi-source, fact-checked investigation.
 
-1. **Search broadly** — Run multiple searches with varied queries
-2. **Read key sources** — Extract content from top results
-3. **Get video content** — Pull transcripts from talks, tutorials, interviews
-4. **Cross-check** — Verify facts across at least 3 independent sources
-5. **Synthesize** — Compile findings into a structured report
+> **💡 Research Philosophy:** 
+> - **Don't rush to answer.** Good research takes time. Plan first, execute step by step.
+> - **Use todo/todo_write tool** if available to create a research plan and track progress.
+> - **One step at a time.** Complete each step fully before moving to the next.
+
+### Step-by-Step Workflow
+
+**Step 0: Plan Your Research (IMPORTANT!)**
+
+If you have access to `todo` or `todo_write` tool, ALWAYS create a plan first:
+
+```
+1. [ ] Clarify research scope and key questions
+2. [ ] Run initial broad searches (3-5 different query angles)
+3. [ ] Identify and read top 5-10 most relevant sources
+4. [ ] Extract video content if relevant (tutorials, talks, interviews)
+5. [ ] Cross-check facts across multiple independent sources
+6. [ ] Synthesize findings into structured report
+```
+
+**Step 1: Clarify Scope**
+
+Before searching, understand:
+- What specific questions need answering?
+- What timeframe is relevant?
+- What type of sources are needed (academic, news, official docs, reviews)?
+
+**Step 2: Search Broadly**
+
+Run multiple searches with varied queries:
+- Different keyword combinations
+- Both broad and specific terms
+- Multiple languages if relevant
+
+**Step 3: Read Key Sources**
+
+Extract content from top results:
+- Prioritize authoritative sources
+- Take notes on key findings
+- Save URLs for citation
+
+**Step 4: Get Video Content**
+
+Pull transcripts from talks, tutorials, interviews when relevant.
+
+**Step 5: Cross-check**
+
+Verify facts across at least 3 independent sources. Flag conflicting information.
+
+**Step 6: Synthesize**
+
+Compile findings into a structured report. Don't rush this step.
 
 ## Output Format
 

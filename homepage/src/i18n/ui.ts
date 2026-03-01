@@ -121,8 +121,13 @@ export const ui = {
         'getstarted.step2.label': 'LLM install prompt',
         'getstarted.step2.copy': 'Copy prompt',
         'getstarted.step3.title': 'Ask Anything',
-        'getstarted.step3.desc': 'Open your terminal, type opencode to launch the agent, and start chatting. Your agent now has real-world data superpowers through skilless.ai.',
-        'getstarted.step3.prompt': 'Download the video and subtitles from https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        'getstarted.step3.desc': 'Open the OpenCode app and start chatting with AI. Your agent now has real-world data superpowers through skilless.ai.',
+        'getstarted.step3.examples': 'Try these examples:',
+        'getstarted.step3.example1': 'Download this YouTube video for me: https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        'getstarted.step3.example2': 'I\'m planning a trip to Japan, help me research and create a 7-day Tokyo travel guide with food recommendations',
+        'getstarted.step3.example3': 'This YouTube video is too fast, extract the subtitles and organize them into readable notes',
+        'getstarted.step3.example4': 'I want to buy noise-canceling headphones, help me search for reviews and recommend the best value option',
+        'getstarted.step3.example5': 'Help me write a polite email to request a day off next Friday for personal matters'
 
         // Footer
         'footer.license': 'MIT License',
@@ -243,8 +248,13 @@ export const ui = {
         'getstarted.step2.label': 'LLM 安装提示词',
         'getstarted.step2.copy': '复制提示词',
         'getstarted.step3.title': '开始提问',
-        'getstarted.step3.desc': '打开终端，输入 opencode 启动 Agent，然后直接向它提问。你的 Agent 现在已经获得了真实世界的数据超能力。',
-        'getstarted.step3.prompt': '下载视频和字幕：https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        'getstarted.step3.desc': '打开 OpenCode 应用，直接向 AI 提问。你的 Agent 现在已经获得了真实世界的数据超能力。',
+        'getstarted.step3.examples': '试试这些例子：',
+        'getstarted.step3.example1': '帮我把这个 YouTube 视频下载到本地：https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        'getstarted.step3.example2': '我想去日本旅游，帮我搜索并整理一份 7 天东京深度游攻略，包含美食推荐',
+        'getstarted.step3.example3': '这个 B 站视频讲得太快了，帮我提取字幕并整理成可阅读的笔记',
+        'getstarted.step3.example4': '最近想买一款降噪耳机，帮我搜索各个品牌的评测和对比，推荐性价比最高的',
+        'getstarted.step3.example5': '帮我写一封礼貌的邮件，申请下周五请假一天去处理个人事务'
 
         // Footer
         'footer.license': 'MIT License',
