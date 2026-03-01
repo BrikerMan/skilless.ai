@@ -19,3 +19,6 @@ homepage/.astro/
 # Environment
 .env
 .env.*
+homepage/public/install
+homepage/public/install.ps1
+homepage/public/.assetsignore
