@@ -6,7 +6,8 @@
 set -e
 
 REPO="brikerman/skilless.ai"
-INSTALL_DIR="$HOME/.agents/skills/skilless"
+SKILLS_DIR="$HOME/.agents/skills"
+INSTALL_DIR="$SKILLS_DIR/skilless"
 GITHUB_API="https://api.github.com/repos/$REPO/releases/latest"
 GITHUB_RELEASE="https://github.com/$REPO/releases/latest/download"
 
@@ -87,10 +88,10 @@ fi
 
 # ---- Download ----
 echo "  ↓ Downloading..."
-TMPDIR_DL="$(mktemp -d)"
-trap 'rm -rf "$TMPDIR_DL"' EXIT
+TMPDIR_WORK="$(mktemp -d)"
+trap 'rm -rf "$TMPDIR_WORK"' EXIT
 
-if ! curl -fsSL -o "$TMPDIR_DL/$ASSET_NAME" "$DOWNLOAD_URL" 2>/dev/null; then
+if ! curl -fsSL -o "$TMPDIR_WORK/$ASSET_NAME" "$DOWNLOAD_URL" 2>/dev/null; then
   echo "  ✗ Failed to download: $DOWNLOAD_URL"
   echo "  See https://github.com/$REPO/releases for available releases."
   exit 1
@@ -98,22 +99,42 @@ fi
 
 echo "  ✓ Downloaded"
 
-# ---- Extract ----
+# ---- Extract to temp ----
 echo "  ↓ Extracting..."
-rm -rf "$INSTALL_DIR"
-mkdir -p "$INSTALL_DIR"
+unzip -qo "$TMPDIR_WORK/$ASSET_NAME" -d "$TMPDIR_WORK/extracted"
 
+# GitHub archive ZIPs have an inner dir (e.g. skilless.ai-main/); release ZIPs do not
 if [ "$DEV" = "true" ]; then
-  TMPDIR_X="$(mktemp -d)"
-  unzip -qo "$TMPDIR_DL/$ASSET_NAME" -d "$TMPDIR_X"
-  INNER_DIR="$(find "$TMPDIR_X" -maxdepth 1 -mindepth 1 -type d | head -1)"
-  cp -a "$INNER_DIR/." "$INSTALL_DIR/"
-  rm -rf "$TMPDIR_X"
+  SRC_DIR="$(find "$TMPDIR_WORK/extracted" -maxdepth 1 -mindepth 1 -type d | head -1)"
 else
-  unzip -qo "$TMPDIR_DL/$ASSET_NAME" -d "$INSTALL_DIR"
+  SRC_DIR="$TMPDIR_WORK/extracted"
 fi
 
-echo "  ✓ Extracted to $INSTALL_DIR"
+echo "  ✓ Extracted"
+
+# ---- Copy files to install locations ----
+echo "  ↓ Installing files..."
+
+mkdir -p "$INSTALL_DIR"
+
+# src/skilless/ contents -> skilless/
+rm -rf "$INSTALL_DIR/scripts" "$INSTALL_DIR/__pycache__"
+cp -a "$SRC_DIR/src/skilless/." "$INSTALL_DIR/"
+
+# Root files -> skilless/
+cp -f "$SRC_DIR/pyproject.toml" "$INSTALL_DIR/pyproject.toml"
+[ -f "$SRC_DIR/uv.lock" ]         && cp -f "$SRC_DIR/uv.lock" "$INSTALL_DIR/uv.lock"
+[ -f "$SRC_DIR/TROUBLESHOOT.md" ] && cp -f "$SRC_DIR/TROUBLESHOOT.md" "$INSTALL_DIR/TROUBLESHOOT.md"
+
+# src/skilless.ai-*/ -> skills/skilless.ai-*/
+for skill_dir in "$SRC_DIR"/src/skilless.ai-*/; do
+  [ -d "$skill_dir" ] || continue
+  skill_name="$(basename "$skill_dir")"
+  mkdir -p "$SKILLS_DIR/$skill_name"
+  cp -a "$skill_dir/." "$SKILLS_DIR/$skill_name/"
+done
+
+echo "  ✓ Files installed"
 
 # ---- Check / install uv ----
 if command -v uv &>/dev/null; then
@@ -138,13 +159,14 @@ fi
 # ---- Virtual environment ----
 echo "  ↓ Setting up virtual environment..."
 uv venv "$INSTALL_DIR/.venv" --python ">=3.12" --quiet 2>/dev/null
-echo "  ✓ Virtual environment ready (Python $(\"$INSTALL_DIR/.venv/bin/python\" --version 2>&1 | awk '{print $2}'))"
+PY_VER="$("$INSTALL_DIR/.venv/bin/python" --version 2>&1 | awk '{print $2}')"
+echo "  ✓ Virtual environment ready (Python ${PY_VER})"
 
-# ---- Install dependencies ----
+# ---- Install dependencies from source (before tmp is cleaned) ----
 echo "  ↓ Installing dependencies..."
-if [ -f "$INSTALL_DIR/pyproject.toml" ]; then
+if [ -f "$SRC_DIR/pyproject.toml" ]; then
   uv pip install --python "$INSTALL_DIR/.venv/bin/python" \
-    -e "$INSTALL_DIR" \
+    "$SRC_DIR" \
     --index-url "$UV_INDEX_URL" \
     --quiet 2>/dev/null
 else
@@ -157,28 +179,12 @@ fi
 echo "  ✓ Dependencies installed"
 
 # ---- CLI wrapper ----
-if [ "$DEV" = "true" ]; then
-  CLI_SCRIPT="src/skilless/scripts/cli.py"
-else
-  CLI_SCRIPT="scripts/cli.py"
-fi
-
-cat > "$INSTALL_DIR/skilless" << WRAPPER
+cat > "$INSTALL_DIR/skilless" << 'WRAPPER'
 #!/bin/bash
-SCRIPT_DIR="\$(cd "\$(dirname "\$0")" && pwd)"
-exec "\$SCRIPT_DIR/.venv/bin/python" "\$SCRIPT_DIR/${CLI_SCRIPT}" "\$@"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+exec "$SCRIPT_DIR/.venv/bin/python" "$SCRIPT_DIR/scripts/cli.py" "$@"
 WRAPPER
 chmod +x "$INSTALL_DIR/skilless"
-
-# ---- Install skill files ----
-SKILLS_DIR="$HOME/.agents/skills"
-for skill_dir in "$INSTALL_DIR"/skilless.ai-*/ "$INSTALL_DIR"/src/skilless.ai-*/; do
-  if [ -d "$skill_dir" ]; then
-    skill_name="$(basename "$skill_dir")"
-    mkdir -p "$SKILLS_DIR/$skill_name"
-    cp "$skill_dir/SKILL.md" "$SKILLS_DIR/$skill_name/SKILL.md" 2>/dev/null || true
-  fi
-done
 
 # ---- Done ----
 NEW_VERSION="$(cat "$INSTALL_DIR/VERSION" 2>/dev/null || echo "unknown")"
