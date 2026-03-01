@@ -25,7 +25,7 @@ packages = ["src/skilless"]
 
 [tool.ruff]
 src = ["src"]
-line-length = 100
+line-length = 125
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]

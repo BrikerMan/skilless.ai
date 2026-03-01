@@ -68,7 +68,7 @@ class SearchTool(BaseTool):
         return [
             ("fastmcp not installed", f"Run: {_pip} fastmcp"),
             ("Connection failed", "Check network; verify Exa MCP endpoint is reachable"),
-            ("EXA_API_KEY not set", "Set environment variable: export EXA_API_KEY=<your_key>"),
+            ("Rate limited", "Wait a moment and retry; Exa free tier has rate limits"),
         ]
 
 
