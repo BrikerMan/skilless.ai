@@ -79,6 +79,10 @@ else
   if [ -n "$CURRENT_VERSION" ] && [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
     echo "  ✓ Already up to date (v${CURRENT_VERSION})"
     echo ""
+    echo "  Usage:"
+    echo "    cd $INSTALL_DIR && uv run scripts/cli.py doctor"
+    echo "    cd $INSTALL_DIR && uv run scripts/cli.py search <query>"
+    echo ""
     exit 0
   fi
 
@@ -172,8 +176,8 @@ echo ""
 echo "  ✓ Skilless v${NEW_VERSION} installed!"
 echo ""
 echo "  Usage:"
-echo "    $INSTALL_DIR/skilless doctor"
-echo "    $INSTALL_DIR/skilless search <query>"
+echo "    cd $INSTALL_DIR && uv run scripts/cli.py doctor"
+echo "    cd $INSTALL_DIR && uv run scripts/cli.py search <query>"
 echo ""
 
-"$INSTALL_DIR/skilless" doctor 2>/dev/null || true
+cd "$INSTALL_DIR" && uv run scripts/cli.py doctor 2>/dev/null || true

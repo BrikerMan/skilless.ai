@@ -63,6 +63,10 @@ if ($Dev) {
     if ($CurrentVersion -and $CurrentVersion -eq $LatestVersion) {
         Write-Host "  ✓ Already up to date (v$CurrentVersion)" -ForegroundColor Green
         Write-Host ""
+        Write-Host "  Usage:"
+        Write-Host "    cd $InstallDir; uv run scripts/cli.py doctor"
+        Write-Host "    cd $InstallDir; uv run scripts/cli.py search <query>"
+        Write-Host ""
         exit 0
     }
 
@@ -163,6 +167,6 @@ Write-Host ""
 Write-Host "  ✓ Skilless v$NewVersion installed!" -ForegroundColor Green
 Write-Host ""
 Write-Host "  Usage:"
-Write-Host "    $InstallDir\skilless doctor"
-Write-Host "    $InstallDir\skilless search <query>"
+Write-Host "    cd $InstallDir; uv run scripts/cli.py doctor"
+Write-Host "    cd $InstallDir; uv run scripts/cli.py search <query>"
 Write-Host ""
