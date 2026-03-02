@@ -179,5 +179,7 @@ echo "  Usage:"
 echo "    cd $INSTALL_DIR && uv run scripts/cli.py doctor"
 echo "    cd $INSTALL_DIR && uv run scripts/cli.py search <query>"
 echo ""
+echo "  Please restart VS Code / OpenCode / Copilot or reload your Agent to enable the skills."
+echo ""
 
 cd "$INSTALL_DIR" && uv run scripts/cli.py doctor 2>/dev/null || true

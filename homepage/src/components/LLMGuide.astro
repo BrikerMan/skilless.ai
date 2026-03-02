@@ -19,31 +19,28 @@ const winCmd = lang === 'zh'
 
 const llmGuide = `# Install skilless.ai
 
-Run this command in the user's terminal to install skilless.ai:
+skilless.ai is a collection of AI agent skills for web research, content fetching, and media processing. It includes tools for semantic search, web scraping, YouTube video/subtitle extraction, and more.
 
+**To install on macOS/Linux:**
 \`\`\`bash
 ${macCmd}
 \`\`\`
 
-For Windows (PowerShell):
+**To install on Windows (PowerShell):**
 \`\`\`powershell
 ${winCmd}
 \`\`\`
 
-This will:
-1. Download the latest release from GitHub (github.com/brikerman/skilless.ai)
-2. Install uv (ultra-fast Python package manager) if not present
-3. Create an isolated virtual environment at ~/.agents/skills/skilless/
-4. Install all dependencies (yt-dlp, fastmcp, jina reader, feedparser)
-5. Generate the skilless CLI executable at ~/.agents/skills/skilless/
+The installer will automatically check dependencies, set up a Python virtual environment, and install everything needed.
 
-After installation, you can use these commands:
-- \`cd ~/.agents/skills/skilless/ && uv run scripts/search.py <query>\` — semantic search via Exa
-- \`cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>\` — extract webpage as Markdown via Jina Reader
-- \`cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py <url>\` — download video/subtitles via yt-dlp
-- \`cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor\` — check system status
+After installation completes, please restart VS Code / OpenCode / Copilot or reload your Agent to enable these skills.
 
-To upgrade, re-run the install command. No sudo required.`;
+Available skills:
+- **skilless.ai-brainstorming** — Turn ideas into fully formed plans through collaborative dialogue
+- **skilless.ai-research** — Fetch web content, extract video subtitles, convert and compress media
+- **skilless.ai-writing** — Research and write articles, emails, documentation, reports
+
+To upgrade, simply re-run the install command. No sudo required.`;
 ---
 
 <section class="llm-guide section section-border">
