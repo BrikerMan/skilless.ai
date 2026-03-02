@@ -33,7 +33,7 @@ Two operating modes:
 
 ---
 
-## Mode 2: Deep Research
+## Mode 2: Research
 
 多源对比、事实核查、结构化输出。
 
