@@ -224,41 +224,246 @@ Verify facts across at least 3 independent sources. Flag conflicting information
 
 Compile findings into a structured report. Don't rush this step.
 
-## Output Format
+## Output Format: Professional Research Report
 
-```
-# [Topic]
+> **Core Principles:**
+> - **Every claim must have a source** — No unsourced statements
+> - **Include specific data** — Numbers, dates, percentages, names
+> - **Cross-check key facts** — At least 2-3 independent sources for critical claims
+> - **Link all references** — Make sources verifiable
+
+---
+
+### Standard Report Template
+
+```markdown
+# [Research Topic]
+
+> **Research Date:** YYYY-MM-DD  
+> **Scope:** [Brief description of what this research covers]
+
+## Executive Summary
+[2-3 paragraphs summarizing the key findings and recommendations. This should be the "too long; didn't read" version.]
+
+---
 
 ## Key Findings
-- Finding 1 [Source](url)
-- Finding 2 [Source](url)
+
+### Finding 1: [Clear, Specific Title]
+- **Data:** [Specific numbers, percentages, dates]
+- **Source:** [Title](URL) — [Author/Organization, Date]
+- **Notes:** [Additional context or limitations]
+
+### Finding 2: [Clear, Specific Title]
+- **Data:** [Specific numbers, percentages, dates]
+- **Source:** [Title](URL) — [Author/Organization, Date]
+
+---
+
+## Detailed Analysis
+
+### [Section 1]
+[In-depth analysis with supporting data]
+
+| Metric | Value | Source |
+|--------|-------|--------|
+| [Metric 1] | [Data] | [Source Link] |
+| [Metric 2] | [Data] | [Source Link] |
+
+### [Section 2]
+[Continue analysis...]
+
+---
+
+## Comparison Table (if applicable)
+
+| Criteria | Option A | Option B | Option C |
+|----------|----------|----------|----------|
+| [Aspect 1] | ✅ Pros / ❌ Cons | ... | ... |
+| [Aspect 2] | Data [Source] | ... | ... |
+| Price | $XX [Source] | ... | ... |
+| **Verdict** | ⭐ Recommended | ... | ... |
+
+---
 
 ## Sources
-- [Source 1](url)
-- [Source 2](url)
 
-## Summary
-[2-3 sentence summary]
+### Primary Sources
+1. [Title](URL) — [Author/Organization, Date] — [Key data used]
+2. [Title](URL) — [Author/Organization, Date] — [Key data used]
+
+### Secondary Sources
+1. [Title](URL) — [Brief note on usage]
+
+---
+
+## Methodology Notes
+- [How many sources were consulted]
+- [Any limitations or gaps in the research]
+- [Conflicting information found and how it was resolved]
 ```
 
-## Example
+---
 
-```
-User: Research the best LLM frameworks for building AI agents
+### Product Comparison Report
 
-# Research: LLM Frameworks for AI Agents
+```markdown
+# [Product Category] Comparison: [Product A] vs [Product B] vs [Product C]
 
-## Key Findings
-- LangChain: Most popular, good documentation, but can be complex
-- LlamaIndex: Better for data-centric applications
-- AutoGen: Microsoft's framework, good for multi-agent systems
+> **Research Date:** YYYY-MM-DD  
+> **Purpose:** Help [target user] choose the best [product type] for [use case]
+
+## Quick Recommendation
+**Best Overall:** [Product] — [One sentence why]  
+**Best Budget:** [Product] — [One sentence why]  
+**Best [Specific Need]:** [Product] — [One sentence why]
+
+---
+
+## Detailed Comparison
+
+| Feature | [Product A] | [Product B] | [Product C] |
+|---------|-------------|-------------|-------------|
+| **Price** | $XX [Source] | $XX [Source] | $XX [Source] |
+| **Key Feature 1** | ✅ Yes | ❌ No | ✅ Yes |
+| **Key Feature 2** | Data [Source] | Data [Source] | Data [Source] |
+| **User Rating** | 4.5/5 (10k reviews) [Source] | ... | ... |
+| **Release Date** | YYYY-MM [Source] | ... | ... |
+
+---
+
+## In-Depth Analysis
+
+### [Product A]
+**Pros:**
+- [Pro 1] — supported by [Source]
+- [Pro 2] — supported by [Source]
+
+**Cons:**
+- [Con 1] — supported by [Source]
+
+**Best For:** [Use case] users who need [specific requirement]
+
+### [Product B]
+[Same structure]
+
+---
 
 ## Sources
-- ...
-
-## Summary
-For building AI agents, LangChain is the most established choice...
+1. [Official Website](URL) — Product specs and pricing
+2. [Review Site](URL) — User ratings and expert reviews
+3. [Comparison Article](URL) — Feature comparison data
 ```
+
+---
+
+### Industry/Market Research Report
+
+```markdown
+# [Industry/Topic] Research Report
+
+> **Research Date:** YYYY-MM-DD  
+> **Scope:** [Geographic scope, time period, market segment]
+
+## Executive Summary
+[3-5 key insights with supporting data points]
+
+---
+
+## Market Overview
+
+| Metric | Value | Year | Source |
+|--------|-------|------|--------|
+| Market Size | $XX billion | 2024 | [Source](URL) |
+| Growth Rate | XX% CAGR | 2023-2028 | [Source](URL) |
+| Key Players | Company A (XX%), Company B (XX%) | 2024 | [Source](URL) |
+
+---
+
+## Key Trends
+
+### Trend 1: [Trend Name]
+- **Data:** [Specific numbers, growth rates, adoption percentages]
+- **Impact:** [Why this matters]
+- **Source:** [Title](URL) — [Organization, Date]
+
+### Trend 2: [Trend Name]
+[Same structure]
+
+---
+
+## Competitive Landscape
+
+| Company | Market Share | Key Strength | Key Weakness |
+|---------|--------------|--------------|--------------|
+| [Company A] | XX% [Source] | [Strength] | [Weakness] |
+| [Company B] | XX% [Source] | [Strength] | [Weakness] |
+
+---
+
+## Sources
+
+### Industry Reports
+1. [Title](URL) — [Publisher, Date] — [Key data used]
+
+### News Articles
+1. [Title](URL) — [Publication, Date]
+
+### Official Data
+1. [Title](URL) — [Government/Organization, Date]
+```
+
+---
+
+## Quality Checklist
+
+Before submitting the report, verify:
+
+- [ ] Every claim has at least one source citation
+- [ ] All sources are properly formatted with titles, URLs, and dates
+- [ ] Key facts are cross-checked against 2-3 independent sources
+- [ ] Conflicting information is noted and resolved
+- [ ] Data tables are included where applicable
+- [ ] Executive summary captures the key takeaways
+- [ ] Methodology notes explain any limitations
+
+---
+
+## Example Output
+
+```markdown
+# Noise-Canceling Headphones Under $300 Comparison
+
+> **Research Date:** 2026-03-02  
+> **Purpose:** Help budget-conscious buyers find the best noise-canceling headphones
+
+## Quick Recommendation
+**Best Overall:** Sony WH-CH720N — Best ANC performance in price range, lightweight  
+**Best Budget:** Anker Soundcore Space Q45 — Excellent value at $149, great battery  
+**Best for Audiophiles:** 1More SonoFlow — Best sound quality, LDAC support
+
+---
+
+## Detailed Comparison
+
+| Feature | Sony WH-CH720N | Anker Space Q45 | 1More SonoFlow |
+|---------|----------------|-----------------|----------------|
+| **Price** | $199 [Amazon](url) | $149 [Amazon](url) | $179 [Amazon](url) |
+| **ANC Rating** | ⭐⭐⭐⭐⭐ Excellent | ⭐⭐⭐⭐ Very Good | ⭐⭐⭐ Good |
+| **Battery** | 35 hours [Sony](url) | 50 hours [Anker](url) | 50 hours [1More](url) |
+| **Weight** | 192g [Sony](url) | 275g [Anker](url) | 250g [1More](url) |
+| **User Rating** | 4.4/5 (2.3k reviews) | 4.3/5 (5.1k reviews) | 4.5/5 (1.2k reviews) |
+
+---
+
+## Sources
+1. [Sony WH-CH720N Official](https://electronics.sony.com/audio/headphones) — Specs and features
+2. [RTINGS Review](https://www.rtings.com/headphones/reviews) — ANC and sound quality tests
+3. [Amazon Reviews](https://amazon.com/...) — User ratings and feedback
+4. [Wirecutter Guide](https://www.nytimes.com/wirecutter/reviews/best-noise-cancelling-headphones/) — Expert recommendations
+```
+
+---
 
 ## Video Format Conversion
 

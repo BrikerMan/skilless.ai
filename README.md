@@ -50,6 +50,52 @@ Just tell your AI what you need — it reads the skill files and figures out the
 
 ---
 
+## Real-World Use Cases
+
+### 📹 Video Download
+- **YouTube** → Download videos for offline viewing, extract subtitles, or get transcripts
+- **Bilibili** → Save Chinese videos locally, extract CC and danmaku
+- **TikTok, Twitter/X, Twitch, Vimeo** → Download clips, VODs, and videos without watermarks
+- **1700+ more sites** → Dailymotion, Rumble, Odysee, SoundCloud, Reddit video, and more
+
+### 📝 Video Subtitles & Transcripts
+- Extract auto-generated or manual subtitles from any video
+- Organize fast-paced content into readable notes
+- Translate video subtitles to your language
+- Generate summaries from video transcripts
+
+### 🎵 Media Processing
+- Extract audio from video as MP3
+- Compress large video files to save space
+- Convert between formats (mkv→mp4, wav→mp3, etc.)
+
+### 🔍 Web Search
+- "Help me compare noise-canceling headphones under $300" → searches reviews across the web
+- "What's the latest news on AI video generation?" → finds and summarizes recent articles
+- "Research the best practices for RAG systems" → semantic search for technical content
+
+### 🌐 Web Content
+- "Read this article and summarize the key points" → extracts clean content
+- "Extract the main points from this documentation" → parses technical docs
+- "What does this page say about X?" → finds specific information
+
+### 📊 Deep Research
+- **Multi-source comparison** → "Compare the top 5 project management tools and recommend one for a small team"
+- **Travel planning** → "Create a 7-day Tokyo guide with food and attraction recommendations"
+- **Industry analysis** → "Research all video generation AI models and create a comprehensive report"
+- **Fact-checked reports** → cross-validated information from multiple sources
+
+### ✍️ Content Writing
+- Draft professional emails on any topic
+- Write articles backed by real research
+- Create documentation with proper citations
+
+---
+
+**Real Example:** A user recently asked: *"Research all the video generation models on the market and create a comprehensive report."* Skilless automatically searched, read sources, cross-checked facts, and produced a structured multi-section report — all in one conversation.
+
+---
+
 ## Three AI Skills
 
 Skills are installed as `SKILL.md` files under `~/.agents/skills/`. Your Agent reads them automatically and knows when to use which capability:
