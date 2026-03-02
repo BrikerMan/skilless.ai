@@ -20,23 +20,354 @@ Two operating modes:
 - "convert", "compress", "encode", "media", "ffmpeg" → use `media`
 - "research", "investigate", "analyze", "compare" → deep multi-source research
 
-## When to Use Todo (MANDATORY FOR RESEARCH)
+---
 
-You **MUST** use `todo_write` (or equivalent project planning tool) when:
+## Mode 1: Quick Content Access
 
-- ✅ User asks for **research, investigation, comparison, or analysis**
-- ✅ Task involves **multiple sources or steps (3+ items)**
-- ✅ User requests a **guide, plan, or comprehensive summary**
-- ✅ Keywords present: *research, investigate, guide, plan, analyze, compare, 研究, 攻略, 整理, 搜索*
-- ✅ **Task will take more than 5 minutes** to complete
+| 操作 | 工具 | 用途 |
+|------|------|------|
+| **Search** | `search.py` | 查找网页、文档、新闻 |
+| **Read** | `web.py` | 提取网页文本内容 |
+| **Extract** | `youtube.py` | 提取视频字幕/元数据 |
+| **Convert** | `ffmpeg.py` | 转换/压缩媒体文件 |
 
-You **MAY skip todo only when:**
+---
 
-- ❌ Single source lookup (just read one URL)
-- ❌ Simple fact check (one search query, < 2 minutes)
-- ❌ Quick tool usage without analysis
+## Mode 2: Deep Research
 
-## CLI Tools
+多源对比、事实核查、结构化输出。
+
+### ⚠️ 必须使用 Todo（强制）
+
+**创建 todo list 的场景**：
+
+- ✅ 任务涉及 **多个来源或步骤（3+项）**
+- ✅ 用户要求 **研究、调查、对比、分析**
+- ✅ 关键词：*research, investigate, guide, plan, analyze, compare, 研究, 攻略, 整理*
+- ✅ **任务耗时 > 5 分钟**
+
+**可跳过 todo 的场景**：
+
+- ❌ 单源查询（仅读取一个URL）
+- ❌ 简单事实核查（单个搜索查询，< 2 分钟）
+
+---
+
+### 研究工作流
+
+#### Step 1: 明确范围
+
+- 核心问题是什么？
+- 需要什么类型的来源（官方文档、媒体报道、论文、评测）？
+- 时间范围和数据维度有哪些？
+
+#### Step 2: 多维搜索
+
+- 不同关键词组合
+- 宽泛和具体的搜索词
+- 多语言查询（必要时）
+
+#### Step 3: 提取核心来源
+
+- 优先权威来源（官网、官方文档）
+- 记录关键发现
+- 保存 URL 用于引用
+
+#### Step 4: 提取视频内容（如需）
+
+- 从 talks、tutorials、interviews 提取字幕
+
+#### Step 5: 交叉验证
+
+- 至少 **3 个独立来源**验证关键事实
+- 标记冲突信息
+
+#### Step 6: 综合输出
+
+- 编译结构化报告
+- **表格优先，简洁清晰**
+
+---
+
+## Output Format: Professional Research Report
+
+> **核心原则**：
+> - **表格优先** — 用对比表、推荐表、可视化条快速传达结论
+> - **来源标注** — 每个数据点标注 `[src]` 或 `[1]`
+> - **简洁可扫描** — 避免冗长文字，用要点和表格
+
+---
+
+### 模板 1：产品对比报告
+
+```markdown
+# [产品类别] 对比（2026）
+
+> **研究日期**：YYYY-MM-DD  
+> **数据来源**：[来源类型]
+
+## 🎯 快速推荐
+
+| 需求 | 推荐 | 价格 | 推荐度 |
+|------|------|------|--------|
+| **🏆 综合最佳** | [Product] | ¥XXX | ⭐⭐⭐⭐⭐ |
+| **💰 性价比** | [Product] | ¥XXX | ⭐⭐⭐⭐⭐ |
+| **🏢 企业级** | [Product] | ¥XXX | ⭐⭐⭐⭐ |
+
+---
+
+## 📊 核心对比
+
+| 产品 | 价格 | 核心指标1 | 核心指标2 | 推荐度 |
+|------|------|----------|----------|--------|
+| **[Product A]** | ¥XX [src] | 数据 | 数据 | ⭐⭐⭐⭐⭐ |
+| [Product B] | ¥XX [src] | 数据 | 数据 | ⭐⭐⭐⭐ |
+| [Product C] | ¥XX [src] | 数据 | 数据 | ⭐⭐⭐ |
+
+### 价格可视化
+
+| 产品 | 价格 | 对比 |
+|------|------|------|
+| [Product A] | ¥XXX | ████████░░░░░░░░░░░░ 最优 |
+| [Product B] | ¥XXX | ████████████░░░░░░░░ |
+| [Product C] | ¥XXX | ████████████████████ 最高 |
+
+---
+
+## 重点推荐
+
+### 🏆 [Product A] — [标语]
+
+**核心优势**：[一句话总结]
+
+- **价格**：¥XXX [src]
+- **优点**：✅ [Pro 1]、✅ [Pro 2]
+- **缺点**：❌ [Con 1]
+- **适用场景**：[Target users]
+
+---
+
+## 🔍 关键发现
+
+1. **[发现1]** — [数据点] [src]
+2. **[发现2]** — [数据点] [src]
+3. **[发现3]** — [数据点] [src]
+
+---
+
+## 来源
+
+[1] [Title](URL) — [Key data]  
+[2] [Title](URL) — [Key data]
+```
+
+---
+
+### 模板 2：事实核查报告
+
+```markdown
+# [主题] 核实报告
+
+> **研究日期**：YYYY-MM-DD
+
+## 🎯 核心结论
+
+| 事实 | 核实结果 | 置信度 |
+|------|----------|--------|
+| [Claim 1] | ✅ 确认 | 100% |
+| [Claim 2] | ⚠️ 部分正确 | 80% |
+| [Claim 3] | ❌ 不准确 | 95% |
+
+---
+
+## 详细核实
+
+### [Claim 1]
+- **核实结果**：✅ 确认
+- **证据**：[具体数据] [1][2]
+- **来源独立性**：通过 [Source A] 和 [Source B] 双重确认
+
+### [Claim 2]
+- **核实结果**：⚠️ 部分正确
+- **实际数据**：[正确数据] [3]
+- **差异说明**：[解释]
+
+---
+
+## 来源验证
+
+| 来源 | 类型 | 置信度 |
+|------|------|--------|
+| [Official Site] | 官方 | 100% |
+| [News Article] | 媒体 | 85% |
+| [Community Wiki] | 社区 | 80% |
+
+---
+
+## 来源
+
+[1] [Title](URL)  
+[2] [Title](URL)
+```
+
+---
+
+### 模板 3：行业分析报告
+
+```markdown
+# [行业/主题] 市场分析
+
+> **研究日期**：YYYY-MM-DD  
+> **数据来源**：[来源类型]
+
+## 📊 市场概览
+
+| 指标 | 数据 | 年份 | 来源 |
+|------|------|------|------|
+| 市场规模 | $XXB | 2025 | [1] |
+| 增长率 | XX% CAGR | 2024-2028 | [2] |
+| Top 1 厂商 | Company A (XX%) | 2025 | [3] |
+
+---
+
+## 🏆 竞争格局
+
+| 厂商 | 市占率 | 优势 | 劣势 | 推荐度 |
+|------|--------|------|------|--------|
+| **Company A** | XX% [src] | ✅ [Strength] | ❌ [Weakness] | ⭐⭐⭐⭐⭐ |
+| Company B | XX% [src] | ✅ [Strength] | ❌ [Weakness] | ⭐⭐⭐⭐ |
+
+### 市占率可视化
+
+| 厂商 | 份额 | 分布 |
+|------|------|------|
+| Company A | XX% | ████████████████░░░░ |
+| Company B | XX% | ████████████░░░░░░░░ |
+
+---
+
+## 🔍 关键发现
+
+1. **[发现1]** — [数据点] [src]
+2. **[发现2]** — [数据点] [src]
+
+---
+
+## 来源
+
+[1] [Title](URL) — [Data]  
+[2] [Title](URL) — [Data]
+```
+
+---
+
+### 模板 4：场景分析报告
+
+```markdown
+# [场景名称] 分析
+
+> **研究日期**：YYYY-MM-DD  
+> **场景描述**：[一句话描述场景需求]
+
+## 🎯 场景推荐
+
+| 方案 | 模型/产品 | 总成本 | 推荐度 |
+|------|----------|--------|--------|
+| **成本最优** | [Product] | ¥XXX | ⭐⭐⭐⭐⭐ |
+| **平衡方案** | [Product] | ¥XXX | ⭐⭐⭐⭐ |
+| **效果优先** | [Product] | ¥XXX | ⭐⭐⭐ |
+
+---
+
+## 方案详情
+
+### 方案一：成本最优 🏆
+
+**[Product Name]**
+
+| 项目 | 成本 | 说明 |
+|------|------|------|
+| [项目1] | ¥XXX | [说明] |
+| [项目2] | ¥XXX | [说明] |
+| **总计** | **¥XXX** | **[优势]** |
+
+**优点**：
+- ✅ [Pro 1]
+- ✅ [Pro 2]
+
+**缺点**：
+- ❌ [Con 1]
+
+---
+
+## 🔍 关键发现
+
+1. **[发现1]** — [数据点] [src]
+2. **[发现2]** — [数据点] [src]
+
+---
+
+## 来源
+
+[1] [Title](URL)  
+[2] [Title](URL)
+```
+
+---
+
+## 视觉元素指南
+
+### 星级评分
+
+```
+⭐⭐⭐⭐⭐ (5星) — 顶级/最优
+⭐⭐⭐⭐ (4星) — 优秀
+⭐⭐⭐ (3星) — 良好/可用
+⭐⭐ (2星) — 一般
+⭐ (1星) — 较差
+```
+
+### 可视化条
+
+```
+████████████████████░░░░ 80% — 数值对比
+████████░░░░░░░░░░░░░░░░ 40% — 成本/份额
+```
+
+### 状态指示器
+
+```
+✅ 支持/有/是
+❌ 不支持/无/否
+⚠️ 部分/需注意
+```
+
+### 推荐标签
+
+```
+🏆 最佳/最强
+💰 性价比
+🆓 免费
+🏢 企业级
+⭐ 推荐
+```
+
+---
+
+## 质量检查清单
+
+提交前确认：
+
+- [ ] **表格优先** — 第一眼看到对比表或总结表
+- [ ] **数据有源** — 格式：`数据 [1]` 或 `数据 [src]`
+- [ ] **星级评分** — 用 ⭐ 快速评估质量
+- [ ] **可视化对比** — 用进度条或方块字符对比
+- [ ] **快速结论** — 3-5 行表格展示顶级推荐
+- [ ] **简洁无冗余** — 去除冗长叙述，保持可扫描性
+
+---
+
+## CLI Tools Reference
 
 ### Search (Exa AI)
 
@@ -46,11 +377,6 @@ cd ~/.agents/skills/skilless/ && uv run scripts/search.py "your query"
 
 # Specify number of results
 cd ~/.agents/skills/skilless/ && uv run scripts/search.py "your query" 10
-
-# Examples:
-cd ~/.agents/skills/skilless/ && uv run scripts/search.py "best practices for RAG systems" 10
-cd ~/.agents/skills/skilless/ && uv run scripts/search.py "React Server Components vs Next.js App Router"
-cd ~/.agents/skills/skilless/ && uv run scripts/search.py "how to implement OAuth2 in Python"
 ```
 
 ### Web Reader (Jina Reader)
@@ -58,82 +384,62 @@ cd ~/.agents/skills/skilless/ && uv run scripts/search.py "how to implement OAut
 ```bash
 # Extract content from any webpage as text
 cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>
-
-cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://docs.anthropic.com/claude/docs
-cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://github.com/modelcontextprotocol/servers
 ```
 
 ### Video Downloader / Transcript Extractor (yt-dlp)
 
-> ⚠️ **Important - PEP 668 Environment Restriction:**
-> macOS prevents direct pip installation. When using yt-dlp in an agent/AI context, you MUST use the skilless virtual environment:
+> ⚠️ **PEP 668 限制**：macOS 防止直接 pip 安装。必须使用 skilless 虚拟环境：
 > ```bash
 > cd ~/.agents/skills/skilless/ && uv run yt-dlp [args]
 > ```
-> Never call system pip or global yt-dlp directly.
 
-> 💡 **Direct yt-dlp usage:** You can run full yt-dlp commands directly:
+> 💡 **直接使用 yt-dlp**：
 > ```bash
 > cd ~/.agents/skills/skilless/ && uv run yt-dlp "URL"           # Download video
-> cd ~/.agents/skills/skilless/ && uv run yt-dlp --list-subs "URL"  # List available subtitles
-> cd ~/.agents/skills/skilless/ && uv run yt-dlp --write-subs --write-auto-subs "URL"  # Download subs
-> cd ~/.agents/skills/skilless/ && uv run yt-dlp -x --audio-format mp3 "URL"  # Extract audio
+> cd ~/.agents/skills/skilless/ && uv run yt-dlp --list-subs "URL"  # List subtitles
+> cd ~/.agents/skills/skilless/ && uv run yt-dlp --write-subs --write-auto-subs "URL"
+> cd ~/.agents/skills/skilless/ && uv run yt-dlp -x --audio-format mp3 "URL"
 > ```
 
-> **Download path rules:**
-> - **In a project directory** (e.g., `~/codes/my-project/`) → download directly to current directory
-> - **In home directory** (`~`) → download to `~/Downloads/` by default
-> - **NEVER download to `/tmp`** — requires special permissions and files may be auto-deleted
-> - Use `-o` flag to specify custom output path: `yt-dlp -o "~/Downloads/video.mp4" <url>`
+> **下载路径规则**：
+> - **项目目录**（如 `~/codes/my-project/`）→ 下载到当前目录
+> - **家目录**（`~`）→ 默认下载到 `~/Downloads/`
+> - **禁止下载到 `/tmp`** — 需要特殊权限，文件可能自动删除
 
-> **Transcript loading rules:**
-> - Download transcript/subtitle files to the current working directory by default — do NOT load the full content into context automatically
-> - Only read the transcript content when the user explicitly asks for it (e.g. "summarize this video", "what does this video say about X", "translate the transcript")
-> - Reason: full transcripts can be very long and slow down the conversation unnecessarily
+> **字幕加载规则**：
+> - 默认下载字幕文件到当前目录 — **不要自动加载内容到 context**
+> - 仅在用户明确要求时读取字幕内容（如"总结这个视频"、"提取关于X的内容"）
+> - 原因：完整字幕可能很长，会不必要地拖慢对话
 
 ```bash
 # Extract subtitles/transcript/metadata from any video URL
 cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "<url>"
 
-# Supported platforms include (1700+ total):
+# Supported platforms (1700+):
 # YouTube, Bilibili, TikTok, Twitter/X, Twitch, Vimeo,
 # Dailymotion, Niconico, Rumble, Odysee, SoundCloud,
 # Reddit video, Instagram, Facebook Video, and many more
-
-# Examples:
-cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://www.youtube.com/watch?v=abc123"
-cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://www.bilibili.com/video/BV1xx411c7mD"
-cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://www.tiktok.com/@user/video/123456"
-cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://vimeo.com/123456789"
-cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://www.twitch.tv/videos/123456"
-cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "https://twitter.com/i/status/123456789"
 ```
 
-> ⚠️ **YouTube 故障排查：**
-> - 如果遇到 "Sign in to confirm you're not a bot"，说明 IP 被 YouTube 反爬
-> - 如果在国内网络直接连接失败（超时/拒绝），说明需要代理才能访问 YouTube
-> - **解决方案：**
->   1. 将代理客户端切换为 **TUN 模式**（全局流量接管，最省事）
->   2. 或手动设置环境变量：`export HTTPS_PROXY=http://127.0.0.1:<port>`
+> ⚠️ **YouTube 故障排查**：
+> - 错误 "Sign in to confirm you're not a bot" → IP 被 YouTube 反爬
+> - 国内网络直接连接失败（超时/拒绝）→ 需要代理
+> - **解决方案**：
+>   1. 代理客户端切换为 **TUN 模式**（全局流量接管）
+>   2. 或设置环境变量：`export HTTPS_PROXY=http://127.0.0.1:<port>`
 >   3. 从浏览器导出 cookies：`yt-dlp --cookies-from-browser chrome "URL"`
 >   4. 使用 Bilibili 替代（通常更稳定，无需代理）
-> - 详细文档：https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp
 
-### FFmpeg (Media Converter & Compressor)
+### FFmpeg (Media Converter)
 
 ```bash
 # Convert or compress video/audio files
 cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py <input> <output>
 
 # Examples:
-# Convert video format
-uv run scripts/ffmpeg.py video.mkv output.mp4
-
-# Convert audio
-uv run scripts/ffmpeg.py audio.wav output.mp3
-
-# Compress video (lower quality, smaller file)
-uv run scripts/ffmpeg.py input.mp4 output.mp4 -crf 28
+uv run scripts/ffmpeg.py video.mkv output.mp4        # Convert video
+uv run scripts/ffmpeg.py audio.wav output.mp3        # Convert audio
+uv run scripts/ffmpeg.py input.mp4 output.mp4 -crf 28  # Compress
 
 # Supported formats: mp4, mkv, avi, mov, webm, mp3, aac, wav, flac, ogg
 ```
@@ -142,344 +448,8 @@ uv run scripts/ffmpeg.py input.mp4 output.mp4 -crf 28
 
 ```bash
 cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor
-
 cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor web
 cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor search
 cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor ytd
 cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor media
-```
-
-## Mode 1: Quick Content Access
-
-Grab specific content without deep analysis:
-
-1. **Search** → `skilless search` to find sources
-2. **Read** → `skilless web` to extract a page
-3. **Extract** → `skilless ytd` for video transcript or metadata
-4. **Convert** → `skilless media` for media conversion & compression
-
-## Mode 2: Deep Research
-
-Multi-source, fact-checked investigation.
-
-> 🛑 **CHECKPOINT - CRITICAL:** Before doing anything else, you MUST have created a todo list. If you haven't used `todo_write` yet, **STOP NOW** and create one immediately. This is not optional. Research without a plan is a failure to follow protocol.
-
-> **💡 Research Philosophy:** 
-> - **Don't rush to answer.** Good research takes time. Plan first, execute step by step.
-> - **Use todo_write tool** - it is MANDATORY, not optional for any research task
-> - **One step at a time.** Complete each step fully before moving to the next.
-
-### Step-by-Step Workflow
-
-**Step 0: Plan Your Research (MANDATORY - DO NOT SKIP)**
-
-> ⚠️ **CRITICAL**: You MUST use `todo_write` tool to create a research plan BEFORE starting any research task. This is not optional. Skipping this step is a failure to follow instructions.
-
-**When to use todo_write (ALWAYS for research tasks):**
-- Multi-step research (3+ steps)
-- Tasks requiring information from multiple sources
-- Any task taking more than 5 minutes
-
-**Example todo template for research:**
-
-```
-1. [ ] Clarify scope and key questions
-2. [ ] Run initial searches (3-5 query angles)
-3. [ ] Read top 5-10 relevant sources
-4. [ ] Cross-check facts across sources
-5. [ ] Extract video content if needed
-6. [ ] Synthesize findings into report
-```
-
-**Step 1: Clarify Scope**
-
-Before searching, understand:
-- What specific questions need answering?
-- What timeframe is relevant?
-- What type of sources are needed (academic, news, official docs, reviews)?
-
-**Step 2: Search Broadly**
-
-Run multiple searches with varied queries:
-- Different keyword combinations
-- Both broad and specific terms
-- Multiple languages if relevant
-
-**Step 3: Read Key Sources**
-
-Extract content from top results:
-- Prioritize authoritative sources
-- Take notes on key findings
-- Save URLs for citation
-
-**Step 4: Get Video Content**
-
-Pull transcripts from talks, tutorials, interviews when relevant.
-
-**Step 5: Cross-check**
-
-Verify facts across at least 3 independent sources. Flag conflicting information.
-
-**Step 6: Synthesize**
-
-Compile findings into a structured report. Don't rush this step.
-
-## Output Format: Professional Research Report
-
-> **Core Principles:**
-> - **Every claim must have a source** — No unsourced statements
-> - **Include specific data** — Numbers, dates, percentages, names
-> - **Cross-check key facts** — At least 2-3 independent sources for critical claims
-> - **Link all references** — Make sources verifiable
-
----
-
-### Standard Report Template
-
-```markdown
-# [Research Topic]
-
-> **Research Date:** YYYY-MM-DD  
-> **Scope:** [Brief description of what this research covers]
-
-## Executive Summary
-[2-3 paragraphs summarizing the key findings and recommendations. This should be the "too long; didn't read" version.]
-
----
-
-## Key Findings
-
-### Finding 1: [Clear, Specific Title]
-- **Data:** [Specific numbers, percentages, dates]
-- **Source:** [Title](URL) — [Author/Organization, Date]
-- **Notes:** [Additional context or limitations]
-
-### Finding 2: [Clear, Specific Title]
-- **Data:** [Specific numbers, percentages, dates]
-- **Source:** [Title](URL) — [Author/Organization, Date]
-
----
-
-## Detailed Analysis
-
-### [Section 1]
-[In-depth analysis with supporting data]
-
-| Metric | Value | Source |
-|--------|-------|--------|
-| [Metric 1] | [Data] | [Source Link] |
-| [Metric 2] | [Data] | [Source Link] |
-
-### [Section 2]
-[Continue analysis...]
-
----
-
-## Comparison Table (if applicable)
-
-| Criteria | Option A | Option B | Option C |
-|----------|----------|----------|----------|
-| [Aspect 1] | ✅ Pros / ❌ Cons | ... | ... |
-| [Aspect 2] | Data [Source] | ... | ... |
-| Price | $XX [Source] | ... | ... |
-| **Verdict** | ⭐ Recommended | ... | ... |
-
----
-
-## Sources
-
-### Primary Sources
-1. [Title](URL) — [Author/Organization, Date] — [Key data used]
-2. [Title](URL) — [Author/Organization, Date] — [Key data used]
-
-### Secondary Sources
-1. [Title](URL) — [Brief note on usage]
-
----
-
-## Methodology Notes
-- [How many sources were consulted]
-- [Any limitations or gaps in the research]
-- [Conflicting information found and how it was resolved]
-```
-
----
-
-### Product Comparison Report
-
-```markdown
-# [Product Category] Comparison: [Product A] vs [Product B] vs [Product C]
-
-> **Research Date:** YYYY-MM-DD  
-> **Purpose:** Help [target user] choose the best [product type] for [use case]
-
-## Quick Recommendation
-**Best Overall:** [Product] — [One sentence why]  
-**Best Budget:** [Product] — [One sentence why]  
-**Best [Specific Need]:** [Product] — [One sentence why]
-
----
-
-## Detailed Comparison
-
-| Feature | [Product A] | [Product B] | [Product C] |
-|---------|-------------|-------------|-------------|
-| **Price** | $XX [Source] | $XX [Source] | $XX [Source] |
-| **Key Feature 1** | ✅ Yes | ❌ No | ✅ Yes |
-| **Key Feature 2** | Data [Source] | Data [Source] | Data [Source] |
-| **User Rating** | 4.5/5 (10k reviews) [Source] | ... | ... |
-| **Release Date** | YYYY-MM [Source] | ... | ... |
-
----
-
-## In-Depth Analysis
-
-### [Product A]
-**Pros:**
-- [Pro 1] — supported by [Source]
-- [Pro 2] — supported by [Source]
-
-**Cons:**
-- [Con 1] — supported by [Source]
-
-**Best For:** [Use case] users who need [specific requirement]
-
-### [Product B]
-[Same structure]
-
----
-
-## Sources
-1. [Official Website](URL) — Product specs and pricing
-2. [Review Site](URL) — User ratings and expert reviews
-3. [Comparison Article](URL) — Feature comparison data
-```
-
----
-
-### Industry/Market Research Report
-
-```markdown
-# [Industry/Topic] Research Report
-
-> **Research Date:** YYYY-MM-DD  
-> **Scope:** [Geographic scope, time period, market segment]
-
-## Executive Summary
-[3-5 key insights with supporting data points]
-
----
-
-## Market Overview
-
-| Metric | Value | Year | Source |
-|--------|-------|------|--------|
-| Market Size | $XX billion | 2024 | [Source](URL) |
-| Growth Rate | XX% CAGR | 2023-2028 | [Source](URL) |
-| Key Players | Company A (XX%), Company B (XX%) | 2024 | [Source](URL) |
-
----
-
-## Key Trends
-
-### Trend 1: [Trend Name]
-- **Data:** [Specific numbers, growth rates, adoption percentages]
-- **Impact:** [Why this matters]
-- **Source:** [Title](URL) — [Organization, Date]
-
-### Trend 2: [Trend Name]
-[Same structure]
-
----
-
-## Competitive Landscape
-
-| Company | Market Share | Key Strength | Key Weakness |
-|---------|--------------|--------------|--------------|
-| [Company A] | XX% [Source] | [Strength] | [Weakness] |
-| [Company B] | XX% [Source] | [Strength] | [Weakness] |
-
----
-
-## Sources
-
-### Industry Reports
-1. [Title](URL) — [Publisher, Date] — [Key data used]
-
-### News Articles
-1. [Title](URL) — [Publication, Date]
-
-### Official Data
-1. [Title](URL) — [Government/Organization, Date]
-```
-
----
-
-## Quality Checklist
-
-Before submitting the report, verify:
-
-- [ ] Every claim has at least one source citation
-- [ ] All sources are properly formatted with titles, URLs, and dates
-- [ ] Key facts are cross-checked against 2-3 independent sources
-- [ ] Conflicting information is noted and resolved
-- [ ] Data tables are included where applicable
-- [ ] Executive summary captures the key takeaways
-- [ ] Methodology notes explain any limitations
-
----
-
-## Example Output
-
-```markdown
-# Noise-Canceling Headphones Under $300 Comparison
-
-> **Research Date:** 2026-03-02  
-> **Purpose:** Help budget-conscious buyers find the best noise-canceling headphones
-
-## Quick Recommendation
-**Best Overall:** Sony WH-CH720N — Best ANC performance in price range, lightweight  
-**Best Budget:** Anker Soundcore Space Q45 — Excellent value at $149, great battery  
-**Best for Audiophiles:** 1More SonoFlow — Best sound quality, LDAC support
-
----
-
-## Detailed Comparison
-
-| Feature | Sony WH-CH720N | Anker Space Q45 | 1More SonoFlow |
-|---------|----------------|-----------------|----------------|
-| **Price** | $199 [Amazon](url) | $149 [Amazon](url) | $179 [Amazon](url) |
-| **ANC Rating** | ⭐⭐⭐⭐⭐ Excellent | ⭐⭐⭐⭐ Very Good | ⭐⭐⭐ Good |
-| **Battery** | 35 hours [Sony](url) | 50 hours [Anker](url) | 50 hours [1More](url) |
-| **Weight** | 192g [Sony](url) | 275g [Anker](url) | 250g [1More](url) |
-| **User Rating** | 4.4/5 (2.3k reviews) | 4.3/5 (5.1k reviews) | 4.5/5 (1.2k reviews) |
-
----
-
-## Sources
-1. [Sony WH-CH720N Official](https://electronics.sony.com/audio/headphones) — Specs and features
-2. [RTINGS Review](https://www.rtings.com/headphones/reviews) — ANC and sound quality tests
-3. [Amazon Reviews](https://amazon.com/...) — User ratings and feedback
-4. [Wirecutter Guide](https://www.nytimes.com/wirecutter/reviews/best-noise-cancelling-headphones/) — Expert recommendations
-```
-
----
-
-## Video Format Conversion
-
-If you need to convert video formats (e.g., mp4 to mp3, extract audio, merge subtitles), use `media` tool.
-
-### Usage
-```bash
-# Convert video format
-cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py -i input.webm output.mp4
-
-# Convert to specific format
-cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py -i input.mp4 output.avi
-
-# Extract audio
-cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py -i input.mp4 output.mp3
-
-# Compress video
-cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py -i input.mp4 output.mp4 -crf 28
 ```
