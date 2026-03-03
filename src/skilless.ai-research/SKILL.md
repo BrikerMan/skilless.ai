@@ -258,8 +258,8 @@ cd ~/.agents/skills/skilless/ && uv run yt-dlp -x --audio-format mp3 "URL"
 Supported platforms (1700+ via yt-dlp): YouTube, Bilibili, TikTok, Twitter/X, Twitch, Vimeo, Dailymotion, Niconico, Rumble, Odysee, SoundCloud, Reddit, Instagram, Facebook, and many more.
 
 **Download path rules:**
-- Inside a project directory (e.g. `~/codes/my-project/`) → download to current directory
-- At home directory (`~`) → default to `~/Downloads/`
+- **Specific project directory** (e.g. `~/codes/my-project/`) → download to current working directory
+- **Home directory (`~`)** or **empty path** → download to `~/Downloads/`
 - **Never download to `/tmp`** — requires special permissions, files may auto-delete
 
 **YouTube troubleshooting:**
