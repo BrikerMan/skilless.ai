@@ -1,5 +1,5 @@
 # Skilless Installer for Windows
-# Usage: irm https://skilless.ai/install.ps1 | iex
+# Usage: Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression
 # Dev:   & ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -Dev
 # China: & ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -China
 
@@ -10,6 +10,25 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+# ---- Fix console encoding for Unicode/Emoji output on Windows ----
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
+chcp 65001 | Out-Null
+
+# ---- Detect whether terminal font supports Unicode box/emoji chars ----
+# Windows Terminal / WT supports Unicode; legacy conhost (cmd/old PS) often does not.
+$UseUnicode = $false
+if ($env:WT_SESSION -or $env:TERM_PROGRAM -eq "vscode" -or $env:ConEmuPID) {
+    $UseUnicode = $true
+}
+
+function icon_ok    { if ($UseUnicode) { return "  [+]" } else { return "  [+]" } }
+function icon_err   { if ($UseUnicode) { return "  [x]" } else { return "  [x]" } }
+function icon_down  { if ($UseUnicode) { return "  [~]" } else { return "  [~]" } }
+function icon_star  { if ($UseUnicode) { return "  [*]" } else { return "  [*]" } }
+function icon_arrow { if ($UseUnicode) { return "   ->" } else { return "   ->" } }
+function separator  { if ($UseUnicode) { return "  ---------------------" } else { return "  ---------------------" } }
+
 $Repo = "brikerman/skilless.ai"
 $SkillsDir = "$env:USERPROFILE\.agents\skills"
 $InstallDir = "$SkillsDir\skilless"
@@ -18,8 +37,8 @@ $GithubRelease = "https://github.com/$Repo/releases/latest/download"
 
 # ---- Header ----
 Write-Host ""
-Write-Host "  ✨ Skilless Installer" -ForegroundColor Cyan
-Write-Host "  ─────────────────────"
+Write-Host "$(icon_star) Skilless Installer" -ForegroundColor Cyan
+Write-Host "$(separator)"
 Write-Host ""
 
 # ---- System info ----
@@ -53,7 +72,7 @@ if ($Dev) {
         $Release = Invoke-RestMethod -Uri $GithubApi -UseBasicParsing
         $LatestVersion = $Release.tag_name -replace '^release/v?', ''
     } catch {
-        Write-Host "  ✗ Failed to fetch latest version from GitHub" -ForegroundColor Red
+        Write-Host "$(icon_err) Failed to fetch latest version from GitHub" -ForegroundColor Red
         exit 1
     }
 
@@ -61,7 +80,7 @@ if ($Dev) {
     Write-Host ""
 
     if ($CurrentVersion -and $CurrentVersion -eq $LatestVersion) {
-        Write-Host "  ✓ Already up to date (v$CurrentVersion)" -ForegroundColor Green
+        Write-Host "$(icon_ok) Already up to date (v$CurrentVersion)" -ForegroundColor Green
         Write-Host ""
         Write-Host "  Usage:"
         Write-Host "    cd $InstallDir; uv run scripts/cli.py doctor"
@@ -75,22 +94,22 @@ if ($Dev) {
 }
 
 # ---- Download ----
-Write-Host "  ↓ Downloading..."
+Write-Host "$(icon_down) Downloading..."
 $WorkDir = New-TemporaryFile | ForEach-Object { Remove-Item $_; New-Item -ItemType Directory -Path $_ }
 $ZipPath = Join-Path $WorkDir $AssetName
 
 try {
     Invoke-WebRequest -Uri $DownloadUrl -OutFile $ZipPath -UseBasicParsing
 } catch {
-    Write-Host "  ✗ Failed to download: $DownloadUrl" -ForegroundColor Red
+    Write-Host "$(icon_err) Failed to download: $DownloadUrl" -ForegroundColor Red
     Write-Host "  See https://github.com/$Repo/releases for available releases."
     Remove-Item -Recurse -Force $WorkDir -ErrorAction SilentlyContinue
     exit 1
 }
-Write-Host "  ✓ Downloaded"
+Write-Host "$(icon_ok) Downloaded"
 
 # ---- Extract to skilless-repo ----
-Write-Host "  ↓ Extracting..."
+Write-Host "$(icon_down) Extracting..."
 $RepoDir = Join-Path $WorkDir "skilless-repo"
 New-Item -ItemType Directory -Path $RepoDir -Force | Out-Null
 Expand-Archive -Path $ZipPath -DestinationPath $RepoDir -Force
@@ -101,10 +120,10 @@ if ($Dev) {
 } else {
     $SrcDir = $RepoDir
 }
-Write-Host "  ✓ Extracted"
+Write-Host "$(icon_ok) Extracted"
 
 # ---- Copy src/* -> ~/.agents/skills/ ----
-Write-Host "  ↓ Installing files..."
+Write-Host "$(icon_down) Installing files..."
 New-Item -ItemType Directory -Path $SkillsDir -Force | Out-Null
 $SrcPath = Join-Path $SrcDir "src"
 Get-ChildItem -Path $SrcPath | ForEach-Object {
@@ -119,56 +138,64 @@ Get-ChildItem -Path $SrcDir -Filter "README*.md" | ForEach-Object {
 
 # Cleanup work dir
 Remove-Item -Recurse -Force $WorkDir -ErrorAction SilentlyContinue
-Write-Host "  ✓ Files installed"
+Write-Host "$(icon_ok) Files installed"
 
 # ---- Check / install uv ----
 if (Get-Command uv -ErrorAction SilentlyContinue) {
     $UvVer = uv --version
-    Write-Host "  ✓ uv found: $UvVer"
+    Write-Host "$(icon_ok) uv found: $UvVer"
 } else {
-    Write-Host "  ↓ Installing uv (Python package manager)..."
+    Write-Host "$(icon_down) Installing uv (Python package manager)..."
     irm https://astral.sh/uv/install.ps1 | iex
     $env:PATH = "$env:USERPROFILE\.local\bin;$env:PATH"
     $UvVer = uv --version
-    Write-Host "  ✓ uv installed: $UvVer"
+    Write-Host "$(icon_ok) uv installed: $UvVer"
 }
 
 # ---- Mirror selection ----
 $UvIndexUrl = "https://pypi.org/simple"
 if ($China) {
     $UvIndexUrl = "https://pypi.tuna.tsinghua.edu.cn/simple"
-    Write-Host "  → Using China mirror (Tsinghua)"
+    Write-Host "$(icon_arrow) Using China mirror (Tsinghua)"
 } else {
     try {
         $null = Invoke-WebRequest -Uri "https://pypi.org" -Method Head -TimeoutSec 3 -UseBasicParsing
     } catch {
-        Write-Host "  → China network detected, switching to Tsinghua mirror"
+        Write-Host "$(icon_arrow) China network detected, switching to Tsinghua mirror"
         $UvIndexUrl = "https://pypi.tuna.tsinghua.edu.cn/simple"
     }
 }
 
 # ---- Virtual environment ----
-Write-Host "  ↓ Setting up virtual environment..."
-uv venv "$InstallDir\.venv" --python ">=3.12" --quiet 2>$null
+Write-Host "$(icon_down) Setting up virtual environment..."
+uv venv "$InstallDir\.venv" --python "3.13" --quiet 2>$null
 $PythonExe = "$InstallDir\.venv\Scripts\python.exe"
 $PyVer = & $PythonExe --version 2>&1
-Write-Host "  ✓ Virtual environment ready ($PyVer)"
+Write-Host "$(icon_ok) Virtual environment ready ($PyVer)"
 
 # ---- Install dependencies ----
-Write-Host "  ↓ Installing dependencies..."
+Write-Host "$(icon_down) Installing dependencies..."
 uv pip install --python $PythonExe $InstallDir --index-url $UvIndexUrl --quiet 2>$null
-Write-Host "  ✓ Dependencies installed"
+Write-Host "$(icon_ok) Dependencies installed"
 
 # ---- Done ----
 $NewVersion = if (Test-Path "$InstallDir\VERSION") { (Get-Content "$InstallDir\VERSION") -replace '^\s+|\s+$', '' } else { "unknown" }
 if ($Dev) { $NewVersion = "$NewVersion-dev" }
 
 Write-Host ""
-Write-Host "  ✓ Skilless v$NewVersion installed!" -ForegroundColor Green
+Write-Host "$(icon_ok) Skilless v$NewVersion installed!" -ForegroundColor Green
 Write-Host ""
 Write-Host "  Usage:"
 Write-Host "    cd $InstallDir; uv run scripts/cli.py doctor"
 Write-Host "    cd $InstallDir; uv run scripts/cli.py search <query>"
 Write-Host ""
 Write-Host "  Please restart VS Code / OpenCode / Copilot or reload your Agent to enable the skills."
+Write-Host ""
+
+# ---- Doctor check ----
+Write-Host "  Running doctor check..."
+Write-Host ""
+Push-Location $InstallDir
+uv run scripts/cli.py doctor
+Pop-Location
 Write-Host ""

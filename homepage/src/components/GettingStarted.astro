@@ -15,7 +15,7 @@ const macCmd = lang === 'zh'
   : 'curl -LsSf https://skilless.ai/install | bash';
 const winCmd = lang === 'zh'
   ? '& ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -China'
-  : 'irm https://skilless.ai/install.ps1 | iex';
+  : 'Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression';
 
 const llmGuide = `# Install skilless.ai
 

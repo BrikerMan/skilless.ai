@@ -13,7 +13,7 @@ const t = useTranslations(lang);
 const macCmd = lang === 'zh'
   ? 'curl -LsSf https://skilless.ai/install | bash -s -- --china'
   : 'curl -LsSf https://skilless.ai/install | bash';
-const winCmd = 'irm https://skilless.ai/install.ps1 | iex';
+const winCmd = 'Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression';
 
 const llmPrompt = `# Install skilless.ai\n\nRun this command in the user's terminal to install skilless.ai:\n\n\`\`\`bash\n${macCmd}\n\`\`\`\n\nFor Windows (PowerShell):\n\`\`\`powershell\n${winCmd}\n\`\`\``;
 

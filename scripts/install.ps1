@@ -1,5 +1,5 @@
 # Skilless Installer for Windows
-# Usage: irm https://skilless.ai/install.ps1 | iex
+# Usage: Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression
 # Dev:   & ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -Dev
 # China: & ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -China
 

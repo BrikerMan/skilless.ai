@@ -133,7 +133,7 @@ curl -LsSf https://skilless.ai/install | bash
 **Windows (PowerShell)**
 
 ```powershell
-irm https://skilless.ai/install.ps1 | iex
+Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression
 ```
 
 <details>
