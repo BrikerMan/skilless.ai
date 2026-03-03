@@ -1,5 +1,5 @@
 # Skilless Installer for Windows
-# Usage: Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression
+# Usage: irm https://skilless.ai/install.ps1 | iex
 # Dev:   & ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -Dev
 # China: & ([scriptblock]::Create((irm https://skilless.ai/install.ps1))) -China
 
@@ -8,7 +8,13 @@ param(
   [switch]$China
 )
 
-$ErrorActionPreference = "Stop"
+function Invoke-SkillessInstall {
+  param(
+    [switch]$Dev,
+    [switch]$China
+  )
+
+  $ErrorActionPreference = "Stop"
 
 # ---- Fix console encoding for Unicode/Emoji output on Windows ----
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -73,7 +79,7 @@ if ($Dev) {
         $LatestVersion = $Release.tag_name -replace '^release/v?', ''
     } catch {
         Write-Host "$(icon_err) Failed to fetch latest version from GitHub" -ForegroundColor Red
-        exit 1
+        return
     }
 
     Write-Host "  Latest : v$LatestVersion"
@@ -86,7 +92,7 @@ if ($Dev) {
         Write-Host "    cd $InstallDir; uv run scripts/cli.py doctor"
         Write-Host "    cd $InstallDir; uv run scripts/cli.py search <query>"
         Write-Host ""
-        exit 0
+        return
     }
 
     $AssetName = "skilless.zip"
@@ -104,7 +110,7 @@ try {
     Write-Host "$(icon_err) Failed to download: $DownloadUrl" -ForegroundColor Red
     Write-Host "  See https://github.com/$Repo/releases for available releases."
     Remove-Item -Recurse -Force $WorkDir -ErrorAction SilentlyContinue
-    exit 1
+    return
 }
 Write-Host "$(icon_ok) Downloaded"
 
@@ -193,9 +199,12 @@ Write-Host "  Please restart VS Code / OpenCode / Copilot or reload your Agent t
 Write-Host ""
 
 # ---- Doctor check ----
-Write-Host "  Running doctor check..."
-Write-Host ""
-Push-Location $InstallDir
-uv run scripts/cli.py doctor
-Pop-Location
-Write-Host ""
+  Write-Host "  Running doctor check..."
+  Write-Host ""
+  Push-Location $InstallDir
+  uv run scripts/cli.py doctor
+  Pop-Location
+  Write-Host ""
+}
+
+Invoke-SkillessInstall @PSBoundParameters
