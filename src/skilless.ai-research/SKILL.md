@@ -25,16 +25,18 @@ When the user intent is ambiguous, ask one clarifying question before proceeding
 
 Not every request needs a full investigation. Choose the appropriate depth based on complexity, or **ask the user** if unclear.
 
-| Level                       | When to use                                                   | Typical effort                                                                                     |
-| --------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| **L1 — Quick lookup**       | Single fact, definition, simple question                      | 1-2 searches, 0-1 page reads                                                                       |
-| **L2 — Focused research**   | Comparison, how-to, specific topic                            | 3-5 searches, 2-4 page reads, basic fact-check                                                     |
-| **L3 — Deep investigation** | Multi-faceted analysis, market research, technical evaluation | 5+ searches across multiple rounds, 5+ page reads, full cross-source fact-check, structured report |
+> **"Round" = one cycle of parallel tool calls.** A single round can fire 3-5 searches/reads in parallel. Rounds are sequential — each round builds on what you learned in the previous one.
+
+| Level                       | When to use                                                   | Minimum effort                                                  |
+| --------------------------- | ------------------------------------------------------------- | --------------------------------------------------------------- |
+| **L1 — Quick lookup**       | Single fact, definition, simple question                      | 1 round, 1-2 searches                                          |
+| **L2 — Focused research**   | Comparison, how-to, specific topic                            | 2-3 rounds, 2+ page reads, basic fact-check                    |
+| **L3 — Deep investigation** | Multi-faceted analysis, market research, technical evaluation | **5+ rounds**, 5+ page reads, task list mandatory, full fact-check |
 
 **Decision guide:**
 - If the question can be answered with a single search result → **L1**
 - If it involves comparing options or understanding a topic in depth → **L2**
-- If it requires multiple perspectives, data synthesis, or the user explicitly says "research" / "investigate" / "deep dive" → **L3**
+- If it requires multiple perspectives, data synthesis, or the user explicitly says "research" / "investigate" / "deep dive" / "深度" → **L3**
 - **If you cannot determine the level, ask the user:** "This could be a quick lookup or a deeper investigation — how thorough would you like me to be?"
 
 ---
@@ -51,26 +53,52 @@ Before searching, clarify:
 
 If any of the above is unclear, **ask the user** before proceeding.
 
-### Step 2 — Multi-Round Search
+### Step 2 — Create Research Plan (L3 mandatory, L2 recommended)
 
-Search from multiple angles across rounds:
+**Decompose the task into research dimensions** — each dimension is an independent angle of investigation. Use `todo`, `tasks`, `todowrite`, or equivalent tool to create a visible task list.
 
+Example — "深度检索 AI coding 领域的创业公司，区分海内外，并简单判断投资潜力":
+
+```
+[ ] 1. 海外 AI coding 创业公司全景 (who, what, founded when)
+[ ] 2. 国内 AI coding 创业公司全景
+[ ] 3. 各公司融资情况、投资方、估值
+[ ] 4. 产品对比：功能、定价、目标用户
+[ ] 5. 市场格局和竞争态势
+[ ] 6. 投资潜力评估（团队、技术壁垒、增长、风险）
+```
+
+**Rules:**
+- L3 must have **at least 3 dimensions**, typically 4-6
+- Each dimension will get its own dedicated search round(s)
+- Do NOT skip this step — a task list forces thoroughness
+
+### Step 3 — Execute Per-Dimension (Multi-Round Search)
+
+**Execute each dimension as a focused investigation cycle:**
+
+For each dimension in the task list:
+1. **Search** — Fire 1-3 parallel searches targeting this specific dimension
+2. **Read** — Open and read the most relevant sources from search results
+3. **Record** — Extract key data points, note sources, mark dimension complete
+4. **Adapt** — If new keywords or sub-questions emerge, add them to the plan
+
+**Search angle variety within each round:**
 - **Broad terms** — Get the landscape, find authoritative sources
 - **Specific terms** — Target precise data (version numbers, prices, specs)
 - **Contrarian terms** — Search for "problems", "downsides", "alternatives", "vs" to find critical perspectives
 - **Recency terms** — Add year or "2025" to filter outdated content
 - **Multi-language** — Search in both English and Chinese when relevant
 
-If a round reveals new keywords or sources, keep digging.
+**Parallelism:** Within a single round, fire multiple tool calls in parallel (e.g., 3 searches at once, or 2 searches + 1 web read). Each round should maximize parallel execution.
 
-### Step 3 — Deep Read Core Sources
+<HARD-GATE>
+L3 research MUST NOT proceed to synthesis (Step 5) until:
+- At least **5 rounds** of tool calls have been executed
+- At least **3 dimensions** have been independently investigated
+- At least **5 pages** have been fully read (not just search snippets)
 
-Finding a source is not enough — read it properly:
-
-- Priority: official site > official docs > authoritative reports > reputable media > community discussions
-- Read full pages, not just titles and snippets
-- Note publication dates — tech content older than 1-2 years may be outdated
-- Record the original phrasing and source URL for key data points
+If you have not met these minimums, keep researching. Do NOT shortcut.
 
 ### Step 4 — Fact-Check
 
