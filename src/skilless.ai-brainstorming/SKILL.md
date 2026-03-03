@@ -69,47 +69,6 @@ digraph brainstorming {
 - Ask after each section whether it looks right
 - Cover dimensions relevant to the domain: structure, key decisions, risks, next steps
 
-## CLI Tools
-
-**Use these CLI commands for research during brainstorming:**
-
-### Search (Exa AI)
-```bash
-# Find examples, best practices, and references
-cd ~/.agents/skills/skilless/ && uv run scripts/search.py "your query" [num_results]
-
-# Examples:
-cd ~/.agents/skills/skilless/ && uv run scripts/search.py "microservices architecture patterns" 10
-cd ~/.agents/skills/skilless/ && uv run scripts/search.py "authentication best practices for APIs"
-```
-
-### Web Reader (Jina Reader)
-```bash
-# Read documentation, articles, and references
-cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>
-
-# Examples:
-cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://docs.python.org/3/library/asyncio.html
-cd ~/.agents/skills/skilless/ && uv run scripts/web.py https://blog.pragmaticengineer.com/
-```
-
-### Video Transcript Extractor
-
-> ⚠️ **PEP 668 Environment Restriction:** Always use the skilless virtual environment:
-> ```bash
-> cd ~/.agents/skills/skilless/ && uv run yt-dlp [args]
-> ```
-
-### Media Converter
-```bash
-# Convert and compress media files
-cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py <input> <output>
-
-# Examples:
-cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py video.mkv output.mp4
-cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py input.mp4 output.mp3
-```
-
 ## Key Principles
 
 - **Batch questions by dependency** - Ask independent questions together in one round; hold dependent ones for the next round after getting answers
@@ -120,8 +79,7 @@ cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py input.mp4 output.mp3
 - **Domain-agnostic** - Works for product, business, creative, process, and technical ideas alike
 - **Be flexible** - Go back and clarify when something doesn't make sense
 
-## Tools Available
+## Cross-References
 
-- `ask_questions` / `ask` / `questions` - Ask multiple clarifying questions at once (prefer over plain text)
-- `search` - Search the web for context/reference
-- `web` - Read webpages for research
+- **Need research?** → Invoke `skilless.ai-research` to search the web, read pages, extract video transcripts, or conduct deep multi-source investigations
+- **Ready to document the plan?** → Invoke `skilless.ai-writing` to produce a professional, structured design doc or report from the approved plan

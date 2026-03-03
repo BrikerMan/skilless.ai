@@ -106,6 +106,20 @@ Skills are installed as `SKILL.md` files under `~/.agents/skills/`. Your Agent r
 | **Research** | Multi-source cross-validated deep research — transforms AI from text generator to active researcher |
 | **Writing** | Produce articles, docs, and reports backed by real research data |
 
+### Skill Ecosystem
+
+The three skills work together as a connected system — each can invoke the others when needed:
+
+```mermaid
+graph LR
+  B["🧠 Brainstorming"] -->|need data| R["🔍 Research"]
+  B -->|document plan| W["✍️ Writing"]
+  R -->|write report| W
+  R -->|clarify scope| B
+  W -->|gather data| R
+  W -->|clarify brief| B
+```
+
 ---
 
 ## Quick Install

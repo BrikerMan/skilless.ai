@@ -5,219 +5,252 @@ description: "Fetch internet content or conduct deep multi-source research. Quic
 
 # Research Skill
 
-**Fetch internet content or conduct deep multi-source research.**
+Fetch internet content or conduct deep multi-source research.
 
-Two operating modes:
+## Routing Table
 
-- **Quick content access** — Search, read a page, extract video transcripts, or parse a feed on the spot
-- **Deep research** — Combine multiple sources, cross-check facts, and synthesize a structured fact-checked report
+| Trigger words                            | Tool                    | Purpose                      |
+| ---------------------------------------- | ----------------------- | ---------------------------- |
+| search, find, look up                    | `search.py`             | Web, docs, news lookup       |
+| read, fetch, get page                    | `web.py`                | Extract page text            |
+| download, extract, subtitles, transcript | `youtube.py` / `yt-dlp` | Video subtitles and metadata |
+| convert, compress, encode, ffmpeg        | `ffmpeg.py`             | Media format conversion      |
+| research, investigate, analyze, compare  | Multi-tool workflow     | Deep multi-source research   |
 
-## When to Use
-
-- "search", "find", "look up" → quick lookup with `search`
-- "read", "fetch", "get page" → extract content with `web`
-- "download", "extract", "get subtitles/transcript" → use `ytd`
-- "convert", "compress", "encode", "media", "ffmpeg" → use `media`
-- "research", "investigate", "analyze", "compare" → deep multi-source research
-
----
-
-## Mode 1: Quick Content Access
-
-| 操作 | 工具 | 用途 |
-|------|------|------|
-| **Search** | `search.py` | 查找网页、文档、新闻 |
-| **Read** | `web.py` | 提取网页文本内容 |
-| **Extract** | `youtube.py` | 提取视频字幕/元数据 |
-| **Convert** | `ffmpeg.py` | 转换/压缩媒体文件 |
+When the user intent is ambiguous, ask one clarifying question before proceeding.
 
 ---
 
-## Mode 2: Research
+## Research Depth Levels
 
-多源研究、深度 fact-check、结构化输出。任务涉及多步骤或多来源时使用 todo list 跟踪进度。
+Not every request needs a full investigation. Choose the appropriate depth based on complexity, or **ask the user** if unclear.
+
+| Level                       | When to use                                                   | Typical effort                                                                                     |
+| --------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **L1 — Quick lookup**       | Single fact, definition, simple question                      | 1-2 searches, 0-1 page reads                                                                       |
+| **L2 — Focused research**   | Comparison, how-to, specific topic                            | 3-5 searches, 2-4 page reads, basic fact-check                                                     |
+| **L3 — Deep investigation** | Multi-faceted analysis, market research, technical evaluation | 5+ searches across multiple rounds, 5+ page reads, full cross-source fact-check, structured report |
+
+**Decision guide:**
+- If the question can be answered with a single search result → **L1**
+- If it involves comparing options or understanding a topic in depth → **L2**
+- If it requires multiple perspectives, data synthesis, or the user explicitly says "research" / "investigate" / "deep dive" → **L3**
+- **If you cannot determine the level, ask the user:** "This could be a quick lookup or a deeper investigation — how thorough would you like me to be?"
 
 ---
 
-### 研究工作流
+## Research Workflow (L2 and L3)
 
-#### Step 1: 明确范围
+### Step 1 — Define Scope
 
-开始搜索前先想清楚：
+Before searching, clarify:
+- What is the core question? What does the user actually need to know?
+- What source types are needed — official docs, news, academic papers, user reviews?
+- What dimensions matter (price, performance, compatibility, recency...)?
+- How confident does the conclusion need to be?
 
-- 核心问题是什么？用户真正想知道的是什么？
-- 需要什么类型的来源 — 官方文档、媒体报道、学术论文、用户评测？
-- 哪些维度重要（价格、性能、兼容性、时效性...）？
-- 结论需要多高的可信度？
+If any of the above is unclear, **ask the user** before proceeding.
 
-#### Step 2: 多轮搜索
+### Step 2 — Multi-Round Search
 
-**不止搜一次**。分多轮从不同角度逼近答案：
+Search from multiple angles across rounds:
 
-- **宽泛词** — 先了解全貌，找头部来源（如 `site:reddit.com`、官网）
-- **具体词** — 定向找精确数据（版本号、价格、规格）
-- **反向词** — 搜"问题/缺点/对比/alternatives"，找批评性信息
-- **时效词** — 加上年份或"2025"过滤过期内容
-- **多语言** — 必要时用中英文分别搜索
+- **Broad terms** — Get the landscape, find authoritative sources
+- **Specific terms** — Target precise data (version numbers, prices, specs)
+- **Contrarian terms** — Search for "problems", "downsides", "alternatives", "vs" to find critical perspectives
+- **Recency terms** — Add year or "2025" to filter outdated content
+- **Multi-language** — Search in both English and Chinese when relevant
 
-每轮结果如果指向新的关键词或来源，继续深挖。
+If a round reveals new keywords or sources, keep digging.
 
-#### Step 3: 深读核心来源
+### Step 3 — Deep Read Core Sources
 
-找到来源不等于研究完成，需要真正读进去：
+Finding a source is not enough — read it properly:
 
-- 优先顺序：官网 > 官方文档 > 权威报告 > 知名媒体 > 社区讨论
-- 读完整页面，不只看标题和摘要
-- 注意发布时间 — 技术类内容超过 1-2 年可能已过时
-- 记录关键数据的原始表述和来源 URL
+- Priority: official site > official docs > authoritative reports > reputable media > community discussions
+- Read full pages, not just titles and snippets
+- Note publication dates — tech content older than 1-2 years may be outdated
+- Record the original phrasing and source URL for key data points
 
-#### Step 4: Fact-check
+### Step 4 — Fact-Check
 
-研究中最重要的一步，不能跳过：
+**Do not skip this step.**
 
-- **关键数据**至少从 3 个独立来源交叉验证
-- 发现来源互相矛盾时，分析原因（时间差？不同版本？利益立场？），说明哪个更可信
-- 区分"事实"和"观点"——观点可以引用，但不能当作事实陈述
-- 无法核实的数据明确标注"未经独立验证"，不要假装已确认
+- Cross-verify key data from multiple independent sources (aim for 2-3; more for L3)
+- If only a single source exists, explicitly note: "Based on a single source — not independently verified"
+- When sources contradict each other:
+  1. Identify the reason (timing difference? different versions? conflicting interests?)
+  2. State which source is more credible and why
+  3. **If you cannot resolve the contradiction, present both sides and ask the user** how they want to proceed
+- Distinguish **facts** from **opinions** — opinions may be cited but must not be stated as facts
+- Never fabricate or assume unverified data — say "insufficient evidence" instead
 
-#### Step 5: 综合输出
+### Step 5 — Synthesize Output
 
-- **结论优先** — 开头直接给出最重要的发现或推荐，再展开细节
-- **每个数据点附来源** `[1]`，让读者可以自行核实
-- **如实呈现不确定性** — 证据不足时说"目前数据有限"，不要强行下结论
-- 末尾列出所有引用来源
+- **Conclusion first** — Lead with the most important finding or recommendation, then expand
+- **Cite every data point** with `[1]`, `[2]`, etc., so the reader can verify
+- **Be honest about uncertainty** — If evidence is limited, say so; do not force a conclusion
+- End with a full source list
+
+---
+
+## Contradiction and Uncertainty Handling
+
+When you encounter any of the following during research, **do not silently resolve it — surface it to the user:**
+
+| Situation                                          | Action                                                                                               |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Sources contradict each other on key data          | Present both claims with sources, explain possible reasons, ask user which direction to prioritize   |
+| A critical piece of information cannot be verified | State what you found and what is missing, ask if the user wants to proceed or dig deeper             |
+| The scope is ambiguous or too broad                | Ask a scoping question before investing effort                                                       |
+| Research is turning up very little                 | Report what you found so far, ask if the user can provide additional context or alternative keywords |
+| User's assumption appears to be incorrect          | Politely flag the discrepancy with evidence, ask for confirmation before proceeding                  |
+
+**Format for follow-up questions:**
+
+> ⚠️ **Needs clarification:** [concise description of the issue]
+>
+> **Options:**
+> 1. [Option A]
+> 2. [Option B]
+>
+> Which would you prefer, or would you like me to handle it differently?
+
+---
+
+## Error Handling
+
+When a tool fails, follow this protocol — **never silently fail or fabricate content:**
+
+| Error | Action |
+|-------|--------|
+| `search.py` returns empty results | Retry with rephrased keywords or different language, up to 3 attempts. If still empty, inform user and suggest alternative search terms. |
+| `web.py` extraction fails (anti-bot, paywall, timeout) | Inform user the page is inaccessible. Try searching for a cached or alternative version. |
+| `youtube.py` / `yt-dlp` fails | Check URL format. If "Sign in to confirm you're not a bot" or timeout: suggest enabling TUN mode proxy, or trying `--cookies-from-browser chrome`, or using a Bilibili alternative. Report the specific error to user. |
+| `ffmpeg.py` fails | Report the error message. Check input format compatibility. Suggest alternative format if applicable. |
+| Any unknown error | Run `doctor` to diagnose, report findings to user, do not guess. |
+
+**Core principle:** If a tool fails and you cannot recover, tell the user what happened, what you tried, and suggest next steps. Never pretend it succeeded.
 
 ---
 
 ## Output Format
 
-纯 Markdown，**不包含任何 HTML 标签**。
+**Strict portable Markdown only.** The output must render correctly in any Markdown editor (GitHub, Obsidian, Typora, VS Code, etc.).
 
-### 表格
+### Rules
 
-**严格规范**：表格单元格必须是单行文本，禁止换行。
+1. **No HTML tags** — no `<br>`, `<div>`, `<table>`, `<sub>`, `<sup>`, or any HTML whatsoever
+2. **Table cells must be single-line plain text** — no line breaks, no nested lists, no multi-line content inside a cell
+3. If content does not fit single-line table cells, **use a list instead of a table**
+4. Use blank lines before and after headings, tables, code blocks, and block quotes to ensure correct parsing
+5. Do not use indented code blocks — always use fenced code blocks with triple backticks
 
-- 单元格内禁止使用 `<br>` 换行
-- 多项信息用逗号分隔，不要换行
-- 禁止在单元格内使用列表、嵌套表格
-- 每列宽度尽量均匀，避免某个单元格内容过长
+### Formatting Toolkit
 
-适合用表格的情况 — 横向对比多个对象，且每格都是单行短文本：
+| Element             | Usage                                 |
+| ------------------- | ------------------------------------- |
+| **Bold**            | Key conclusions, important numbers    |
+| Lists (`-` or `1.`) | Pros/cons, steps, explanations        |
+| `✅ ❌ ⚠️`             | Supported / not supported / caution   |
+| `> quote block`     | Direct quotes from sources            |
+| `` `inline code` `` | Tool names, commands, technical terms |
+
+### Table Example (Use Only When Appropriate)
+
+Tables are for **comparing multiple items with short single-line values:**
 
 ```markdown
-| 产品 | 价格 | 支持离线 | 评分 |
-|------|------|----------|------|
-| A    | ¥99  | ✅       | ⭐⭐⭐⭐⭐ |
-| B    | ¥199 | ❌       | ⭐⭐⭐⭐ |
-| C    | 免费  | ✅       | ⭐⭐⭐ |
+| Product | Price | Offline | Rating |
+| ------- | ----- | ------- | ------ |
+| A       | $99   | ✅       | 4.5/5  |
+| B       | $199  | ❌       | 4.0/5  |
+| C       | Free  | ✅       | 3.5/5  |
 ```
 
-不适合用表格的情况 — 单列内容、格子里有多行文字、需要嵌套结构，或无法满足上述单行规范时，请改用列表。
+**Do not use tables when:** content is single-column, cells need multi-line text, or structure requires nesting.
 
-### 其他格式
+### Source Citations
 
-- **加粗** — 关键结论、重要数字
-- 列表 — 优缺点、步骤、说明性内容
-- `✅ ❌ ⚠️` — 支持/不支持/需注意
-- `⭐⭐⭐⭐⭐` — 评分
-- `> 引用块` — 来源原文摘录
+Inline: `[1]`, `[2]`, etc.
 
-### 来源
-
-文内用 `[1]` 标注，末尾附完整列表：
+At the end:
 
 ```markdown
-## 来源
-
-[1] [Title](URL) — 关键数据说明
+## Sources
+[1] [Title](URL) — Key data description
 [2] [Title](URL)
 ```
 
 ---
 
+## Context Management
+
+- **Long content (>2000 words):** Summarize key information after extraction; do not paste raw content into the response
+- **Subtitles:** Download to disk by default — only load into context when the user explicitly asks for content analysis (e.g. "summarize this video", "extract info about X")
+- **Multiple pages:** Synthesize and integrate findings; do not stack raw page dumps
+
+---
+
 ## CLI Tools Reference
+
+> 📁 **Working directory:** All commands run from `~/.agents/skills/skilless/`.
+> The `cd ~/.agents/skills/skilless/ &&` prefix is shown in full for each command to ensure correct execution.
 
 ### Search (Exa AI)
 
 ```bash
-# Basic search (returns 5 results by default)
 cd ~/.agents/skills/skilless/ && uv run scripts/search.py "your query"
-
-# Specify number of results
 cd ~/.agents/skills/skilless/ && uv run scripts/search.py "your query" 10
 ```
 
 ### Web Reader (Jina Reader)
 
 ```bash
-# Extract content from any webpage as text
 cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>
 ```
 
-### Video Downloader / Transcript Extractor (yt-dlp)
+### Video / Transcript Extractor
 
-> ⚠️ **PEP 668 限制**：macOS 防止直接 pip 安装。必须使用 skilless 虚拟环境：
-> ```bash
-> cd ~/.agents/skills/skilless/ && uv run yt-dlp [args]
-> ```
-
-> 💡 **直接使用 yt-dlp**：
-> ```bash
-> cd ~/.agents/skills/skilless/ && uv run yt-dlp "URL"           # Download video
-> cd ~/.agents/skills/skilless/ && uv run yt-dlp --list-subs "URL"  # List subtitles
-> cd ~/.agents/skills/skilless/ && uv run yt-dlp --write-subs --write-auto-subs "URL"
-> cd ~/.agents/skills/skilless/ && uv run yt-dlp -x --audio-format mp3 "URL"
-> ```
-
-> **下载路径规则**：
-> - **项目目录**（如 `~/codes/my-project/`）→ 下载到当前目录
-> - **家目录**（`~`）→ 默认下载到 `~/Downloads/`
-> - **禁止下载到 `/tmp`** — 需要特殊权限，文件可能自动删除
-
-> **字幕加载规则**：
-> - 默认下载字幕文件到当前目录 — **不要自动加载内容到 context**
-> - 仅在用户明确要求时读取字幕内容（如"总结这个视频"、"提取关于X的内容"）
-> - 原因：完整字幕可能很长，会不必要地拖慢对话
+**`youtube.py`** — One-step subtitle + metadata extraction (recommended for most cases):
 
 ```bash
-# Extract subtitles/transcript/metadata from any video URL
 cd ~/.agents/skills/skilless/ && uv run scripts/youtube.py "<url>"
-
-# Supported platforms (1700+):
-# YouTube, Bilibili, TikTok, Twitter/X, Twitch, Vimeo,
-# Dailymotion, Niconico, Rumble, Odysee, SoundCloud,
-# Reddit video, Instagram, Facebook Video, and many more
 ```
 
-> ⚠️ **YouTube 故障排查**：
-> - 错误 "Sign in to confirm you're not a bot" → IP 被 YouTube 反爬
-> - 国内网络直接连接失败（超时/拒绝）→ 需要代理
-> - **解决方案**：
->   1. 代理客户端切换为 **TUN 模式**（全局流量接管）
->   2. 或设置环境变量：`export HTTPS_PROXY=http://127.0.0.1:<port>`
->   3. 从浏览器导出 cookies：`yt-dlp --cookies-from-browser chrome "URL"`
->   4. 使用 Bilibili 替代（通常更稳定，无需代理）
+**`yt-dlp` direct** — Advanced usage (custom formats, audio-only, subtitle listing):
+
+```bash
+cd ~/.agents/skills/skilless/ && uv run yt-dlp "URL"
+cd ~/.agents/skills/skilless/ && uv run yt-dlp --list-subs "URL"
+cd ~/.agents/skills/skilless/ && uv run yt-dlp --write-subs --write-auto-subs "URL"
+cd ~/.agents/skills/skilless/ && uv run yt-dlp -x --audio-format mp3 "URL"
+```
+
+Supported platforms (1700+ via yt-dlp): YouTube, Bilibili, TikTok, Twitter/X, Twitch, Vimeo, Dailymotion, Niconico, Rumble, Odysee, SoundCloud, Reddit, Instagram, Facebook, and many more.
+
+**Download path rules:**
+- Inside a project directory (e.g. `~/codes/my-project/`) → download to current directory
+- At home directory (`~`) → default to `~/Downloads/`
+- **Never download to `/tmp`** — requires special permissions, files may auto-delete
+
+**YouTube troubleshooting:**
+- "Sign in to confirm you're not a bot" or timeout → enable TUN mode proxy, or try `--cookies-from-browser chrome`, or use Bilibili as alternative
 
 ### FFmpeg (Media Converter)
 
 ```bash
-# Convert or compress video/audio files
 cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py <input> <output>
-
-# Examples:
-uv run scripts/ffmpeg.py video.mkv output.mp4        # Convert video
-uv run scripts/ffmpeg.py audio.wav output.mp3        # Convert audio
-uv run scripts/ffmpeg.py input.mp4 output.mp4 -crf 28  # Compress
-
-# Supported formats: mp4, mkv, avi, mov, webm, mp3, aac, wav, flac, ogg
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py video.mkv output.mp4
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py audio.wav output.mp3
+cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py input.mp4 output.mp4 -crf 28
 ```
 
-### Doctor (Check Tool Status)
+Supported formats: mp4,
 
-```bash
-cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor
-cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor web
-cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor search
-cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor ytd
-cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor media
-```
+---
+
+## Cross-References
+
+- **Need a detailed report?** → After completing research, invoke `skilless.ai-writing` to produce professional reports, articles, documentation, or any structured written content from your findings
+- **Research goal unclear?** → Invoke `skilless.ai-brainstorming` to define scope, clarify questions, and explore approaches before starting a deep investigation

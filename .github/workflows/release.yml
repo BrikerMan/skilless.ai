@@ -42,3 +42,17 @@ jobs:
           name: v${{ steps.version.outputs.VERSION }}
           files: dist/skilless.zip
           generate_release_notes: true
+          body: |
+            ## Upgrade
+
+            To update to this version, simply re-run the install script:
+
+            **macOS / Linux**
+            ```sh
+            curl -fsSL https://skilless.ai/install | bash
+            ```
+
+            **Windows (PowerShell)**
+            ```powershell
+            irm https://skilless.ai/install.ps1 | iex
+            ```
