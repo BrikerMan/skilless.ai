@@ -32,7 +32,7 @@ const skills = [
 ];
 ---
 
-<section class="py-16 bg-gray-50 dark:bg-gray-950/50 border-t border-gray-200 dark:border-gray-800">
+<section class="py-16 border-t border-gray-200 dark:border-gray-800">
   <div class="max-w-5xl mx-auto px-6">
     <div class="text-center mb-12">
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">{t('skills.title')}</h2>
@@ -49,5 +49,15 @@ const skills = [
         </div>
       ))}
     </div>
+
+    <!-- Skill workflow chain -->
+    <div class="mt-8 flex items-center justify-center gap-3 text-sm text-gray-400 dark:text-gray-500">
+      <span class="px-3 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400 font-medium">{t('skills.brainstorm.name')}</span>
+      <span>&rarr;</span>
+      <span class="px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-medium">{t('skills.research.name')}</span>
+      <span>&rarr;</span>
+      <span class="px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 font-medium">{t('skills.writing.name')}</span>
+    </div>
+    <p class="text-center text-xs text-gray-400 dark:text-gray-500 mt-2">{t('skills.workflow')}</p>
   </div>
 </section>

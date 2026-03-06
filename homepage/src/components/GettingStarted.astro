@@ -1,5 +1,5 @@
 ---
-import { Download, Terminal, Bot, Copy } from 'lucide-astro';
+import { Download, Terminal, Bot, Copy, ChevronDown } from 'lucide-astro';
 import type { Lang } from '../i18n/utils';
 import { useTranslations } from '../i18n/utils';
 
@@ -14,30 +14,39 @@ const macCmd = lang === 'zh'
   ? 'curl -LsSf https://skilless.ai/install | bash -s -- --china'
   : 'curl -LsSf https://skilless.ai/install | bash';
 const winCmd = lang === 'zh'
-  ? 'Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression'
+  ? '& ([scriptblock]::Create((Invoke-RestMethod https://skilless.ai/install.ps1))) -China'
   : 'Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression';
 
-const llmGuide = `# Install skilless.ai
+const llmGuide = `Please help me install skilless.ai on my computer. It's an open-source AI skill library (github.com/brikerman/skilless.ai).
 
-Run this command in the user's terminal to install skilless.ai:
+Run this command in my terminal to install:
 
 \`\`\`bash
 ${macCmd}
 \`\`\`
 
-For Windows (PowerShell):
+If I'm on Windows, use PowerShell instead:
 \`\`\`powershell
 ${winCmd}
 \`\`\`
 
-This will:
+The installer will:
 1. Download the latest release from GitHub (github.com/brikerman/skilless.ai)
 2. Install uv (ultra-fast Python package manager) if not present
 3. Create an isolated virtual environment at ~/.agents/skills/skilless/
 4. Install all dependencies (yt-dlp, fastmcp, jina reader, feedparser)
 5. Generate the skilless CLI executable
 
-To upgrade, re-run the install command. No sudo required.`;
+Everything stays isolated in ~/.agents/skills/ — no sudo required, zero system pollution.
+
+After installation, please restart the agent or reload the window to enable the new skills.
+
+Available skills after install:
+- skilless.ai-brainstorming — Turn ideas into plans through collaborative dialogue
+- skilless.ai-research — Search web, read pages, extract video subtitles, media processing
+- skilless.ai-writing — Research-backed articles, emails, docs, and reports
+
+To upgrade later, just re-run the same install command.`;
 
 ---
 
@@ -65,6 +74,9 @@ To upgrade, re-run the install command. No sudo required.`;
             <Download size={14} strokeWidth={1.5} />
             {t('getstarted.step1.link')}
           </a>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 leading-relaxed">
+            {t('getstarted.step1.model.before')}<strong class="text-gray-700 dark:text-gray-200">MiniMax M2.5 Free</strong>{t('getstarted.step1.model.after')}
+          </p>
         </div>
       </div>
 
@@ -91,7 +103,13 @@ To upgrade, re-run the install command. No sudo required.`;
               </button>
             </div>
             <!-- Guide content -->
-            <pre class="overflow-x-auto px-5 py-4 bg-gray-50 dark:bg-gray-950 text-xs text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-wrap break-words font-mono"><code set:text={llmGuide} /></pre>
+            <div class="relative">
+              <pre id="gs-llm-pre" class="overflow-hidden px-5 py-4 bg-gray-50 dark:bg-gray-950 text-xs text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-wrap break-words font-mono max-h-[14em] transition-[max-height] duration-300"><code set:text={llmGuide} /></pre>
+              <button id="gs-llm-toggle" class="w-full text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors flex items-center justify-center gap-1 py-2 bg-gray-50 dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800" data-expand={t('hero.llm.expand')} data-collapse={t('hero.llm.collapse')}>
+                <ChevronDown size={14} strokeWidth={1.5} class="gs-llm-chevron transition-transform duration-200" />
+                <span class="gs-llm-toggle-label">{t('hero.llm.expand')}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -131,6 +149,21 @@ To upgrade, re-run the install command. No sudo required.`;
       setTimeout(() => btn.classList.remove('gs-copied'), 1500);
     });
   });
+
+  // LLM prompt expand/collapse
+  const gsLlmPre = document.getElementById('gs-llm-pre');
+  const gsLlmToggle = document.getElementById('gs-llm-toggle');
+  if (gsLlmPre && gsLlmToggle) {
+    let expanded = false;
+    gsLlmToggle.addEventListener('click', () => {
+      expanded = !expanded;
+      gsLlmPre.style.maxHeight = expanded ? gsLlmPre.scrollHeight + 'px' : '14em';
+      gsLlmPre.style.overflow = expanded ? 'auto' : 'hidden';
+      gsLlmToggle.querySelector('.gs-llm-chevron')?.classList.toggle('rotate-180', expanded);
+      const label = gsLlmToggle.querySelector('.gs-llm-toggle-label');
+      if (label) label.textContent = expanded ? gsLlmToggle.dataset.collapse || 'Collapse' : gsLlmToggle.dataset.expand || 'Show full prompt';
+    });
+  }
 </script>
 
 <style>

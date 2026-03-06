@@ -1,5 +1,5 @@
 ---
-import { Youtube, Film, Search, FileText, Globe, BookOpen, PenTool, Video, Music, FileVideo, Sparkles } from 'lucide-astro';
+import { Youtube, Film, Search, FileText, Globe, BookOpen, PenTool, Video, Music, FileVideo, Sparkles, Lightbulb, Wrench } from 'lucide-astro';
 import type { Lang } from '../i18n/utils';
 import { useTranslations } from '../i18n/utils';
 
@@ -10,66 +10,18 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const categories = [
+// Row 1: AI Skill scenarios (composite, high-level tasks)
+const skillCategories = [
   {
-    icon: Video,
-    title: t('usecases.video.title'),
-    color: 'text-red-500 dark:text-red-400',
-    bgColor: 'bg-red-50 dark:bg-red-950/40',
+    icon: Lightbulb,
+    title: t('usecases.brainstorm.title'),
+    color: 'text-amber-500 dark:text-amber-400',
+    bgColor: 'bg-amber-50 dark:bg-amber-950/40',
     cases: [
-      { icon: Youtube, text: t('usecases.video.youtube'), highlight: true },
-      { icon: Youtube, text: t('usecases.video.bilibili'), highlight: true },
-      { icon: Film, text: t('usecases.video.tiktok') },
-      { icon: Film, text: t('usecases.video.twitter') },
-      { icon: Film, text: t('usecases.video.twitch') },
-      { icon: Film, text: t('usecases.video.vimeo') },
-      { icon: Film, text: t('usecases.video.more') },
-    ]
-  },
-  {
-    icon: FileText,
-    title: t('usecases.subtitle.title'),
-    color: 'text-orange-500 dark:text-orange-400',
-    bgColor: 'bg-orange-50 dark:bg-orange-950/40',
-    cases: [
-      { icon: Youtube, text: t('usecases.subtitle.youtube'), highlight: true },
-      { icon: Youtube, text: t('usecases.subtitle.bilibili'), highlight: true },
-      { icon: FileText, text: t('usecases.subtitle.organize') },
-      { icon: FileText, text: t('usecases.subtitle.translate') },
-      { icon: FileText, text: t('usecases.subtitle.summary') },
-    ]
-  },
-  {
-    icon: Music,
-    title: t('usecases.media.title'),
-    color: 'text-violet-500 dark:text-violet-400',
-    bgColor: 'bg-violet-50 dark:bg-violet-950/40',
-    cases: [
-      { icon: FileVideo, text: t('usecases.media.extract') },
-      { icon: FileVideo, text: t('usecases.media.compress') },
-      { icon: FileVideo, text: t('usecases.media.convert') },
-    ]
-  },
-  {
-    icon: Search,
-    title: t('usecases.search.title'),
-    color: 'text-blue-500 dark:text-blue-400',
-    bgColor: 'bg-blue-50 dark:bg-blue-950/40',
-    cases: [
-      { icon: Search, text: t('usecases.search.product'), highlight: true },
-      { icon: Search, text: t('usecases.search.news') },
-      { icon: Search, text: t('usecases.search.trend') },
-    ]
-  },
-  {
-    icon: Globe,
-    title: t('usecases.web.title'),
-    color: 'text-emerald-500 dark:text-emerald-400',
-    bgColor: 'bg-emerald-50 dark:bg-emerald-950/40',
-    cases: [
-      { icon: Globe, text: t('usecases.web.read') },
-      { icon: Globe, text: t('usecases.web.extract') },
-      { icon: Globe, text: t('usecases.web.doc') },
+      { icon: Lightbulb, text: t('usecases.brainstorm.idea'), highlight: true },
+      { icon: Lightbulb, text: t('usecases.brainstorm.feature') },
+      { icon: Lightbulb, text: t('usecases.brainstorm.decision') },
+      { icon: Lightbulb, text: t('usecases.brainstorm.strategy') },
     ]
   },
   {
@@ -96,6 +48,53 @@ const categories = [
     ]
   },
 ];
+
+// Row 2: CLI Tool capabilities (specific, low-level)
+const toolCategories = [
+  {
+    icon: Search,
+    title: t('usecases.search.title'),
+    color: 'text-blue-500 dark:text-blue-400',
+    bgColor: 'bg-blue-50 dark:bg-blue-950/40',
+    cases: [
+      { icon: Search, text: t('usecases.search.product'), highlight: true },
+      { icon: Search, text: t('usecases.search.news') },
+      { icon: Search, text: t('usecases.search.trend') },
+      { icon: Globe, text: t('usecases.web.read') },
+      { icon: Globe, text: t('usecases.web.extract') },
+      { icon: Globe, text: t('usecases.web.doc') },
+    ]
+  },
+  {
+    icon: Video,
+    title: t('usecases.video.title'),
+    color: 'text-red-500 dark:text-red-400',
+    bgColor: 'bg-red-50 dark:bg-red-950/40',
+    cases: [
+      { icon: Youtube, text: t('usecases.video.youtube'), highlight: true },
+      { icon: Youtube, text: t('usecases.video.bilibili'), highlight: true },
+      { icon: Film, text: t('usecases.video.tiktok') },
+      { icon: Film, text: t('usecases.video.twitter') },
+      { icon: Film, text: t('usecases.video.more') },
+      { icon: FileText, text: t('usecases.subtitle.youtube') },
+      { icon: FileText, text: t('usecases.subtitle.organize') },
+      { icon: FileText, text: t('usecases.subtitle.summary') },
+    ]
+  },
+  {
+    icon: Music,
+    title: t('usecases.media.title'),
+    color: 'text-violet-500 dark:text-violet-400',
+    bgColor: 'bg-violet-50 dark:bg-violet-950/40',
+    cases: [
+      { icon: FileVideo, text: t('usecases.media.extract') },
+      { icon: FileVideo, text: t('usecases.media.compress') },
+      { icon: FileVideo, text: t('usecases.media.convert') },
+    ]
+  },
+];
+
+const renderCard = (cat: typeof skillCategories[number]) => cat;
 ---
 
 <section class="py-16 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950/30">
@@ -105,25 +104,62 @@ const categories = [
       <p class="text-sm text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">{t('usecases.subtitle')}</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {categories.map(cat => (
-        <div class="border border-gray-200 dark:border-gray-800 rounded-xl p-5 bg-white dark:bg-gray-900 hover:-translate-y-0.5 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200">
-          <div class="flex items-center gap-2 mb-4">
-            <div class={`w-8 h-8 rounded-lg flex items-center justify-center ${cat.bgColor}`}>
-              <cat.icon size={18} strokeWidth={1.5} class={cat.color} />
+    <!-- Group 1: AI Skill Scenarios -->
+    <div class="mb-8">
+      <div class="flex items-center gap-2 mb-4">
+        <Sparkles size={16} strokeWidth={1.5} class="text-gray-400 dark:text-gray-500" />
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">{t('usecases.group.skills')}</h3>
+        <span class="text-xs text-gray-500 dark:text-gray-400 ml-1">— {t('usecases.group.skills.desc')}</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {skillCategories.map(cat => (
+          <div class="border border-gray-200 dark:border-gray-800 rounded-xl p-5 bg-white dark:bg-gray-900 hover:-translate-y-0.5 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200">
+            <div class="flex items-center gap-2 mb-4">
+              <div class={`w-8 h-8 rounded-lg flex items-center justify-center ${cat.bgColor}`}>
+                <cat.icon size={18} strokeWidth={1.5} class={cat.color} />
+              </div>
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{cat.title}</h3>
             </div>
-            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{cat.title}</h3>
+            <ul class="space-y-2">
+              {cat.cases.map(c => (
+                <li class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <c.icon size={14} strokeWidth={1.5} class={`flex-shrink-0 mt-0.5 ${cat.color}`} />
+                  <span class={c.highlight ? 'font-medium text-gray-700 dark:text-gray-300' : ''}>{c.text}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul class="space-y-2">
-            {cat.cases.map(c => (
-              <li class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <c.icon size={14} strokeWidth={1.5} class={`flex-shrink-0 mt-0.5 ${cat.color}`} />
-                <span class={c.highlight ? 'font-medium text-gray-700 dark:text-gray-300' : ''}>{c.text}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+        ))}
+      </div>
+    </div>
+
+    <!-- Group 2: CLI Tool Capabilities -->
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <Wrench size={16} strokeWidth={1.5} class="text-gray-400 dark:text-gray-500" />
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">{t('usecases.group.tools')}</h3>
+        <span class="text-xs text-gray-500 dark:text-gray-400 ml-1">— {t('usecases.group.tools.desc')}</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {toolCategories.map(cat => (
+          <div class="border border-gray-200 dark:border-gray-800 rounded-xl p-5 bg-white dark:bg-gray-900 hover:-translate-y-0.5 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200">
+            <div class="flex items-center gap-2 mb-4">
+              <div class={`w-8 h-8 rounded-lg flex items-center justify-center ${cat.bgColor}`}>
+                <cat.icon size={18} strokeWidth={1.5} class={cat.color} />
+              </div>
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{cat.title}</h3>
+            </div>
+            <ul class="space-y-2">
+              {cat.cases.map(c => (
+                <li class="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <c.icon size={14} strokeWidth={1.5} class={`flex-shrink-0 mt-0.5 ${cat.color}`} />
+                  <span class={c.highlight ? 'font-medium text-gray-700 dark:text-gray-300' : ''}>{c.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
 
     <!-- Showcase -->

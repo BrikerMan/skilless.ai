@@ -33,14 +33,23 @@ const faqs = [
           </div>
         </div>
       ))}
-      <div class="faq-item border-t border-b border-gray-200 dark:border-gray-800">
+      <div class="faq-item border-t border-gray-200 dark:border-gray-800">
         <button class="faq-btn w-full text-left py-4 flex items-center justify-between gap-4 font-medium text-[0.9375rem] text-gray-900 dark:text-white leading-snug">
           <span>{t('faq.q5')}</span>
           <ChevronDown size={16} strokeWidth={1.5} class="text-gray-400 dark:text-gray-600 flex-shrink-0" />
         </button>
         <div class="faq-answer">
+          <p class="pb-5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{t('faq.a5')}</p>
+        </div>
+      </div>
+      <div class="faq-item border-t border-b border-gray-200 dark:border-gray-800">
+        <button class="faq-btn w-full text-left py-4 flex items-center justify-between gap-4 font-medium text-[0.9375rem] text-gray-900 dark:text-white leading-snug">
+          <span>{t('faq.q6')}</span>
+          <ChevronDown size={16} strokeWidth={1.5} class="text-gray-400 dark:text-gray-600 flex-shrink-0" />
+        </button>
+        <div class="faq-answer">
           <p class="pb-5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-            {t('faq.a5')} <a href="https://github.com/brikerman/skilless.ai/blob/main/TROUBLESHOOT.md" target="_blank" class="text-gray-900 dark:text-white underline hover:text-gray-600 dark:hover:text-gray-300 transition-colors">{t('faq.a5.link')}</a>
+            {t('faq.a6')} <a href="https://github.com/brikerman/skilless.ai/blob/main/TROUBLESHOOT.md" target="_blank" class="text-gray-900 dark:text-white underline hover:text-gray-600 dark:hover:text-gray-300 transition-colors">{t('faq.a6.link')}</a>
           </p>
         </div>
       </div>

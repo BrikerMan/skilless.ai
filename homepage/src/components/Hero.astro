@@ -13,15 +13,48 @@ const t = useTranslations(lang);
 const macCmd = lang === 'zh'
   ? 'curl -LsSf https://skilless.ai/install | bash -s -- --china'
   : 'curl -LsSf https://skilless.ai/install | bash';
-const winCmd = 'Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression';
+const winCmd = lang === 'zh'
+  ? '& ([scriptblock]::Create((Invoke-RestMethod https://skilless.ai/install.ps1))) -China'
+  : 'Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression';
 
-const llmPrompt = `# Install skilless.ai\n\nRun this command in the user's terminal to install skilless.ai:\n\n\`\`\`bash\n${macCmd}\n\`\`\`\n\nFor Windows (PowerShell):\n\`\`\`powershell\n${winCmd}\n\`\`\``;
+const llmPrompt = `Please help me install skilless.ai on my computer. It's an open-source AI skill library (github.com/brikerman/skilless.ai).
+
+Run this command in my terminal to install:
+
+\`\`\`bash
+${macCmd}
+\`\`\`
+
+If I'm on Windows, use PowerShell instead:
+\`\`\`powershell
+${winCmd}
+\`\`\`
+
+The installer will:
+1. Download the latest release from GitHub (github.com/brikerman/skilless.ai)
+2. Install uv (ultra-fast Python package manager) if not present
+3. Create an isolated virtual environment at ~/.agents/skills/skilless/
+4. Install all dependencies (yt-dlp, fastmcp, jina reader, feedparser)
+5. Generate the skilless CLI executable
+
+Everything stays isolated in ~/.agents/skills/ — no sudo required, zero system pollution.
+
+After installation, please restart the agent or reload the window to enable the new skills.
+
+Available skills after install:
+- skilless.ai-brainstorming — Turn ideas into plans through collaborative dialogue
+- skilless.ai-research — Search web, read pages, extract video subtitles, media processing
+- skilless.ai-writing — Research-backed articles, emails, docs, and reports
+
+To upgrade later, just re-run the same install command.`;
 
 const macCmdHtml = lang === 'zh'
   ? `<span class="text-sky-500 dark:text-sky-400">curl</span><span class="text-gray-400 dark:text-gray-500"> -LsSf </span><span class="text-emerald-500 dark:text-emerald-400">https://skilless.ai/install</span><span class="text-amber-400"> | </span><span class="text-sky-500 dark:text-sky-400">bash</span><span class="text-gray-400 dark:text-gray-500"> -s -- --china</span>`
   : `<span class="text-sky-500 dark:text-sky-400">curl</span><span class="text-gray-400 dark:text-gray-500"> -LsSf </span><span class="text-emerald-500 dark:text-emerald-400">https://skilless.ai/install</span><span class="text-amber-400"> | </span><span class="text-sky-500 dark:text-sky-400">bash</span>`;
 
-const winCmdHtml = `<span class="text-sky-500 dark:text-sky-400">irm</span> <span class="text-emerald-500 dark:text-emerald-400">https://skilless.ai/install.ps1</span><span class="text-amber-400"> | </span><span class="text-sky-500 dark:text-sky-400">iex</span>`;
+const winCmdHtml = lang === 'zh'
+  ? `<span class="text-sky-500 dark:text-sky-400">&</span> <span class="text-gray-400 dark:text-gray-500">([scriptblock]::Create((</span><span class="text-sky-500 dark:text-sky-400">irm</span> <span class="text-emerald-500 dark:text-emerald-400">https://skilless.ai/install.ps1</span><span class="text-gray-400 dark:text-gray-500">)))</span> <span class="text-amber-400">-China</span>`
+  : `<span class="text-sky-500 dark:text-sky-400">irm</span> <span class="text-emerald-500 dark:text-emerald-400">https://skilless.ai/install.ps1</span><span class="text-amber-400"> | </span><span class="text-sky-500 dark:text-sky-400">iex</span>`;
 ---
 
 <section class="py-20 px-6">
@@ -75,32 +108,19 @@ const winCmdHtml = `<span class="text-sky-500 dark:text-sky-400">irm</span> <spa
 
       <!-- LLM panel -->
       <div id="cmd-llm" class="cmd-panel hidden px-5 py-4 bg-gray-50 dark:bg-gray-950">
-        <div class="flex items-start justify-between gap-3 mb-3">
-          <p class="text-xs text-gray-400 dark:text-gray-500 font-sans leading-relaxed text-left">{t('hero.llm.hint')}</p>
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <p class="text-xs text-gray-500 dark:text-gray-400 font-sans leading-relaxed text-left">{t('hero.llm.hint')}</p>
           <button class="copy-btn flex-shrink-0 flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-600 hover:text-gray-700 dark:hover:text-gray-300 transition-colors border border-gray-200 dark:border-gray-700 rounded px-2.5 py-1 bg-white dark:bg-gray-900" data-copy={llmPrompt} title={t('hero.copy.llm')}>
             <Copy size={13} strokeWidth={1.5} />
             <span class="copy-label font-sans">{t('hero.copy.llm')}</span>
           </button>
         </div>
-        <!-- Rendered markdown -->
-        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-4 py-3 text-left space-y-2.5">
-          <p class="font-mono text-xs font-bold text-gray-700 dark:text-gray-300"># Install skilless.ai</p>
-          <p class="font-sans text-xs text-gray-500 dark:text-gray-400">{t('hero.llm.line1')}</p>
-          <!-- bash block -->
-          <div class="rounded border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div class="bg-gray-100 dark:bg-gray-800 px-3 py-0.5 flex items-center gap-1.5">
-              <span class="font-mono text-[10px] text-gray-400 dark:text-gray-500">bash</span>
-            </div>
-            <div class="px-3 py-2 font-mono text-xs"><span set:html={macCmdHtml} /></div>
-          </div>
-          <p class="font-sans text-xs text-gray-500 dark:text-gray-400">{t('hero.llm.line2')}</p>
-          <!-- powershell block -->
-          <div class="rounded border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div class="bg-gray-100 dark:bg-gray-800 px-3 py-0.5 flex items-center gap-1.5">
-              <span class="font-mono text-[10px] text-gray-400 dark:text-gray-500">powershell</span>
-            </div>
-            <div class="px-3 py-2 font-mono text-xs"><span set:html={winCmdHtml} /></div>
-          </div>
+        <div class="relative">
+          <pre id="hero-llm-pre" class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-4 py-3 text-left text-xs text-gray-500 dark:text-gray-400 leading-relaxed whitespace-pre-wrap break-words font-mono max-h-[14em] overflow-hidden transition-[max-height] duration-300"><code set:text={llmPrompt} /></pre>
+          <button id="hero-llm-toggle" class="w-full mt-1 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors flex items-center justify-center gap-1 py-1" data-expand={t('hero.llm.expand')} data-collapse={t('hero.llm.collapse')}>
+            <ChevronDown size={14} strokeWidth={1.5} class="hero-llm-chevron transition-transform duration-200" />
+            <span class="hero-llm-toggle-label">{t('hero.llm.expand')}</span>
+          </button>
         </div>
       </div>
     </div>
@@ -168,6 +188,21 @@ const winCmdHtml = `<span class="text-sky-500 dark:text-sky-400">irm</span> <spa
     toggleBtn.addEventListener('click', () => {
       details.classList.toggle('open');
       toggleBtn.classList.toggle('open');
+    });
+  }
+
+  // LLM prompt expand/collapse
+  const heroLlmPre = document.getElementById('hero-llm-pre');
+  const heroLlmToggle = document.getElementById('hero-llm-toggle');
+  if (heroLlmPre && heroLlmToggle) {
+    let expanded = false;
+    heroLlmToggle.addEventListener('click', () => {
+      expanded = !expanded;
+      heroLlmPre.style.maxHeight = expanded ? heroLlmPre.scrollHeight + 'px' : '14em';
+      heroLlmPre.style.overflow = expanded ? 'auto' : 'hidden';
+      heroLlmToggle.querySelector('.hero-llm-chevron')?.classList.toggle('rotate-180', expanded);
+      const label = heroLlmToggle.querySelector('.hero-llm-toggle-label');
+      if (label) label.textContent = expanded ? heroLlmToggle.dataset.collapse || 'Collapse' : heroLlmToggle.dataset.expand || 'Show full prompt';
     });
   }
 </script>
