@@ -107,6 +107,7 @@ L3 research MUST NOT proceed to synthesis (Step 5) until:
 - At least **5 pages** have been fully read (not just search snippets)
 
 If you have not met these minimums, keep researching. Do NOT shortcut.
+</HARD-GATE>
 
 ### Step 4 — Fact-Check
 
@@ -282,7 +283,7 @@ cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py audio.wav output.mp3
 cd ~/.agents/skills/skilless/ && uv run scripts/ffmpeg.py input.mp4 output.mp4 -crf 28
 ```
 
-Supported formats: mp4,
+Supports all common media formats (mp4, mkv, mp3, wav, flac, webm, avi, mov, etc.)
 
 ---
 
