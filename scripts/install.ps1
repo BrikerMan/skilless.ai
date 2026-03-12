@@ -145,6 +145,22 @@ Get-ChildItem -Path $SrcDir -Filter "README*.md" | ForEach-Object {
 # Cleanup work dir
 Remove-Item -Recurse -Force $WorkDir -ErrorAction SilentlyContinue
 Write-Host "$(icon_ok) Files installed"
+
+# ---- Link skills to ~/.claude/skills/ ----
+$ClaudeSkillsDir = "$env:USERPROFILE\.claude\skills"
+Write-Host "$(icon_down) Linking skills to Claude (~\.claude\skills\)..."
+foreach ($skill in @("skilless.ai-brainstorming", "skilless.ai-research", "skilless.ai-writing")) {
+    $Src = "$SkillsDir\$skill\SKILL.md"
+    $DstDir = "$ClaudeSkillsDir\$skill"
+    if (Test-Path $Src) {
+        New-Item -ItemType Directory -Path $DstDir -Force | Out-Null
+        $DstLink = "$DstDir\SKILL.md"
+        if (Test-Path $DstLink) { Remove-Item -Force $DstLink }
+        New-Item -ItemType SymbolicLink -Path $DstLink -Target $Src | Out-Null
+        Write-Host "$(icon_ok) Linked $skill"
+    }
+}
+
 Write-Host ""
 Write-Host "$(icon_down) Installing dependencies & running diagnostics..."
 

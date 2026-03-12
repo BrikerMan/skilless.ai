@@ -147,20 +147,17 @@ Remove-Item -Recurse -Force $WorkDir -ErrorAction SilentlyContinue
 Write-Host "$(icon_ok) Files installed"
 
 # ---- Link skills to ~/.claude/skills/ ----
-$ClaudeDir = "$env:USERPROFILE\.claude"
-if ((Get-Command claude -ErrorAction SilentlyContinue) -or (Test-Path $ClaudeDir)) {
-    Write-Host "$(icon_down) Linking skills to Claude (~\.claude\skills\)..."
-    $ClaudeSkillsDir = "$ClaudeDir\skills"
-    foreach ($skill in @("skilless.ai-brainstorming", "skilless.ai-research", "skilless.ai-writing")) {
-        $Src = "$SkillsDir\$skill\SKILL.md"
-        $DstDir = "$ClaudeSkillsDir\$skill"
-        if (Test-Path $Src) {
-            New-Item -ItemType Directory -Path $DstDir -Force | Out-Null
-            $DstLink = "$DstDir\SKILL.md"
-            if (Test-Path $DstLink) { Remove-Item -Force $DstLink }
-            New-Item -ItemType SymbolicLink -Path $DstLink -Target $Src | Out-Null
-            Write-Host "$(icon_ok) Linked $skill"
-        }
+$ClaudeSkillsDir = "$env:USERPROFILE\.claude\skills"
+Write-Host "$(icon_down) Linking skills to Claude (~\.claude\skills\)..."
+foreach ($skill in @("skilless.ai-brainstorming", "skilless.ai-research", "skilless.ai-writing")) {
+    $Src = "$SkillsDir\$skill\SKILL.md"
+    $DstDir = "$ClaudeSkillsDir\$skill"
+    if (Test-Path $Src) {
+        New-Item -ItemType Directory -Path $DstDir -Force | Out-Null
+        $DstLink = "$DstDir\SKILL.md"
+        if (Test-Path $DstLink) { Remove-Item -Force $DstLink }
+        New-Item -ItemType SymbolicLink -Path $DstLink -Target $Src | Out-Null
+        Write-Host "$(icon_ok) Linked $skill"
     }
 }
 

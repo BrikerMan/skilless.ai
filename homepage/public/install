@@ -128,18 +128,16 @@ echo "  ✓ Files installed"
 
 # ---- Link skills to ~/.claude/skills/ ----
 CLAUDE_SKILLS_DIR="$HOME/.claude/skills"
-if command -v claude &>/dev/null || [ -d "$HOME/.claude" ]; then
-  echo "  ↓ Linking skills to Claude (~/.claude/skills/)..."
-  for skill in skilless.ai-brainstorming skilless.ai-research skilless.ai-writing; do
-    src="$SKILLS_DIR/$skill/SKILL.md"
-    dst_dir="$CLAUDE_SKILLS_DIR/$skill"
-    if [ -f "$src" ]; then
-      mkdir -p "$dst_dir"
-      ln -sf "$src" "$dst_dir/SKILL.md"
-      echo "  ✓ Linked $skill"
-    fi
-  done
-fi
+echo "  ↓ Linking skills to Claude (~/.claude/skills/)..."
+for skill in skilless.ai-brainstorming skilless.ai-research skilless.ai-writing; do
+  src="$SKILLS_DIR/$skill/SKILL.md"
+  dst_dir="$CLAUDE_SKILLS_DIR/$skill"
+  if [ -f "$src" ]; then
+    mkdir -p "$dst_dir"
+    ln -sf "$src" "$dst_dir/SKILL.md"
+    echo "  ✓ Linked $skill"
+  fi
+done
 
 echo ""
 echo "  ↓ Installing dependencies & running diagnostics..."
