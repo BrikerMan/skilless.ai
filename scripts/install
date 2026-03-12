@@ -95,7 +95,7 @@ echo "  ↓ Downloading..."
 TMPDIR_WORK="$(mktemp -d)"
 trap 'rm -rf "$TMPDIR_WORK"' EXIT
 
-if ! curl -fsSL -o "$TMPDIR_WORK/$ASSET_NAME" "$DOWNLOAD_URL" 2>/dev/null; then
+if ! curl -fSL --progress-bar -o "$TMPDIR_WORK/$ASSET_NAME" "$DOWNLOAD_URL"; then
   echo "  ✗ Failed to download: $DOWNLOAD_URL"
   echo "  See https://github.com/$REPO/releases for available releases."
   exit 1
