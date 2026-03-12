@@ -146,6 +146,27 @@ Get-ChildItem -Path $SrcDir -Filter "README*.md" | ForEach-Object {
 Remove-Item -Recurse -Force $WorkDir -ErrorAction SilentlyContinue
 Write-Host "$(icon_ok) Files installed"
 
+# ---- Link skills to ~/.claude/skills/ ----
+$ClaudeDir = "$env:USERPROFILE\.claude"
+if ((Get-Command claude -ErrorAction SilentlyContinue) -or (Test-Path $ClaudeDir)) {
+    Write-Host "$(icon_down) Linking skills to Claude (~\.claude\skills\)..."
+    $ClaudeSkillsDir = "$ClaudeDir\skills"
+    foreach ($skill in @("skilless.ai-brainstorming", "skilless.ai-research", "skilless.ai-writing")) {
+        $Src = "$SkillsDir\$skill\SKILL.md"
+        $DstDir = "$ClaudeSkillsDir\$skill"
+        if (Test-Path $Src) {
+            New-Item -ItemType Directory -Path $DstDir -Force | Out-Null
+            $DstLink = "$DstDir\SKILL.md"
+            if (Test-Path $DstLink) { Remove-Item -Force $DstLink }
+            New-Item -ItemType SymbolicLink -Path $DstLink -Target $Src | Out-Null
+            Write-Host "$(icon_ok) Linked $skill"
+        }
+    }
+}
+
+Write-Host ""
+Write-Host "$(icon_down) Installing dependencies & running diagnostics..."
+
 # ---- Check / install uv ----
 if (Get-Command uv -ErrorAction SilentlyContinue) {
     $UvVer = uv --version
@@ -184,6 +205,13 @@ Write-Host "$(icon_down) Installing dependencies..."
 uv pip install --python $PythonExe $InstallDir --index-url $UvIndexUrl --quiet 2>$null
 Write-Host "$(icon_ok) Dependencies installed"
 
+# ---- Diagnostics ----
+Write-Host "$(icon_down) Running diagnostics..."
+Write-Host ""
+Push-Location $InstallDir
+uv run scripts/cli.py doctor
+Pop-Location
+
 # ---- Done ----
 $NewVersion = if (Test-Path "$InstallDir\VERSION") { (Get-Content "$InstallDir\VERSION") -replace '^\s+|\s+$', '' } else { "unknown" }
 if ($Dev) { $NewVersion = "$NewVersion-dev" }
@@ -197,14 +225,6 @@ Write-Host "    cd $InstallDir; uv run scripts/cli.py search <query>"
 Write-Host ""
 Write-Host "  Please restart VS Code / OpenCode / Copilot or reload your Agent to enable the skills."
 Write-Host ""
-
-# ---- Doctor check ----
-  Write-Host "  Running doctor check..."
-  Write-Host ""
-  Push-Location $InstallDir
-  uv run scripts/cli.py doctor
-  Pop-Location
-  Write-Host ""
 }
 
 Invoke-SkillessInstall @PSBoundParameters

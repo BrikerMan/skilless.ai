@@ -95,7 +95,7 @@ echo "  ↓ Downloading..."
 TMPDIR_WORK="$(mktemp -d)"
 trap 'rm -rf "$TMPDIR_WORK"' EXIT
 
-if ! curl -fsSL -o "$TMPDIR_WORK/$ASSET_NAME" "$DOWNLOAD_URL" 2>/dev/null; then
+if ! curl -fSL --progress-bar -o "$TMPDIR_WORK/$ASSET_NAME" "$DOWNLOAD_URL"; then
   echo "  ✗ Failed to download: $DOWNLOAD_URL"
   echo "  See https://github.com/$REPO/releases for available releases."
   exit 1
@@ -125,6 +125,24 @@ for f in "$SRC_DIR"/README*.md; do
   [ -f "$f" ] && cp -f "$f" "$INSTALL_DIR/"
 done
 echo "  ✓ Files installed"
+
+# ---- Link skills to ~/.claude/skills/ ----
+CLAUDE_SKILLS_DIR="$HOME/.claude/skills"
+if command -v claude &>/dev/null || [ -d "$HOME/.claude" ]; then
+  echo "  ↓ Linking skills to Claude (~/.claude/skills/)..."
+  for skill in skilless.ai-brainstorming skilless.ai-research skilless.ai-writing; do
+    src="$SKILLS_DIR/$skill/SKILL.md"
+    dst_dir="$CLAUDE_SKILLS_DIR/$skill"
+    if [ -f "$src" ]; then
+      mkdir -p "$dst_dir"
+      ln -sf "$src" "$dst_dir/SKILL.md"
+      echo "  ✓ Linked $skill"
+    fi
+  done
+fi
+
+echo ""
+echo "  ↓ Installing dependencies & running diagnostics..."
 
 # ---- Check / install uv ----
 if command -v uv &>/dev/null; then
@@ -168,6 +186,11 @@ exec "$SCRIPT_DIR/.venv/bin/python" "$SCRIPT_DIR/scripts/cli.py" "$@"
 WRAPPER
 chmod +x "$INSTALL_DIR/skilless"
 
+# ---- Diagnostics ----
+echo "  ↓ Running diagnostics..."
+echo ""
+cd "$INSTALL_DIR" && uv run scripts/cli.py doctor || true
+
 # ---- Done ----
 NEW_VERSION="$(cat "$INSTALL_DIR/VERSION" 2>/dev/null || echo "unknown")"
 [ "$DEV" = "true" ] && NEW_VERSION="${NEW_VERSION}-dev"
@@ -181,5 +204,3 @@ echo "    cd $INSTALL_DIR && uv run scripts/cli.py search <query>"
 echo ""
 echo "  Please restart VS Code / OpenCode / Copilot or reload your Agent to enable the skills."
 echo ""
-
-cd "$INSTALL_DIR" && uv run scripts/cli.py doctor 2>/dev/null || true
