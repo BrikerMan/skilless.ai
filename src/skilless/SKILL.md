@@ -47,7 +47,7 @@ uv run scripts/ffmpeg.py <input> <output>
 | Tool | Purpose |
 |------|---------|
 | `search` | Semantic web search (Exa) |
-| `web` | Extract webpage content (Jina Reader) |
+| `web` | Extract webpage content (Jina Reader default, or Tavily Extract via `WEB_PROVIDER=tavily`) |
 | `ytd` | Extract video subtitles (yt-dlp, 1700+ sites) |
 | `media` | Convert & compress media (FFmpeg) |
 
@@ -62,7 +62,7 @@ uv run scripts/ffmpeg.py <input> <output>
 ## Troubleshooting
 
 Run `cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor` to diagnose:
-- ✓ web (Jina Reader)
+- ✓ web (Jina Reader default; set `WEB_PROVIDER=tavily` + `TAVILY_API_KEY` for Tavily Extract)
 - ✓ search (Exa Search)
 - ✓ ytd (yt-dlp)
 - ✓ media (FFmpeg)
