@@ -72,7 +72,13 @@ class SearchTool(BaseTool):
         if not api_key.startswith("tvly-"):
             return DoctorResult("FAIL", "[tavily] TAVILY_API_KEY looks malformed (expected 'tvly-' prefix)")
 
-        return DoctorResult("OK", "[tavily] tavily-python installed, API key configured")
+        try:
+            client = TavilyClient(api_key=api_key)
+            # Perform a simple, low-cost search to verify API key and connectivity.
+            client.search(query="Tavily API test", search_depth="basic", max_results=1)
+            return DoctorResult("OK", "[tavily] API key is valid and connection successful")
+        except Exception as e:
+            return DoctorResult("FAIL", f"[tavily] API call failed: {str(e)[:100]}")
 
     def run(self, args: list[str]) -> str:
         if not args:
