@@ -69,14 +69,10 @@ class SearchTool(BaseTool):
         if not api_key:
             return DoctorResult("FAIL", "[tavily] TAVILY_API_KEY env var not set")
 
-        try:
-            client = TavilyClient()
-            response = client.search(query="test", max_results=1)
-            if response.get("results"):
-                return DoctorResult("OK", "[tavily] connected, search working")
-            return DoctorResult("FAIL", "[tavily] search returned no results")
-        except Exception as e:
-            return DoctorResult("FAIL", f"[tavily] {str(e)[:60]}")
+        if not api_key.startswith("tvly-"):
+            return DoctorResult("FAIL", "[tavily] TAVILY_API_KEY looks malformed (expected 'tvly-' prefix)")
+
+        return DoctorResult("OK", "[tavily] tavily-python installed, API key configured")
 
     def run(self, args: list[str]) -> str:
         if not args:

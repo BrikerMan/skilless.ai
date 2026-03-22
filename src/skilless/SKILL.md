@@ -63,6 +63,6 @@ uv run scripts/ffmpeg.py <input> <output>
 
 Run `cd ~/.agents/skills/skilless/ && uv run scripts/cli.py doctor` to diagnose:
 - ✓ web (Jina Reader)
-- ✓ search (Exa Search)
+- ✓ search (Exa Search / Tavily)
 - ✓ ytd (yt-dlp)
 - ✓ media (FFmpeg)
