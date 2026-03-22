@@ -101,10 +101,14 @@ class SearchTool(BaseTool):
         return asyncio.run(_search())
 
     def _run_tavily(self, query: str, num_results: int) -> str:
-        from tavily import TavilyClient
+        try:
+            from tavily import TavilyClient
 
-        client = TavilyClient()
-        response = client.search(query=query, max_results=num_results, search_depth="basic")
+            client = TavilyClient()
+            response = client.search(query=query, max_results=num_results, search_depth="basic")
+        except Exception as e:
+            raise RuntimeError(f"Tavily search failed: {e}") from e
+
         results = response.get("results", [])
         if not results:
             return "No results found."
