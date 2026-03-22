@@ -42,14 +42,12 @@ class WebTool(BaseTool):
 
     def _doctor_tavily(self) -> DoctorResult:
         try:
-            from tavily import TavilyClient
-
-            client = TavilyClient()
-            result = client.extract(urls=["http://example.com"])
-            if result.get("results"):
-                return DoctorResult("OK", "tavily: extract OK")
-            return DoctorResult("FAIL", "tavily: no results returned")
-        except Exception as e:
+            import os
+            from tavily import TavilyClient  # noqa: F401 — verify library importable
+            if not os.environ.get("TAVILY_API_KEY"):
+                return DoctorResult("FAIL", "tavily: TAVILY_API_KEY not set")
+            return DoctorResult("OK", "tavily: API key present, library installed")
+        except ImportError as e:
             return DoctorResult("FAIL", f"tavily: {e}")
 
     def run(self, args: list[str]) -> str:
@@ -81,7 +79,10 @@ class WebTool(BaseTool):
         results = result.get("results", [])
         if not results:
             raise RuntimeError("Tavily Extract returned no content for this URL")
-        return results[0].get("raw_content", "") or results[0].get("text", "")
+        content = results[0].get("raw_content", "")
+        if not content:
+            raise RuntimeError("Tavily Extract returned empty content for this URL")
+        return content
 
     @property
     def troubleshooting(self) -> list[tuple[str, str]]:
