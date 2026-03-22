@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Search tool - Web search via Exa MCP."""
+"""Search tool - Web search via Exa MCP or Tavily."""
 
 from __future__ import annotations
 
 import asyncio
+import os
 import sys
 
 try:
@@ -12,15 +13,33 @@ except ImportError:
     from base import BaseTool, DoctorResult
 
 
+def _get_search_provider() -> str:
+    """Return the active search provider ('exa' or 'tavily')."""
+    provider = os.environ.get("SEARCH_PROVIDER", "").lower()
+    if provider in ("exa", "tavily"):
+        return provider
+    # Auto-detect: if TAVILY_API_KEY is set and no explicit provider, use tavily
+    if os.environ.get("TAVILY_API_KEY"):
+        return "tavily"
+    return "exa"
+
+
 class SearchTool(BaseTool):
     name = "search"
-    description = "AI semantic web search via Exa"
+    description = "AI semantic web search via Exa or Tavily"
     usage = "cd ~/.agents/skills/skilless/ && uv run scripts/search.py <query> [num_results]"
-    how = "Connects to the Exa MCP endpoint via FastMCP for semantic search"
+    how = "Connects to Exa MCP or Tavily API for semantic search (set SEARCH_PROVIDER=tavily to use Tavily)"
 
     MCP_URL = "https://mcp.exa.ai/mcp"
 
     def doctor(self) -> DoctorResult:
+        provider = _get_search_provider()
+
+        if provider == "tavily":
+            return self._doctor_tavily()
+        return self._doctor_exa()
+
+    def _doctor_exa(self) -> DoctorResult:
         async def _check():
             try:
                 from fastmcp import Client
@@ -31,14 +50,33 @@ class SearchTool(BaseTool):
                     tools = await client.list_tools()
                     if any("search" in t.name.lower() for t in tools):
                         names = ", ".join(t.name for t in tools[:3])
-                        return DoctorResult("OK", f"connected, tools: {names}...")
-                    return DoctorResult("FAIL", "search tool not found in Exa MCP")
+                        return DoctorResult("OK", f"[exa] connected, tools: {names}...")
+                    return DoctorResult("FAIL", "[exa] search tool not found in Exa MCP")
             except ImportError:
-                return DoctorResult("OFF", "fastmcp not installed")
+                return DoctorResult("OFF", "[exa] fastmcp not installed")
             except Exception as e:
-                return DoctorResult("FAIL", f"connection failed: {str(e)[:50]}")
+                return DoctorResult("FAIL", f"[exa] connection failed: {str(e)[:50]}")
 
         return asyncio.run(_check())
+
+    def _doctor_tavily(self) -> DoctorResult:
+        try:
+            from tavily import TavilyClient
+        except ImportError:
+            return DoctorResult("OFF", "[tavily] tavily-python not installed")
+
+        api_key = os.environ.get("TAVILY_API_KEY")
+        if not api_key:
+            return DoctorResult("FAIL", "[tavily] TAVILY_API_KEY env var not set")
+
+        try:
+            client = TavilyClient()
+            response = client.search(query="test", max_results=1)
+            if response.get("results"):
+                return DoctorResult("OK", "[tavily] connected, search working")
+            return DoctorResult("FAIL", "[tavily] search returned no results")
+        except Exception as e:
+            return DoctorResult("FAIL", f"[tavily] {str(e)[:60]}")
 
     def run(self, args: list[str]) -> str:
         if not args:
@@ -46,7 +84,13 @@ class SearchTool(BaseTool):
 
         query = args[0]
         num_results = int(args[1]) if len(args) > 1 else 5
+        provider = _get_search_provider()
 
+        if provider == "tavily":
+            return self._run_tavily(query, num_results)
+        return self._run_exa(query, num_results)
+
+    def _run_exa(self, query: str, num_results: int) -> str:
         async def _search():
             from fastmcp import Client
             from fastmcp.client.transports import StreamableHttpTransport
@@ -60,6 +104,23 @@ class SearchTool(BaseTool):
 
         return asyncio.run(_search())
 
+    def _run_tavily(self, query: str, num_results: int) -> str:
+        from tavily import TavilyClient
+
+        client = TavilyClient()
+        response = client.search(query=query, max_results=num_results, search_depth="basic")
+        results = response.get("results", [])
+        if not results:
+            return "No results found."
+        lines = []
+        for r in results:
+            lines.append(f"**{r.get('title', 'Untitled')}**")
+            lines.append(f"URL: {r.get('url', '')}")
+            if r.get("content"):
+                lines.append(r["content"])
+            lines.append("")
+        return "\n".join(lines)
+
     @property
     def troubleshooting(self) -> list[tuple[str, str]]:
         from pathlib import Path
@@ -69,6 +130,9 @@ class SearchTool(BaseTool):
             ("fastmcp not installed", f"Run: {_pip} fastmcp"),
             ("Connection failed", "Check network; verify Exa MCP endpoint is reachable"),
             ("Rate limited", "Wait a moment and retry; Exa free tier has rate limits"),
+            ("tavily-python not installed", f"Run: {_pip} tavily-python"),
+            ("TAVILY_API_KEY not set", "Set TAVILY_API_KEY env var with your Tavily API key"),
+            ("Tavily quota exceeded", "Check your Tavily plan usage at https://app.tavily.com"),
         ]
 
 

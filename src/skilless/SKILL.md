@@ -46,7 +46,7 @@ uv run scripts/ffmpeg.py <input> <output>
 
 | Tool | Purpose |
 |------|---------|
-| `search` | Semantic web search (Exa) |
+| `search` | Semantic web search (Exa default, or Tavily via `SEARCH_PROVIDER=tavily`) |
 | `web` | Extract webpage content (Jina Reader) |
 | `ytd` | Extract video subtitles (yt-dlp, 1700+ sites) |
 | `media` | Convert & compress media (FFmpeg) |
