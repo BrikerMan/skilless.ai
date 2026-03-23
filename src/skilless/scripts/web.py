@@ -72,6 +72,8 @@ class WebTool(BaseTool):
         return r.text
 
     def _run_tavily(self, url: str) -> str:
+        if not os.environ.get("TAVILY_API_KEY"):
+            raise RuntimeError("TAVILY_API_KEY environment variable not set.")
         from tavily import TavilyClient
 
         client = TavilyClient()
