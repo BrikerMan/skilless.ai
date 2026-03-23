@@ -63,7 +63,9 @@ class WebTool(BaseTool):
         provider = _get_web_provider()
         if provider == "tavily":
             return self._run_tavily(url)
-        return self._run_jina(url)
+        elif provider == "jina":
+            return self._run_jina(url)
+        raise ValueError(f"Unknown WEB_PROVIDER: '{provider}'. Supported: 'jina', 'tavily'.")
 
     def _run_jina(self, url: str) -> str:
         import httpx
