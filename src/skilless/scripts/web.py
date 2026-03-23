@@ -27,7 +27,9 @@ class WebTool(BaseTool):
         provider = _get_web_provider()
         if provider == "tavily":
             return self._doctor_tavily()
-        return self._doctor_jina()
+        elif provider == "jina":
+            return self._doctor_jina()
+        return DoctorResult("FAIL", f"Unknown WEB_PROVIDER: '{provider}'. Supported: 'jina', 'tavily'.")
 
     def _doctor_jina(self) -> DoctorResult:
         try:
