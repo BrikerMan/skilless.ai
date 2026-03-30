@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Web tool - Read webpage content via Jina Reader."""
+"""Web tool - Read webpage content via Jina Reader or Tavily Extract."""
 
 from __future__ import annotations
 
+import os
 import sys
 
 try:
@@ -11,20 +12,49 @@ except ImportError:
     from base import BaseTool, DoctorResult
 
 
+def _use_tavily() -> bool:
+    """Return True if Tavily Extract should be used instead of Jina Reader."""
+    provider = os.environ.get("WEB_PROVIDER", "").lower()
+    if provider == "tavily":
+        return True
+    if provider == "jina":
+        return False
+    # Auto-detect: use Tavily when API key is present, otherwise Jina
+    return bool(os.environ.get("TAVILY_API_KEY"))
+
+
 class WebTool(BaseTool):
     name = "web"
     description = "Fetch any webpage and return clean Markdown text"
     usage = "cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>"
-    how = "Sends URL to Jina Reader API (r.jina.ai) which returns clean Markdown"
+    how = "Sends URL to Jina Reader API (r.jina.ai) or Tavily Extract which returns clean Markdown"
 
     def doctor(self) -> DoctorResult:
+        if _use_tavily():
+            return self._doctor_tavily()
+        return self._doctor_jina()
+
+    def _doctor_jina(self) -> DoctorResult:
         try:
             import httpx
 
             r = httpx.get("https://r.jina.ai/http://example.com", timeout=15)
             if r.status_code == 200 and len(r.text) > 100:
-                return DoctorResult("OK", f"fetched {len(r.text)} chars")
+                return DoctorResult("OK", f"fetched {len(r.text)} chars (jina)")
             return DoctorResult("FAIL", f"HTTP {r.status_code}")
+        except Exception as e:
+            return DoctorResult("FAIL", str(e))
+
+    def _doctor_tavily(self) -> DoctorResult:
+        try:
+            from tavily import TavilyClient
+
+            client = TavilyClient()
+            response = client.extract(urls=["http://example.com"])
+            if response.get("results"):
+                content = response["results"][0].get("raw_content", "")
+                return DoctorResult("OK", f"fetched {len(content)} chars (tavily)")
+            return DoctorResult("FAIL", "no results from Tavily Extract")
         except Exception as e:
             return DoctorResult("FAIL", str(e))
 
@@ -32,16 +62,31 @@ class WebTool(BaseTool):
         if not args:
             raise ValueError("Usage: cd ~/.agents/skills/skilless/ && uv run scripts/web.py <url>")
 
-        import httpx
-
         url = args[0]
         if not url.startswith(("http://", "https://")):
             url = "https://" + url
+
+        if _use_tavily():
+            return self._run_tavily(url)
+        return self._run_jina(url)
+
+    def _run_jina(self, url: str) -> str:
+        import httpx
 
         r = httpx.get(f"https://r.jina.ai/{url}", timeout=30)
         if r.status_code != 200:
             raise RuntimeError(f"HTTP {r.status_code}")
         return r.text
+
+    def _run_tavily(self, url: str) -> str:
+        from tavily import TavilyClient
+
+        client = TavilyClient()
+        response = client.extract(urls=[url])
+        results = response.get("results", [])
+        if not results:
+            raise RuntimeError(f"Tavily Extract returned no content for {url}")
+        return results[0].get("raw_content", "")
 
     @property
     def troubleshooting(self) -> list[tuple[str, str]]:
@@ -53,6 +98,8 @@ class WebTool(BaseTool):
             ("Empty content returned", "Site may block Jina Reader; try a different URL or tool"),
             ("HTTP 429", "Rate limited by Jina Reader; wait a moment and retry"),
             ("httpx not installed", f"Run: {_pip} httpx"),
+            ("TAVILY_API_KEY not set", "Set TAVILY_API_KEY env var to use Tavily Extract"),
+            ("tavily-python not installed", f"Run: {_pip} tavily-python"),
         ]
 
 
