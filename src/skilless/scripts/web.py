@@ -81,12 +81,15 @@ class WebTool(BaseTool):
     def _run_tavily(self, url: str) -> str:
         from tavily import TavilyClient
 
-        client = TavilyClient()
-        response = client.extract(urls=[url])
-        results = response.get("results", [])
-        if not results:
-            raise RuntimeError(f"Tavily Extract returned no content for {url}")
-        return results[0].get("raw_content", "")
+        try:
+            client = TavilyClient()
+            response = client.extract(urls=[url])
+            results = response.get("results", [])
+            if not results:
+                raise RuntimeError(f"Tavily Extract returned no content for {url}")
+            return results[0].get("raw_content", "")
+        except Exception as e:
+            raise RuntimeError(f"Tavily API call failed: {e}") from e
 
     @property
     def troubleshooting(self) -> list[tuple[str, str]]:
