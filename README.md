@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="#quick-install">Quick Install</a> · <a href="README.zh.md">中文</a> · <a href="#four-core-tools">Core Tools</a> · <a href="#three-ai-skills">AI Skills</a> · <a href="https://skilless.ai">Website</a>
+  <a href="#quick-install">Quick Install</a> · <a href="README.zh.md">中文</a> · <a href="#technology-stack">Core Tools</a> · <a href="#three-ai-skills">AI Skills</a> · <a href="https://skilless.ai">Website</a>
 </p>
 
 ---

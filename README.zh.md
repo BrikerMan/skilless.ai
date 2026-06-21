@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="#快速安装">快速安装</a> · <a href="README.md">English</a> · <a href="#四大工具">核心工具</a> · <a href="#三大技能">AI 技能</a> · <a href="https://skilless.ai">官网</a>
+  <a href="#quick-install">快速安装</a> · <a href="README.md">English</a> · <a href="#technology-stack">核心工具</a> · <a href="#three-ai-skills">AI 技能</a> · <a href="https://skilless.ai">官网</a>
 </p>
 
 ---
@@ -96,6 +96,8 @@ curl -LsSf https://skilless.ai/install | bash
 
 ---
 
+<a id="three-ai-skills"></a>
+
 ## 三大技能
 
 技能以 `SKILL.md` 形式安装到 `~/.agents/skills/`，Agent 自动读取，知道何时调用哪个能力：
@@ -121,6 +123,8 @@ graph LR
 ```
 
 ---
+
+<a id="quick-install"></a>
 
 ## 快速安装
 
@@ -148,6 +152,8 @@ Invoke-RestMethod https://skilless.ai/install.ps1 | Invoke-Expression
 </details>
 
 ---
+
+<a id="technology-stack"></a>
 
 ## 技术栈
 
