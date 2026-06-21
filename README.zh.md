@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="#quick-install">快速安装</a> · <a href="README.md">English</a> · <a href="#technology-stack">核心工具</a> · <a href="#ai-skills">AI 技能</a> · <a href="https://skilless.ai">官网</a>
+  <a href="#quick-install">快速安装</a> · <a href="README.md">English</a> · <a href="#technology-stack">核心工具</a> · <a href="#three-ai-skills">AI 技能</a> · <a href="https://skilless.ai">官网</a>
 </p>
 
 ---
@@ -96,7 +96,7 @@ curl -LsSf https://skilless.ai/install | bash
 
 ---
 
-<a id="ai-skills"></a>
+<a id="three-ai-skills"></a>
 
 ## 三大技能
 
